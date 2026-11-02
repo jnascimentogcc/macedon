@@ -16,6 +16,7 @@ dist/
 node_modules/
 frontend/dist/
 frontend/.angular/
+.nx/
 
 # Editors and OS
 .idea/
