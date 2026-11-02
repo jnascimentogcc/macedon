@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository state
 
-Phase 1 (secure foundation) is in progress. Layout: `backend/` (Python, uv), `deploy/` (dev Keycloak realm, Postgres init), `docker-compose.yml` (Postgres+pgvector, Redis, MinIO, Keycloak), `docs/` (`docs/vision.md` is the source of truth for the design). `frontend/` does not exist yet. Done so far: backend scaffold with CI, dev stack, initial schema migration with RLS, applied and covered by integration tests in `backend/tests/test_rls.py` (they run against the dev Postgres and skip if it is down). Use `127.0.0.1`, not `localhost`, for Postgres on Windows: `localhost` adds ~2s per connection. Ingestion queue: Arq.
+Phase 1 (secure foundation) is in progress. Layout: `backend/` (Python, uv), `deploy/` (dev Keycloak realm, Postgres init), `docker-compose.yml` (Postgres+pgvector, Redis, MinIO, Keycloak), `docs/` (`docs/vision.md` is the source of truth for the design). `frontend/` does not exist yet. Done so far: backend scaffold with CI, dev stack, initial schema migration with RLS, applied and covered by integration tests in `backend/tests/test_rls.py` (they run against the dev Postgres and skip if it is down). Use `127.0.0.1`, not `localhost`, for Postgres on Windows: `localhost` adds ~2s per connection. JWT auth, the per-request RLS session, audit helper and the document/version endpoints exist (`backend/src/macedon/documents/`). Ingestion queue: Arq; the worker that consumes `ingest_version` is not written yet, so new versions stay `processing`. `GET /documents` (list) is not in the API yet and the frontend will need it. Never insert into `audit_log` with `RETURNING`: only admins can read it, so use `record_audit`.
 
 ## Commands
 

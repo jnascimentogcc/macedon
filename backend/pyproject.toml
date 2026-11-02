@@ -20,6 +20,7 @@ dependencies = [
     "pyjwt[crypto]>=2.10",
     "httpx>=0.28",
     "python-multipart>=0.0.17",
+    "boto3>=1.43.123",
 ]
 
 [project.scripts]
@@ -55,3 +56,7 @@ plugins = ["pydantic.mypy"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
+
+[[tool.mypy.overrides]]
+module = ["boto3", "botocore.*"]
+ignore_missing_imports = true

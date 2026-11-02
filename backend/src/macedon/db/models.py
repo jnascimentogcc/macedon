@@ -74,4 +74,4 @@ class AuditLog(Base):
     document_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True))
     version_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True))
     chunk_ids: Mapped[list[int] | None] = mapped_column(ARRAY(BigInteger))
-    details: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    details: Mapped[dict[str, Any] | None] = mapped_column(JSONB(none_as_null=True))
