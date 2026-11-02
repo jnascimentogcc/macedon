@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -26,6 +26,11 @@ class Settings(BaseSettings):
     admin_role: str = "admin"
 
     max_upload_bytes: int = 50 * 1024 * 1024
+
+    openai_api_key: SecretStr | None = None
+    openai_base_url: str = "https://api.openai.com/v1"
+    embedding_model: str = "text-embedding-3-large"
+    embedding_dimensions: int = 3072  # must match the halfvec(3072) column
 
 
 @lru_cache

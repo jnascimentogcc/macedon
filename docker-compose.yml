@@ -22,17 +22,15 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
 
-  minio:
-    image: minio/minio:latest
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: macedon
-      MINIO_ROOT_PASSWORD: macedon-dev-secret
+  s3:
+    # S3-compatible object store for local development (MinIO no longer ships a community image).
+    image: chrislusf/seaweedfs:latest
+    command: server -dir=/data -s3 -s3.config=/etc/seaweedfs/s3.json
     ports:
-      - "127.0.0.1:9000:9000"
-      - "127.0.0.1:9001:9001"
+      - "127.0.0.1:9000:8333"
     volumes:
-      - minio-data:/data
+      - s3-data:/data
+      - ./deploy/seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0
@@ -47,4 +45,4 @@ services:
 
 volumes:
   postgres-data:
-  minio-data:
+  s3-data:

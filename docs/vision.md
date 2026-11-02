@@ -63,7 +63,7 @@ flowchart LR
         R --> G[LLM generation]
     end
 
-    API -->|upload| S3[(S3 / MinIO)]
+    API -->|upload| S3[(S3-compatible storage)]
     API -->|enqueue| Q
     S3 --> W
     X -->|chunks and embeddings| PG[(Postgres + pgvector)]
@@ -77,15 +77,15 @@ flowchart LR
     G -.-> EXT
 ```
 
-Ingestion stores the original in S3/MinIO and, through the queue and an isolated worker, writes chunks and embeddings to Postgres; the query searches there with the ACL filter, reranks and generates the answer. Dashed lines are calls to external APIs and to Keycloak.
+Ingestion stores the original in S3-compatible storage and, through the queue and an isolated worker, writes chunks and embeddings to Postgres; the query searches there with the ACL filter, reranks and generates the answer. Dashed lines are calls to external APIs and to Keycloak.
 
 | Layer | Choice | Notes |
 | --- | --- | --- |
 | API | FastAPI | Validates the JWT on every request |
 | Frontend | Angular, Tailwind CSS and SpartanNG | SPA that consumes the API; design system in `ui-spec.md` |
-| Original file storage | S3 or MinIO | One object per version |
+| Original file storage | Any S3-compatible store (SeaweedFS in the dev stack) | One object per version. MinIO no longer publishes a community image, so the dev stack uses SeaweedFS; the code only speaks the S3 API |
 | Ingestion queue | Celery, RQ or Arq | Upload does not block |
-| Text extraction | Docling (structured PDF), PyMuPDF, python-docx; TXT read directly | Docling preserves headings and tables. Initial formats: PDF, DOCX and TXT |
+| Text extraction | PyMuPDF (PDF), python-docx (DOCX); TXT read directly | Initial formats: PDF, DOCX and TXT. PDF headings are detected by font size; DOCX tables are kept as tables, but tables inside PDFs are extracted as plain text for now. Docling would preserve them, but it pulls in PyTorch and model downloads, so it stays a possible later swap behind the extraction module |
 | Embeddings | OpenAI API: `text-embedding-3-large` | Model fixed from the start; changing it requires reindexing |
 | Vector store | Postgres + pgvector, HNSW index | Estimated volume: ~5,000 documents per year (roughly hundreds of thousands of chunks), well within pgvector's capacity. `text-embedding-3-large` produces 3072 dimensions and pgvector's HNSW indexes `vector` only up to 2000; the decision is to store embeddings as `halfvec(3072)` (HNSW up to 4000 dimensions), without reducing quality. Plan B if performance becomes a problem: reduce to 1536 through OpenAI's `dimensions` parameter. Move to Qdrant only with millions of chunks or heavy filtering |
 | Keyword search | Postgres full-text | Basis of hybrid search |

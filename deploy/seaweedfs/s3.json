@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "name": "macedon",
+      "credentials": [{ "accessKey": "macedon", "secretKey": "macedon-dev-secret" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

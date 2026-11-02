@@ -15,7 +15,10 @@ class ObjectStore(Protocol):
 
 
 class S3ObjectStore:
-    """S3 or MinIO. boto3 is synchronous, so calls run in a worker thread."""
+    """Any S3-compatible store (AWS S3, SeaweedFS, ...).
+
+    boto3 is synchronous, so calls run in a worker thread.
+    """
 
     def __init__(self, client: Any, bucket: str) -> None:
         self._client = client

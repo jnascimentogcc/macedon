@@ -21,7 +21,10 @@ class ArqJobQueue:
     async def enqueue_ingestion(self, version_id: uuid.UUID) -> None:
         if self._pool is None:
             self._pool = await create_pool(RedisSettings.from_dsn(self._redis_url))
-        await self._pool.enqueue_job(INGEST_FUNCTION, str(version_id))
+        # The job id is the version id, so enqueuing the same version twice is a no-op.
+        await self._pool.enqueue_job(
+            INGEST_FUNCTION, str(version_id), _job_id=f"ingest:{version_id}"
+        )
 
 
 _queue: JobQueue | None = None
