@@ -1,0 +1,45 @@
+name: backend
+
+on:
+  push:
+    branches: [main, develop]
+    paths: [backend/**, .github/workflows/backend.yml]
+  pull_request:
+    paths: [backend/**, .github/workflows/backend.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: macedon
+          POSTGRES_PASSWORD: macedon
+          POSTGRES_DB: macedon
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U macedon"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy src tests
+      - name: Create the application role
+        run: psql postgresql://macedon:macedon@127.0.0.1:5432/macedon -f ../deploy/postgres/init.sql
+      - run: uv run alembic upgrade head
+      - run: uv run pytest

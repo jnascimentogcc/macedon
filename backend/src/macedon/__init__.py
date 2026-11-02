@@ -1,0 +1,1 @@
+"""Macedon: document RAG platform."""

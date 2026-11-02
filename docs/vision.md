@@ -44,9 +44,40 @@ Stack: Angular, Tailwind CSS and SpartanNG. The design system, accessibility (WC
 
 The foundation is Python with FastAPI and Postgres with pgvector, which avoids maintaining a separate vector database at the start. Ingestion runs in queue-fed workers; querying runs directly in the API.
 
-&#91;embedded content: architecture · ingestion and query flow\]
+```mermaid
+flowchart LR
+    User([User]) --> FE[Angular frontend]
+    FE -->|JWT| API[FastAPI]
+    KC[Keycloak] -. login, OIDC .-> FE
+    KC -. JWT validation .-> API
 
-On the left, ingestion writes chunks and embeddings to Postgres; on the right, the query searches there, reranks and generates the answer.
+    subgraph Ingestion
+        direction TB
+        Q[(Queue)] --> W[Isolated worker]
+        W --> X[Extraction and chunking]
+    end
+
+    subgraph Query
+        direction TB
+        H[Hybrid search with ACL filter] --> R[Reranker]
+        R --> G[LLM generation]
+    end
+
+    API -->|upload| S3[(S3 / MinIO)]
+    API -->|enqueue| Q
+    S3 --> W
+    X -->|chunks and embeddings| PG[(Postgres + pgvector)]
+    API -->|/query| H
+    H <--> PG
+    G -->|answer with sources| API
+
+    X -. embeddings .-> EXT{{External APIs: OpenAI, reranker}}
+    H -. query embedding .-> EXT
+    R -.-> EXT
+    G -.-> EXT
+```
+
+Ingestion stores the original in S3/MinIO and, through the queue and an isolated worker, writes chunks and embeddings to Postgres; the query searches there with the ACL filter, reranks and generates the answer. Dashed lines are calls to external APIs and to Keycloak.
 
 | Layer | Choice | Notes |
 | --- | --- | --- |
@@ -97,7 +128,7 @@ Each document has several versions and only one active; chunks belong to the ver
 | Table | Main content |
 | --- | --- |
 | `documents` | Logical identity: name, type, owner, tags, ACL |
-| `document_versions` | Version number, SHA-256 hash of the file, S3 path, status (`processing`, `active`, `archived`), author, date |
+| `document_versions` | Version number, SHA-256 hash of the file, S3 path, status (`processing`, `active`, `archived`, `failed`), author, date |
 | `chunks` | Text, embedding, `version_id`, `section_id`, `position`, text hash, `embedding_model`, permission metadata |
 
 **Rules**

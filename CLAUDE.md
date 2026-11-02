@@ -4,7 +4,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository state
 
-Pre-implementation: the repository contains only `LICENSE`, `README.md` and `docs/` (`docs/vision.md` is the source of truth for the design). There is no code, build, lint or tests yet — do not invent commands; define them when the stack is created.
+Phase 1 (secure foundation) is in progress. Layout: `backend/` (Python, uv), `deploy/` (dev Keycloak realm, Postgres init), `docker-compose.yml` (Postgres+pgvector, Redis, MinIO, Keycloak), `docs/` (`docs/vision.md` is the source of truth for the design). `frontend/` does not exist yet. Done so far: backend scaffold with CI, dev stack, initial schema migration with RLS, applied and covered by integration tests in `backend/tests/test_rls.py` (they run against the dev Postgres and skip if it is down). Use `127.0.0.1`, not `localhost`, for Postgres on Windows: `localhost` adds ~2s per connection. Ingestion queue: Arq.
+
+## Commands
+
+Run from `backend/` unless noted.
+
+```bash
+uv sync                                  # install dependencies
+uv run pytest                            # all tests
+uv run pytest tests/test_health.py::test_health   # a single test
+uv run ruff check . && uv run ruff format --check .
+uv run mypy src tests
+uv run alembic upgrade head              # needs the dev stack: `docker compose up -d` at the repo root
+```
+
+The API connects as the `macedon_app` role (not superuser, no BYPASSRLS) so Row-Level Security applies; migrations run as the schema owner (`MACEDON_MIGRATION_DATABASE_URL`). Each request/transaction must set `app.user_id`, `app.groups` and `app.is_admin` with `set_config(..., true)`; the ingestion worker runs with `app.is_admin = 'true'`.
 
 ## Language
 
@@ -24,7 +39,7 @@ Ingestion is asynchronous (upload responds immediately, processing in a worker);
 
 - **No multi-tenant at the start** (simplification decision): there is no `tenant_id`; the ACL is by users and groups. If multi-tenant becomes a requirement, revisit the ACL, RLS and the vector query filter.
 - **Expected volume:** ~5,000 documents per year; pgvector is more than enough. `text-embedding-3-large` has 3072 dimensions and pgvector's HNSW limits `vector` to 2000: decision is an embedding column of `halfvec(3072)` with an HNSW index, without reducing dimensions (plan B: `dimensions=1536`). The dimension is fixed; changing it requires reindexing.
-- **Chunks belong to the version, not the document.** Tables: `documents` (identity, ACL), `document_versions` (SHA-256 hash, S3 path, status `processing|active|archived`), `chunks` (text, embedding, `version_id`, `section_id`, `position`, text hash, `embedding_model`, permissions).
+- **Chunks belong to the version, not the document.** Tables: `documents` (identity, ACL), `document_versions` (SHA-256 hash, S3 path, status `processing|active|archived|failed`), `chunks` (text, embedding, `version_id`, `section_id`, `position`, text hash, `embedding_model`, permissions).
 - **One active version per document.** Default search filters `status = 'active'`; a historical version only via an explicit parameter on `/query`.
 - **Atomic switch:** a new version only becomes active when all its chunks are indexed; until then the previous one answers.
 - **Deduplication** by file hash; **embedding reuse** by chunk text hash.
