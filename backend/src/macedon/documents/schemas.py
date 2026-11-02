@@ -32,3 +32,10 @@ class UploadOut(BaseModel):
     document: DocumentOut
     version: VersionOut
     duplicate: bool = False
+
+
+class DocumentPage(BaseModel):
+    items: list[DocumentOut]
+    total: int
+    limit: int
+    offset: int

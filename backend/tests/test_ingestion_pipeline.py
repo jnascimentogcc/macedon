@@ -298,3 +298,59 @@ async def test_ingesting_twice_is_harmless(
 
 async def test_unknown_version_is_ignored(deps: IngestionDeps, owner_engine: AsyncEngine) -> None:
     await ingest_version(uuid.uuid4(), deps)
+
+
+# ---- recovery of lost jobs ----
+
+
+async def backdate(engine: AsyncEngine, version_id: uuid.UUID, minutes: int) -> None:
+    async with engine.begin() as conn:
+        await conn.execute(
+            text(
+                "UPDATE document_versions SET created_at = now() - make_interval(mins => :m) "
+                "WHERE id = :v"
+            ),
+            {"m": minutes, "v": version_id},
+        )
+
+
+async def test_only_old_processing_versions_count_as_stale(
+    owner_engine: AsyncEngine, app_engine: AsyncEngine, store: FakeStore
+) -> None:
+    from datetime import timedelta
+
+    from macedon.ingestion.pipeline import find_stale_versions
+
+    _, old = await create_version(owner_engine, store, TEXT_V1)
+    _, fresh = await create_version(owner_engine, store, TEXT_V1)
+    _, done = await create_version(owner_engine, store, TEXT_V1, status="active")
+    _, failed = await create_version(owner_engine, store, TEXT_V1, status="failed")
+    for version_id in (old, done, failed):
+        await backdate(owner_engine, version_id, 60)
+
+    stale = await find_stale_versions(app_engine, timedelta(minutes=15))
+
+    assert stale == [old]
+    assert fresh not in stale
+
+
+async def test_the_sweep_requeues_stale_versions_with_a_deduplicating_job_id(
+    owner_engine: AsyncEngine, app_engine: AsyncEngine, store: FakeStore
+) -> None:
+    from macedon.worker import requeue_stale
+
+    class FakeRedis:
+        def __init__(self) -> None:
+            self.jobs: list[tuple[str, str, str]] = []
+
+        async def enqueue_job(self, function: str, version_id: str, _job_id: str) -> None:
+            self.jobs.append((function, version_id, _job_id))
+
+    _, lost = await create_version(owner_engine, store, TEXT_V1)
+    await backdate(owner_engine, lost, 60)
+    redis = FakeRedis()
+
+    count = await requeue_stale({"engine": app_engine, "redis": redis})
+
+    assert count == 1
+    assert redis.jobs == [("ingest_version", str(lost), f"ingest:{lost}")]

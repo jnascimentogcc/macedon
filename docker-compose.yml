@@ -38,6 +38,7 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: http://localhost:8080  # pins the token issuer, whatever host the caller uses
     ports:
       - "127.0.0.1:8080:8080"
     volumes:

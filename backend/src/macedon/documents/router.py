@@ -2,7 +2,7 @@ import hashlib
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile, status
 from sqlalchemy import func, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,7 +14,7 @@ from macedon.db.identity import Identity
 from macedon.db.models import Document, DocumentVersion
 from macedon.db.session import get_session
 from macedon.documents.queue import JobQueue, get_job_queue
-from macedon.documents.schemas import DocumentOut, UploadOut, VersionOut
+from macedon.documents.schemas import DocumentOut, DocumentPage, UploadOut, VersionOut
 from macedon.documents.storage import ObjectStore, get_object_store
 from macedon.documents.validation import UnsupportedFileError, detect_document_type
 
@@ -64,13 +64,17 @@ async def _versions(session: AsyncSession, document_id: uuid.UUID) -> list[Docum
     return list(result.scalars())
 
 
-async def _document_out(session: AsyncSession, document: Document) -> DocumentOut:
-    versions = await _versions(session, document.id)
+def _document_with(document: Document, versions: list[DocumentVersion]) -> DocumentOut:
+    """`versions` newest first."""
     active = next((v for v in versions if v.status == "active"), None)
     out = DocumentOut.model_validate(document, from_attributes=True)
     out.latest_version = _version_out(versions[0] if versions else None)
     out.active_version = _version_out(active)
     return out
+
+
+async def _document_out(session: AsyncSession, document: Document) -> DocumentOut:
+    return _document_with(document, await _versions(session, document.id))
 
 
 async def _store_version(
@@ -146,6 +150,46 @@ async def upload_document(
     await session.commit()
     await queue.enqueue_ingestion(version.id)
     return out
+
+
+@router.get("", response_model=DocumentPage)
+async def list_documents(
+    session: SessionDep,
+    limit: Annotated[int, Query(ge=1, le=100)] = 50,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    include_archived: bool = False,
+) -> DocumentPage:
+    """The documents the caller can read, newest first. Row-Level Security does the filtering."""
+    conditions = [] if include_archived else [Document.archived_at.is_(None)]
+    total = (
+        await session.execute(select(func.count()).select_from(Document).where(*conditions))
+    ).scalar_one()
+    documents = list(
+        (
+            await session.execute(
+                select(Document)
+                .where(*conditions)
+                .order_by(Document.created_at.desc(), Document.id)
+                .limit(limit)
+                .offset(offset)
+            )
+        ).scalars()
+    )
+    versions: dict[uuid.UUID, list[DocumentVersion]] = {d.id: [] for d in documents}
+    if documents:
+        rows = await session.execute(
+            select(DocumentVersion)
+            .where(DocumentVersion.document_id.in_(versions))
+            .order_by(DocumentVersion.number.desc())
+        )
+        for version in rows.scalars():
+            versions[version.document_id].append(version)
+    return DocumentPage(
+        items=[_document_with(document, versions[document.id]) for document in documents],
+        total=total,
+        limit=limit,
+        offset=offset,
+    )
 
 
 @router.get("/{document_id}", response_model=DocumentOut)

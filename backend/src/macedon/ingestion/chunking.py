@@ -72,12 +72,26 @@ def _sections(blocks: list[Block], document_name: str) -> list[_Section]:
             while headings and headings[-1][0] >= block.level:
                 headings.pop()
             headings.append((block.level, block.text))
-            path = " > ".join([document_name, *(text for _, text in headings)])
+            path = " > ".join([document_name, *_distinct_headings(headings, document_name)])
             current = _Section(f"s{len(sections) + 1}", path, [])
         else:
             current.blocks.append(block)
     close()
     return sections
+
+
+def _distinct_headings(headings: list[tuple[int, str]], document_name: str) -> list[str]:
+    """Heading texts for the path, without repeating the document name or a heading twice.
+
+    Documents often open with a title equal to their name ("Travel Policy" inside the document
+    "Travel Policy"), which would otherwise show up twice in every path.
+    """
+    texts: list[str] = []
+    for _, heading in headings:
+        previous = texts[-1] if texts else document_name
+        if heading.strip().casefold() != previous.strip().casefold():
+            texts.append(heading)
+    return texts
 
 
 def _pack(blocks: list[Block]) -> list[tuple[str, int | None]]:

@@ -3,6 +3,7 @@
 import uuid
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
+from datetime import timedelta
 
 from sqlalchemy import select, text, update
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
@@ -251,3 +252,23 @@ async def _mark_failed(
 async def fail_version(engine: AsyncEngine, version_id: uuid.UUID, reason: str) -> None:
     """Give up on a version after retries are exhausted."""
     await _mark_failed(async_sessionmaker(engine, expire_on_commit=False), version_id, reason)
+
+
+async def find_stale_versions(engine: AsyncEngine, older_than: timedelta) -> list[uuid.UUID]:
+    """Versions still `processing` long after upload, whose job was probably lost.
+
+    The upload commits before it enqueues, so a crash in between leaves a version no job knows
+    about. Enqueuing it again is safe: ingestion ignores versions that are no longer processing,
+    and the job id (the version id) stops a live job from being duplicated.
+    """
+    async with async_sessionmaker(engine)() as session:
+        await apply_identity(session, WORKER)
+        result = await session.execute(
+            text(
+                "SELECT id FROM document_versions "
+                "WHERE status = 'processing' "
+                "AND created_at < now() - make_interval(secs => :seconds) ORDER BY created_at"
+            ),
+            {"seconds": older_than.total_seconds()},
+        )
+        return [row[0] for row in result]

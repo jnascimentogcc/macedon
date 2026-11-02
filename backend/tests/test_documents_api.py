@@ -378,3 +378,71 @@ async def test_a_failed_request_leaves_no_trace(
 def test_helper_types() -> None:
     check: Callable[[], bytes] = make_docx
     assert check().startswith(b"PK")
+
+
+# ---- listing ----
+
+
+async def test_listing_returns_only_what_the_caller_can_read(api: Api) -> None:
+    await api.upload(name="Alice only")
+    await api.upload(PDF_2, name="Shared with legal", acl_groups=["legal"])
+    await api.as_user(BOB).upload(b"bob text", name="Bob's own")
+
+    alice = (await api.as_user(ALICE).get("/documents")).json()
+    bob = (await api.as_user(BOB).get("/documents")).json()
+
+    assert sorted(d["name"] for d in alice["items"]) == ["Alice only", "Shared with legal"]
+    assert alice["total"] == 2
+    assert sorted(d["name"] for d in bob["items"]) == ["Bob's own", "Shared with legal"]
+
+
+async def test_listing_shows_latest_and_active_versions(
+    api: Api, owner_engine: AsyncEngine
+) -> None:
+    document_id = (await api.upload(name="Doc")).json()["document"]["id"]
+    await api.upload_version(document_id, PDF_2)
+    await set_status(owner_engine, document_id, 1, "active")
+
+    [item] = (await api.get("/documents")).json()["items"]
+
+    assert item["latest_version"]["number"] == 2
+    assert item["latest_version"]["status"] == "processing"
+    assert item["active_version"]["number"] == 1
+
+
+async def test_listing_hides_archived_documents_unless_asked(api: Api) -> None:
+    document_id = (await api.upload(name="Old")).json()["document"]["id"]
+    await api.upload(PDF_2, name="Current")
+    await api.delete(f"/documents/{document_id}")
+
+    default = (await api.get("/documents")).json()
+    everything = (await api.get("/documents?include_archived=true")).json()
+
+    assert [d["name"] for d in default["items"]] == ["Current"]
+    assert default["total"] == 1
+    assert {d["name"] for d in everything["items"]} == {"Old", "Current"}
+
+
+async def test_listing_is_paginated_newest_first(api: Api) -> None:
+    for number in range(5):
+        await api.upload(PDF + bytes([number]), name=f"Doc {number}")
+
+    first = (await api.get("/documents?limit=2")).json()
+    second = (await api.get("/documents?limit=2&offset=2")).json()
+    last = (await api.get("/documents?limit=2&offset=4")).json()
+
+    assert [d["name"] for d in first["items"]] == ["Doc 4", "Doc 3"]
+    assert [d["name"] for d in second["items"]] == ["Doc 2", "Doc 1"]
+    assert [d["name"] for d in last["items"]] == ["Doc 0"]
+    assert first["total"] == second["total"] == last["total"] == 5
+
+
+@pytest.mark.parametrize("query", ["limit=0", "limit=101", "offset=-1"])
+async def test_listing_rejects_out_of_range_pagination(api: Api, query: str) -> None:
+    assert (await api.get(f"/documents?{query}")).status_code == 422
+
+
+async def test_listing_an_empty_account(api: Api) -> None:
+    page = (await api.as_user(BOB).get("/documents")).json()
+
+    assert page == {"items": [], "total": 0, "limit": 50, "offset": 0}

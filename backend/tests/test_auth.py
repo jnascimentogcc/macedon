@@ -2,6 +2,7 @@ import time
 from collections.abc import AsyncIterator
 from typing import Any
 
+import httpx
 import jwt
 import pytest
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -124,3 +125,83 @@ async def test_unsigned_token_is_rejected(client: AsyncClient) -> None:
     token = jwt.encode(claims, key="", algorithm="none", headers={"kid": KID})
 
     assert (await client.get("/me", headers=bearer(token))).status_code == 401
+
+
+# ---- JWKS handling ----
+
+
+def jwk_of(key: rsa.RSAPrivateKey, kid: str, **extra: Any) -> dict[str, Any]:
+    jwk = jwt.algorithms.RSAAlgorithm.to_jwk(key.public_key(), as_dict=True)
+    return {**jwk, "kid": kid, "use": "sig", "alg": "RS256", **extra}
+
+
+def jwks_provider(
+    handler: Any,
+) -> Any:
+    from macedon.auth import JwksKeyProvider
+
+    return JwksKeyProvider("https://idp.test/certs", transport=httpx.MockTransport(handler))
+
+
+async def test_jwks_ignores_encryption_keys_published_next_to_signing_keys() -> None:
+    # Keycloak publishes a use=enc key (RSA-OAEP) that PyJWT cannot load.
+    encryption = jwk_of(new_key(), "enc-key", use="enc", alg="RSA-OAEP")
+    keys = {"keys": [encryption, jwk_of(SIGNING_KEY, KID)]}
+    provider = jwks_provider(lambda request: httpx.Response(200, json=keys))
+
+    key = await provider.get_key(KID)
+
+    assert key.public_numbers() == SIGNING_KEY.public_key().public_numbers()
+    with pytest.raises(AuthError):
+        await provider.get_key("enc-key")
+
+
+async def test_jwks_skips_unreadable_keys_without_losing_the_good_ones() -> None:
+    broken = {"kid": "weird", "kty": "XX", "use": "sig"}
+    keys = {"keys": [broken, jwk_of(SIGNING_KEY, KID)]}
+    provider = jwks_provider(lambda request: httpx.Response(200, json=keys))
+
+    assert await provider.get_key(KID) is not None
+
+
+async def test_jwks_are_cached_between_calls() -> None:
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(200, json={"keys": [jwk_of(SIGNING_KEY, KID)]})
+
+    provider = jwks_provider(handler)
+    await provider.get_key(KID)
+    await provider.get_key(KID)
+
+    assert calls == 1
+
+
+async def test_a_rotated_key_is_picked_up_after_the_refetch_interval(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import macedon.auth as auth
+
+    new = new_key()
+    published = [jwk_of(SIGNING_KEY, KID)]
+    provider = jwks_provider(lambda request: httpx.Response(200, json={"keys": published}))
+    await provider.get_key(KID)
+    published.append(jwk_of(new, "rotated"))
+
+    with pytest.raises(AuthError):  # too soon: an unknown kid must not trigger a refetch storm
+        await provider.get_key("rotated")
+    monkeypatch.setattr(auth, "JWKS_MIN_REFETCH_SECONDS", -1)
+
+    assert await provider.get_key("rotated") is not None
+
+
+async def test_an_unreachable_provider_rejects_tokens_instead_of_crashing() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        raise httpx.ConnectError("no route")
+
+    from macedon.auth import verify_token
+
+    with pytest.raises(AuthError):
+        await verify_token(make_token(), get_settings(), jwks_provider(handler))

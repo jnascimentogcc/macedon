@@ -26,8 +26,9 @@ class KeyProvider(Protocol):
 class JwksKeyProvider:
     """Fetches the provider's signing keys and caches them, refetching on an unknown `kid`."""
 
-    def __init__(self, jwks_url: str) -> None:
+    def __init__(self, jwks_url: str, transport: httpx.AsyncBaseTransport | None = None) -> None:
         self._jwks_url = jwks_url
+        self._transport = transport
         self._keys: dict[str, Any] = {}
         self._fetched_at = 0.0
 
@@ -43,12 +44,20 @@ class JwksKeyProvider:
             raise AuthError("unknown signing key") from None
 
     async def _refresh(self) -> None:
-        async with httpx.AsyncClient(timeout=5) as client:
+        async with httpx.AsyncClient(timeout=5, transport=self._transport) as client:
             response = await client.get(self._jwks_url)
             response.raise_for_status()
-        self._keys = {
-            jwk["kid"]: jwt.PyJWK(jwk).key for jwk in response.json()["keys"] if "kid" in jwk
-        }
+        keys: dict[str, Any] = {}
+        for jwk in response.json()["keys"]:
+            # Providers such as Keycloak also publish encryption keys; only signing keys matter,
+            # and one key we cannot read must not hide the others.
+            if "kid" not in jwk or jwk.get("use", "sig") != "sig":
+                continue
+            try:
+                keys[jwk["kid"]] = jwt.PyJWK(jwk).key
+            except jwt.PyJWTError:
+                continue
+        self._keys = keys
         self._fetched_at = time.monotonic()
 
 

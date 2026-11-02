@@ -137,3 +137,23 @@ def test_equal_text_in_different_sections_hashes_differently() -> None:
 
 def test_empty_sections_produce_no_chunks() -> None:
     assert chunk_document([Block("heading", "Only a title", level=1)], "Doc") == []
+
+
+def test_a_title_equal_to_the_document_name_is_not_repeated_in_the_path() -> None:
+    blocks = [
+        Block("heading", "Travel Policy", level=1),
+        Block("heading", "Hotels", level=2),
+        Block("paragraph", "The nightly limit is 180 euros."),
+    ]
+
+    [chunk] = chunk_document(blocks, "travel policy")
+
+    assert chunk.path == "travel policy > Hotels"
+
+
+def test_different_headings_that_only_look_similar_are_kept() -> None:
+    blocks = [Block("heading", "Travel Policy 2026", level=1), Block("paragraph", "Text.")]
+
+    [chunk] = chunk_document(blocks, "Travel Policy")
+
+    assert chunk.path == "Travel Policy > Travel Policy 2026"

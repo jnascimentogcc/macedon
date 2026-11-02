@@ -21,6 +21,7 @@ The API covers three fronts: asynchronous ingestion, querying with sources, and 
 | Endpoint | Purpose |
 | --- | --- |
 | `POST /documents` | Uploads a new document (creates version 1) |
+| `GET /documents` | Lists the documents the caller can read, paginated |
 | `GET /documents/{id}` | Returns metadata and processing status |
 | `POST /documents/{id}/versions` | Uploads a new version of the document |
 | `GET /documents/{id}/versions` | Lists the version history |
