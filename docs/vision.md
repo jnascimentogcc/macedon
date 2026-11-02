@@ -193,4 +193,4 @@ None at the moment.
 
 ## Deferred decisions
 
-- **Reranker service:** will be chosen later (external API; OpenAI does not offer one). Candidate: Cohere Rerank. Since the reranker sits behind the `Reranker` interface, the choice does not affect the rest of the pipeline.
+- **Reranker service:** will be chosen later (external API; OpenAI does not offer one). Candidate: Cohere Rerank. Since the reranker sits behind the `Reranker` interface, the choice does not affect the rest of the pipeline. The first baseline (`backend/eval/`, 34 questions over 8 synthetic documents, 27 chunks) already gets the evidence into the top 5 for every answerable question (MRR 0.93), so it gives no evidence that a reranker is needed yet; the corpus is too small and easy to decide either way. Decide it when the baseline is rerun on a larger, harder corpus.

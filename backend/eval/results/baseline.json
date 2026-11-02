@@ -1,0 +1,1097 @@
+{
+  "date": "2026-11-02T15:08:47+00:00",
+  "models": {
+    "llm": "gpt-6.1-terra",
+    "embedding": "text-embedding-3-large"
+  },
+  "metrics": {
+    "questions": 34,
+    "answerable": 31,
+    "top_k": 5,
+    "evidence_hit@5": 1.0,
+    "evidence_hit@1": 0.8709677419354839,
+    "mrr": 0.9301075268817204,
+    "document_hit": 1.0,
+    "answered_with_citation": 1.0,
+    "no_answer_abstained": 1.0,
+    "acl_leaks": 0,
+    "latency_p50_s": 1.95
+  },
+  "rows": [
+    {
+      "question": "What is the nightly hotel limit in capital cities?",
+      "document": "Travel Policy",
+      "evidence": "180 euros in capital cities",
+      "reference": "180 euros per night in capital cities.",
+      "tags": [],
+      "answer": "The nightly hotel limit in capital cities is €180. [1]",
+      "contexts": [
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+        "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
+        "Liability caps must not exceed 12 months of fees. Uncapped liability is only acceptable for confidentiality breaches and requires the general counsel's approval.",
+        "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached."
+      ],
+      "source_documents": [
+        "Travel Policy",
+        "Travel Policy",
+        "Travel Policy",
+        "Contract Review Checklist",
+        "Travel Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.66,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0000000000000002,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "Who has to approve business class flights?",
+      "document": "Travel Policy",
+      "evidence": "written approval from a director",
+      "reference": "A director, in writing, and only for flights over six hours.",
+      "tags": [],
+      "answer": "A director must approve business class flights in writing. [1]",
+      "contexts": [
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
+        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
+        "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure."
+      ],
+      "source_documents": [
+        "Travel Policy",
+        "Information Security Standard",
+        "Customer Support Playbook",
+        "Procurement Guidelines",
+        "Travel Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.04,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9063183368407123,
+        "answer_correct": 0.0
+      }
+    },
+    {
+      "question": "How long do I have to file an expense claim after a trip?",
+      "document": "Travel Policy",
+      "evidence": "within 30 days",
+      "reference": "Within 30 days of the end of the trip, with original receipts.",
+      "tags": [],
+      "answer": "You have **30 days after the end of the trip** to file an expense claim, with original receipts attached. [1]",
+      "contexts": [
+        "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+        "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours."
+      ],
+      "source_documents": [
+        "Travel Policy",
+        "Travel Policy",
+        "Travel Policy",
+        "Procurement Guidelines",
+        "Travel Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.32,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8767557062382886,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "Is alcohol reimbursed on business trips?",
+      "document": "Travel Policy",
+      "evidence": "Alcohol is never reimbursed",
+      "reference": "No, alcohol is never reimbursed.",
+      "tags": [],
+      "answer": "No. Alcohol is never reimbursed. [1]",
+      "contexts": [
+        "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
+        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure."
+      ],
+      "source_documents": [
+        "Travel Policy",
+        "Travel Policy",
+        "Customer Support Playbook",
+        "Information Security Standard",
+        "Travel Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.66,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8480209689404259,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How early must hotels be booked?",
+      "document": "Travel Policy",
+      "evidence": "at least 14 days",
+      "reference": "At least 14 days before departure, through the corporate portal.",
+      "tags": [],
+      "answer": "Hotels must be booked through the corporate portal at least 14 days before departure. [1]",
+      "contexts": [
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+        "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+        "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows."
+      ],
+      "source_documents": [
+        "Travel Policy",
+        "Travel Policy",
+        "Employee Handbook",
+        "Employee Handbook",
+        "Procurement Guidelines"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.16,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6959817711039825,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How many vacation days do employees get per year?",
+      "document": "Employee Handbook",
+      "evidence": "25 days of paid vacation",
+      "reference": "25 days of paid vacation per year.",
+      "tags": [],
+      "answer": "Full-time employees accrue 25 paid vacation days per year. [1]",
+      "contexts": [
+        "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+        "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Employee Handbook",
+        "Employee Handbook",
+        "Travel Policy",
+        "Data Retention Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.37,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.788323294510683,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How many unused vacation days can I carry over?",
+      "document": "Employee Handbook",
+      "evidence": "up to five can be carried over",
+      "reference": "Up to five unused days can be carried over to the next year.",
+      "tags": [],
+      "answer": "You can carry over up to five unused vacation days to the next year. [1]",
+      "contexts": [
+        "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Employee Handbook",
+        "Travel Policy",
+        "Travel Policy",
+        "Employee Handbook"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.92,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9549069357378478,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What does SEC-204 require?",
+      "document": "Employee Handbook",
+      "evidence": "SEC-204 requires a company VPN",
+      "reference": "A company VPN for every remote session.",
+      "tags": [
+        "identifier"
+      ],
+      "answer": "SEC-204 requires employees to use a company VPN for every remote session. [1]",
+      "contexts": [
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
+        "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
+        "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Procurement Guidelines",
+        "Customer Support Playbook",
+        "Information Security Standard",
+        "Information Security Standard"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.76,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6466092720128049,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "When does a sick employee need a medical certificate?",
+      "document": "Employee Handbook",
+      "evidence": "after three consecutive days",
+      "reference": "After three consecutive days of absence.",
+      "tags": [],
+      "answer": "A medical certificate is required after three consecutive days of absence. [1]",
+      "contexts": [
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
+        "The probation period lasts six months. Either party may end the contract with two weeks of notice during probation.",
+        "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Employee Handbook",
+        "Employee Handbook",
+        "Employee Handbook",
+        "Procurement Guidelines"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.79,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7910288715116102,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How long is the probation period?",
+      "document": "Employee Handbook",
+      "evidence": "probation period lasts six months",
+      "reference": "Six months.",
+      "tags": [],
+      "answer": "The probation period is six months. [1]",
+      "contexts": [
+        "The probation period lasts six months. Either party may end the contract with two weeks of notice during probation.",
+        "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
+        "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Engineering Onboarding",
+        "Data Retention Policy",
+        "Procurement Guidelines",
+        "Contract Review Checklist"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.7,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9999995618216623,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How many days per week can I work remotely?",
+      "document": "Employee Handbook",
+      "evidence": "up to three days per week",
+      "reference": "Up to three days per week.",
+      "tags": [],
+      "answer": "You can work remotely up to **three days per week**. [1]",
+      "contexts": [
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
+        "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
+        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Employee Handbook",
+        "Engineering Onboarding",
+        "Customer Support Playbook",
+        "Employee Handbook"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.99,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.999999722956824,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What is the minimum password length?",
+      "document": "Information Security Standard",
+      "evidence": "at least 14 characters",
+      "reference": "At least 14 characters.",
+      "tags": [],
+      "answer": "Passwords must be at least **14 characters** long. [1]",
+      "contexts": [
+        "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
+        "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days."
+      ],
+      "source_documents": [
+        "Information Security Standard",
+        "Information Security Standard",
+        "Information Security Standard",
+        "Data Retention Policy",
+        "Information Security Standard"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.65,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9759094052853904,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How fast must a security incident be reported?",
+      "document": "Information Security Standard",
+      "evidence": "within one hour",
+      "reference": "Within one hour, to the security team.",
+      "tags": [],
+      "answer": "A suspected security incident must be reported to the security team within one hour. [1]",
+      "contexts": [
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
+        "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
+        "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
+        "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached."
+      ],
+      "source_documents": [
+        "Information Security Standard",
+        "Information Security Standard",
+        "Information Security Standard",
+        "Information Security Standard",
+        "Travel Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.93,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.815864462569838,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What encryption is required for Restricted data?",
+      "document": "Information Security Standard",
+      "evidence": "AES-256",
+      "reference": "AES-256 at rest, and never on personal devices.",
+      "tags": [],
+      "answer": "Restricted data must be encrypted at rest with AES-256. [1]",
+      "contexts": [
+        "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
+        "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days."
+      ],
+      "source_documents": [
+        "Information Security Standard",
+        "Data Retention Policy",
+        "Travel Policy",
+        "Data Retention Policy",
+        "Data Retention Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.01,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8329209425759275,
+        "answer_correct": 0.0
+      }
+    },
+    {
+      "question": "How long are production backups retained?",
+      "document": "Information Security Standard",
+      "evidence": "retained for 35 days",
+      "reference": "35 days.",
+      "tags": [],
+      "answer": "Production backups are retained for 35 days. [1]",
+      "contexts": [
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
+        "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
+        "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+        "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days."
+      ],
+      "source_documents": [
+        "Information Security Standard",
+        "Information Security Standard",
+        "Engineering Onboarding",
+        "Engineering Onboarding",
+        "Data Retention Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.73,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0000000000000002,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "When must the post-mortem of a critical incident be published?",
+      "document": "Information Security Standard",
+      "evidence": "within five business days",
+      "reference": "Within five business days, for S1 incidents.",
+      "tags": [],
+      "answer": "Within five business days. [1]",
+      "contexts": [
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
+        "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+        "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices."
+      ],
+      "source_documents": [
+        "Information Security Standard",
+        "Travel Policy",
+        "Data Retention Policy",
+        "Employee Handbook",
+        "Information Security Standard"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.68,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.19214924606692743,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "Who approves a purchase of 5,000 euros?",
+      "document": "Procurement Guidelines",
+      "evidence": "approval from the department head",
+      "reference": "The department head.",
+      "tags": [
+        "multi-hop"
+      ],
+      "answer": "The department head approves a purchase of €5,000. [1]",
+      "contexts": [
+        "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
+        "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+        "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
+        "The daily meal allowance is 45 euros. Alcohol is never reimbursed."
+      ],
+      "source_documents": [
+        "Procurement Guidelines",
+        "Procurement Guidelines",
+        "Travel Policy",
+        "Customer Support Playbook",
+        "Travel Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.57,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9455353916434563,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How many quotes are needed for a 15,000 euro purchase?",
+      "document": "Procurement Guidelines",
+      "evidence": "at least three written quotes",
+      "reference": "At least three written quotes.",
+      "tags": [
+        "multi-hop"
+      ],
+      "answer": "At least three written quotes are required. [2]",
+      "contexts": [
+        "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
+        "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
+        "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+        "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows."
+      ],
+      "source_documents": [
+        "Procurement Guidelines",
+        "Procurement Guidelines",
+        "Engineering Onboarding",
+        "Customer Support Playbook",
+        "Procurement Guidelines"
+      ],
+      "evidence_rank": 2,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.64,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6333811374318733,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What is the standard payment term for suppliers?",
+      "document": "Procurement Guidelines",
+      "evidence": "45 days after invoice receipt",
+      "reference": "45 days after invoice receipt.",
+      "tags": [],
+      "answer": "The standard payment term is 45 days after invoice receipt. [1]",
+      "contexts": [
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
+        "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
+        "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days."
+      ],
+      "source_documents": [
+        "Procurement Guidelines",
+        "Information Security Standard",
+        "Information Security Standard",
+        "Customer Support Playbook",
+        "Information Security Standard"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.08,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7995684407560582,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What is the first response target for a P2 ticket?",
+      "document": "Customer Support Playbook",
+      "evidence": "4 hours for P2",
+      "reference": "4 hours.",
+      "tags": [],
+      "answer": "The first response target for a P2 ticket is **4 hours**. [1]",
+      "contexts": [
+        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
+        "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time.",
+        "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence."
+      ],
+      "source_documents": [
+        "Customer Support Playbook",
+        "Information Security Standard",
+        "Customer Support Playbook",
+        "Engineering Onboarding",
+        "Employee Handbook"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.91,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9999995587467945,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "When is a P1 ticket escalated?",
+      "document": "Customer Support Playbook",
+      "evidence": "not resolved within 4 hours",
+      "reference": "When it is not resolved within 4 hours, to the on-call engineering manager.",
+      "tags": [],
+      "answer": "A P1 ticket is escalated to the on-call engineering manager if it remains unresolved after 4 hours. The customer success lead must be notified at the same time. [1]",
+      "contexts": [
+        "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
+        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
+        "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+        "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision."
+      ],
+      "source_documents": [
+        "Customer Support Playbook",
+        "Information Security Standard",
+        "Customer Support Playbook",
+        "Engineering Onboarding",
+        "Procurement Guidelines"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.32,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8288793682919304,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "Up to what amount can an agent refund without approval?",
+      "document": "Customer Support Playbook",
+      "evidence": "up to 200 euros without approval",
+      "reference": "200 euros.",
+      "tags": [],
+      "answer": "An agent can refund up to €200 without approval. [2]",
+      "contexts": [
+        "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
+        "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
+        "Liability caps must not exceed 12 months of fees. Uncapped liability is only acceptable for confidentiality breaches and requires the general counsel's approval.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
+        "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval."
+      ],
+      "source_documents": [
+        "Procurement Guidelines",
+        "Customer Support Playbook",
+        "Contract Review Checklist",
+        "Travel Policy",
+        "Contract Review Checklist"
+      ],
+      "evidence_rank": 2,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.97,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9626429705965867,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How long are invoices kept?",
+      "document": "Data Retention Policy",
+      "evidence": "kept for 10 years",
+      "reference": "10 years.",
+      "tags": [],
+      "answer": "Invoices are kept for 10 years. [1]",
+      "contexts": [
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
+        "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer."
+      ],
+      "source_documents": [
+        "Data Retention Policy",
+        "Procurement Guidelines",
+        "Data Retention Policy",
+        "Information Security Standard",
+        "Data Retention Policy"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.97,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0000000000000002,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How long do we have to complete a customer deletion request?",
+      "document": "Data Retention Policy",
+      "evidence": "within 30 days",
+      "reference": "Within 30 days.",
+      "tags": [],
+      "answer": "Customer deletion requests must be completed within **30 days**. [1] If a legal hold applies to the affected records, deletion is suspended until the hold is lifted in writing. [2]",
+      "contexts": [
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+        "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
+        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
+        "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time.",
+        "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window."
+      ],
+      "source_documents": [
+        "Data Retention Policy",
+        "Data Retention Policy",
+        "Customer Support Playbook",
+        "Customer Support Playbook",
+        "Contract Review Checklist"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 2,
+      "latency_s": 1.97,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7746942510200889,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What happens to deletions when there is a legal hold?",
+      "document": "Data Retention Policy",
+      "evidence": "deletion for the affected records is suspended",
+      "reference": "Deletion is suspended until the hold is lifted in writing.",
+      "tags": [],
+      "answer": "All deletions of affected records are suspended until the legal hold is lifted in writing. [1]",
+      "contexts": [
+        "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
+        "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval.",
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly."
+      ],
+      "source_documents": [
+        "Data Retention Policy",
+        "Contract Review Checklist",
+        "Data Retention Policy",
+        "Data Retention Policy",
+        "Information Security Standard"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.85,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7858654285278907,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "How many reviewers does a database migration need?",
+      "document": "Engineering Onboarding",
+      "evidence": "need two reviewers",
+      "reference": "Two reviewers, one from the platform team.",
+      "tags": [
+        "acl:engineering"
+      ],
+      "answer": "A database migration needs two reviewers, one from the platform team. [1]",
+      "contexts": [
+        "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team.",
+        "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
+        "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
+        "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval.",
+        "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window."
+      ],
+      "source_documents": [
+        "Engineering Onboarding",
+        "Procurement Guidelines",
+        "Procurement Guidelines",
+        "Contract Review Checklist",
+        "Contract Review Checklist"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.82,
+      "acl_leak": false,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9060716594818937,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "Can we deploy to production on Fridays?",
+      "document": "Engineering Onboarding",
+      "evidence": "Friday deployments are only allowed for hotfixes",
+      "reference": "Only hotfixes approved by the on-call engineering manager.",
+      "tags": [
+        "acl:engineering"
+      ],
+      "answer": "Yes, but only for hotfixes approved by the on-call engineering manager, and before 15:00. [1]",
+      "contexts": [
+        "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
+        "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
+        "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
+        "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team."
+      ],
+      "source_documents": [
+        "Engineering Onboarding",
+        "Information Security Standard",
+        "Engineering Onboarding",
+        "Information Security Standard",
+        "Engineering Onboarding"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.94,
+      "acl_leak": false,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.48811632012223843,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What is the maximum liability cap in customer contracts?",
+      "document": "Contract Review Checklist",
+      "evidence": "12 months of fees",
+      "reference": "12 months of fees.",
+      "tags": [
+        "acl:legal"
+      ],
+      "answer": "The maximum liability cap is **12 months of fees**. [1]",
+      "contexts": [
+        "Liability caps must not exceed 12 months of fees. Uncapped liability is only acceptable for confidentiality breaches and requires the general counsel's approval.",
+        "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window.",
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+        "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days."
+      ],
+      "source_documents": [
+        "Contract Review Checklist",
+        "Contract Review Checklist",
+        "Data Retention Policy",
+        "Data Retention Policy",
+        "Customer Support Playbook"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.83,
+      "acl_leak": false,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8296907170766478,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What notice period must customer contracts allow for termination?",
+      "document": "Contract Review Checklist",
+      "evidence": "90 days of written notice",
+      "reference": "90 days of written notice.",
+      "tags": [
+        "acl:legal"
+      ],
+      "answer": "Customer contracts must allow termination for convenience with **90 days’ written notice**. [1]",
+      "contexts": [
+        "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window.",
+        "The probation period lasts six months. Either party may end the contract with two weeks of notice during probation.",
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+        "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time."
+      ],
+      "source_documents": [
+        "Contract Review Checklist",
+        "Employee Handbook",
+        "Data Retention Policy",
+        "Employee Handbook",
+        "Customer Support Playbook"
+      ],
+      "evidence_rank": 1,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 1.71,
+      "acl_leak": false,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9151884033055456,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "Can I take my laptop home and connect from there?",
+      "document": "Employee Handbook",
+      "evidence": "up to three days per week",
+      "reference": "Remote work is allowed up to three days per week, with a VPN.",
+      "tags": [
+        "paraphrase"
+      ],
+      "answer": "You can work remotely up to three days per week, but you must use the company VPN for every remote session. [2]\n\nThe documents do not explicitly say whether you may take your laptop home.",
+      "contexts": [
+        "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+        "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
+        "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal."
+      ],
+      "source_documents": [
+        "Engineering Onboarding",
+        "Employee Handbook",
+        "Travel Policy",
+        "Information Security Standard",
+        "Employee Handbook"
+      ],
+      "evidence_rank": 2,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 3.84,
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.0,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "Who do I call when something suspicious happens on my account?",
+      "document": "Information Security Standard",
+      "evidence": "within one hour",
+      "reference": "Report it to the security team within one hour.",
+      "tags": [
+        "paraphrase"
+      ],
+      "answer": "If you suspect a security incident, report it to the security team within one hour. [3]",
+      "contexts": [
+        "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time.",
+        "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+        "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
+        "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
+        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer."
+      ],
+      "source_documents": [
+        "Customer Support Playbook",
+        "Engineering Onboarding",
+        "Information Security Standard",
+        "Customer Support Playbook",
+        "Data Retention Policy"
+      ],
+      "evidence_rank": 3,
+      "document_hit": true,
+      "cited": 1,
+      "latency_s": 2.88,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.5273095906266304,
+        "answer_correct": 1.0
+      }
+    },
+    {
+      "question": "What is the parental leave policy?",
+      "document": null,
+      "evidence": null,
+      "reference": "There is no answer in the documents.",
+      "tags": [
+        "no-answer"
+      ],
+      "answer": "I could not find the parental leave policy in the available documents.",
+      "contexts": [
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
+        "The daily meal allowance is 45 euros. Alcohol is never reimbursed."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Employee Handbook",
+        "Data Retention Policy",
+        "Travel Policy",
+        "Travel Policy"
+      ],
+      "evidence_rank": null,
+      "document_hit": false,
+      "cited": 0,
+      "latency_s": 2.04
+    },
+    {
+      "question": "How much is the annual training budget per engineer?",
+      "document": null,
+      "evidence": null,
+      "reference": "There is no answer in the documents.",
+      "tags": [
+        "no-answer"
+      ],
+      "answer": "I could not find the annual training budget per engineer in the available documents.",
+      "contexts": [
+        "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
+        "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+        "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+        "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal."
+      ],
+      "source_documents": [
+        "Engineering Onboarding",
+        "Engineering Onboarding",
+        "Engineering Onboarding",
+        "Travel Policy",
+        "Employee Handbook"
+      ],
+      "evidence_rank": null,
+      "document_hit": false,
+      "cited": 0,
+      "latency_s": 1.81
+    },
+    {
+      "question": "What is the company's dress code?",
+      "document": null,
+      "evidence": null,
+      "reference": "There is no answer in the documents.",
+      "tags": [
+        "no-answer"
+      ],
+      "answer": "I could not find the company’s dress code in the available documents.",
+      "contexts": [
+        "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+        "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team.",
+        "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+        "The probation period lasts six months. Either party may end the contract with two weeks of notice during probation.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours."
+      ],
+      "source_documents": [
+        "Employee Handbook",
+        "Engineering Onboarding",
+        "Employee Handbook",
+        "Employee Handbook",
+        "Travel Policy"
+      ],
+      "evidence_rank": null,
+      "document_hit": false,
+      "cited": 0,
+      "latency_s": 1.98
+    }
+  ],
+  "ragas": {
+    "judge": "gpt-6.1-terra",
+    "scores": {
+      "faithfulness": 0.9677,
+      "answer_relevancy": 0.7975,
+      "answer_correct": 0.9355
+    }
+  }
+}
