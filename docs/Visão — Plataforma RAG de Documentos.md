@@ -104,9 +104,9 @@ O controle mais importante é garantir que cada usuário só recupere chunks de 
 
 | Área | Controle |
 | --- | --- |
-| Autenticação | OIDC/JWT com provedor pronto (Keycloak, Auth0, Entra ID, Cognito) |
-| Autorização | ACL por documento (usuários, grupos, `tenant_id`) copiada para os chunks; filtro na query, nunca pós-filtro; Row-Level Security do Postgres como segunda barreira |
-| Upload | Tipo real validado pelos bytes, limite de tamanho, antivírus (ClamAV), parsing em worker isolado |
+| Autenticação | OIDC/JWT com **Keycloak** (open-source, auto-hospedável) como provedor padrão. Ele cuida de login, SSO, MFA, usuários, grupos e claims (grupos, papéis, `tenant_id`). A API só valida o JWT; por ser OIDC padrão, outro provedor pode substituí-lo sem mudar a aplicação |
+| Autorização | O Keycloak informa quem é o usuário e seus grupos; a decisão de acesso aos documentos fica na plataforma: ACL por documento (usuários, grupos, `tenant_id`) copiada para os chunks; filtro na query, nunca pós-filtro; Row-Level Security do Postgres como segunda barreira |
+| Upload | Tipo real validado pelos bytes, limite de tamanho, parsing em worker isolado |
 | Prompt injection | Chunks delimitados no prompt e tratados como dados; sem ferramentas com efeito colateral no fluxo de consulta; resposta escapada no front |
 | Dados pessoais (LGPD) | Detecção e mascaramento de CPF, e-mail e telefone na ingestão (Presidio com regras brasileiras); verificar local de processamento e retenção de APIs externas |
 | Infraestrutura | TLS em tudo, criptografia em repouso (S3 e Postgres), segredos em cofre, rate limiting por usuário no `/query` |
@@ -127,4 +127,3 @@ A fase 1 concentra o que é caro de adicionar depois (autenticação, ACL com RL
 - [ ] Qual LLM será usado na geração, e onde os dados podem ser processados?
 - [ ] A plataforma será multi-empresa (multi-tenant) desde o início?
 - [ ] Quais formatos de arquivo entram no escopo inicial?
-- [ ] Qual provedor de identidade a organização já usa?
