@@ -2,46 +2,53 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Estado do repositório
+## Repository state
 
-Fase de pré-implementação: o repositório contém apenas `LICENSE` e `docs/Visão — Plataforma RAG de Documentos.md` (fonte de verdade do design, em português). Ainda não há código, build, lint nem testes — não invente comandos; defina-os quando a stack for criada. Documentação e comunicação são em português.
+Pre-implementation: the repository contains only `LICENSE`, `README.md` and `docs/` (`docs/vision.md` is the source of truth for the design). There is no code, build, lint or tests yet — do not invent commands; define them when the stack is created.
 
-## O que é o projeto
+## Language
 
-Plataforma RAG de documentos (nome do repo: Macedon): recebe documentos, faz chunking preservando contexto, indexa em base vetorial e responde perguntas via API citando documento, versão, página e seção. Também gerencia versionamento e controle de acesso.
+All generated content is in English: README, docs, source code, comments, identifiers, commit messages. Only the chat with the user is in Portuguese.
 
-## Stack planejada
+## What the project is
 
-Python + FastAPI (valida JWT em toda requisição); Postgres + pgvector (índice HNSW) — sem banco vetorial dedicado no início; S3/MinIO para originais (um objeto por versão); fila de ingestão (Celery, RQ ou Arq) com workers; extração via Docling / PyMuPDF / python-docx; embeddings OpenAI `text-embedding-3-large`; busca híbrida (vetorial + full-text do Postgres) com reranker via API externa, serviço ainda a definir (candidato: Cohere Rerank; top 20–30 → top 5); geração por LLM da OpenAI (camada intermediária, ex. GPT-6.1 Terra; camada mini, ex. GPT-6 Luna, para Contextual Retrieval); avaliação com RAGAS (30–50 perguntas). Pipeline escrito direto, **sem LangChain/LlamaIndex**.
+Document RAG platform (repo name: Macedon): receives documents, chunks them preserving context, indexes them in a vector store and answers questions via API citing document, version, page and section. Also manages versioning and access control.
 
-Ingestão é assíncrona (upload responde na hora, processamento em worker); a consulta roda direto na API.
+## Planned stack
 
-## Invariantes de arquitetura
+Python + FastAPI (validates the JWT on every request); Postgres + pgvector (HNSW index) — no dedicated vector database at the start; S3/MinIO for originals (one object per version); ingestion queue (Celery, RQ or Arq) with workers; extraction via Docling / PyMuPDF (PDF), python-docx (DOCX), direct read (TXT) — initial formats: PDF, DOCX and TXT; OpenAI `text-embedding-3-large` embeddings; hybrid search (vector + Postgres full-text) with a reranker via external API, service still to be defined (candidate: Cohere Rerank; top 20–30 → top 5); generation with OpenAI LLMs (mid-tier, e.g. GPT-6.1 Terra; mini tier, e.g. GPT-6 Luna, for Contextual Retrieval); evaluation with RAGAS (30–50 questions). Pipeline written directly, **no LangChain/LlamaIndex**.
 
-- **Chunks pertencem à versão, não ao documento.** Tabelas: `documents` (identidade, ACL, `tenant_id`), `document_versions` (hash SHA-256, caminho S3, status `processing|active|archived`), `chunks` (texto, embedding, `version_id`, `section_id`, `position`, hash do texto, `embedding_model`, permissões).
-- **Uma versão ativa por documento.** Busca padrão filtra `status = 'active'`; versão histórica só via parâmetro explícito em `/query`.
-- **Troca atômica:** nova versão só vira ativa quando todos os chunks estiverem indexados; até lá a anterior responde.
-- **Deduplicação** por hash do arquivo; **reaproveitamento de embeddings** por hash do texto do chunk.
-- **Soft delete:** `DELETE` arquiva versões (preserva auditoria).
-- **Modelo de embedding é registrado por chunk** e fixado desde o início; trocar exige reindexar (em paralelo, sem derrubar a busca).
-- **Segurança na consulta:** ACL copiada para os chunks e aplicada *dentro* da query vetorial (nunca pós-filtro), com Row-Level Security do Postgres como segunda barreira. Auth, ACL/RLS e auditoria são prioridade da fase 1.
-- **Prompt injection:** chunks delimitados no prompt e tratados como dados; nenhuma ferramenta com efeito colateral no fluxo de consulta.
-- **Inferência 100% via API externa, nada local.** OpenAI é o provedor padrão, mas é projeto open-source: geração, embeddings e reranking ficam atrás de interfaces próprias (`LLMProvider`, `EmbeddingProvider`, `Reranker`) configuráveis por provedor/modelo/chave. Nunca acople o pipeline a um SDK específico. Os nomes de modelos vêm da página de modelos da OpenAI e mudam rápido: revalide antes de fixar.
-- **Identidade:** Keycloak (OIDC/JWT) é o provedor padrão, mas só autentica e fornece claims (grupos, papéis, `tenant_id`). A API apenas valida o JWT, sem depender de APIs específicas do Keycloak, para permitir trocar de provedor. A autorização sobre documentos/chunks (ACL + RLS) fica na plataforma, nunca delegada ao Keycloak.
-- Upload: validar tipo pelos bytes, limite de tamanho, parsing em worker isolado.
+Ingestion is asynchronous (upload responds immediately, processing in a worker); querying runs directly in the API.
 
-## Estratégia de chunking
+## Architecture invariants
 
-Ordem de adoção: (1) corte estrutural (seção > parágrafo > frase; 500–800 tokens, 10–15% de overlap; tabelas/listas inteiras), (2) prefixo com caminho do documento antes do embedding, (4) parent-child (indexar ~200 tokens, entregar o bloco pai), com (5) expansão por vizinhos N±1 como fallback para texto não estruturado. (3) Contextual Retrieval só se a avaliação mostrar chunks ambíguos perdidos. Chunking semântico por embeddings está fora de escopo.
+- **No multi-tenant at the start** (simplification decision): there is no `tenant_id`; the ACL is by users and groups. If multi-tenant becomes a requirement, revisit the ACL, RLS and the vector query filter.
+- **Expected volume:** ~5,000 documents per year; pgvector is more than enough. `text-embedding-3-large` has 3072 dimensions and pgvector's HNSW limits `vector` to 2000: decision is an embedding column of `halfvec(3072)` with an HNSW index, without reducing dimensions (plan B: `dimensions=1536`). The dimension is fixed; changing it requires reindexing.
+- **Chunks belong to the version, not the document.** Tables: `documents` (identity, ACL), `document_versions` (SHA-256 hash, S3 path, status `processing|active|archived`), `chunks` (text, embedding, `version_id`, `section_id`, `position`, text hash, `embedding_model`, permissions).
+- **One active version per document.** Default search filters `status = 'active'`; a historical version only via an explicit parameter on `/query`.
+- **Atomic switch:** a new version only becomes active when all its chunks are indexed; until then the previous one answers.
+- **Deduplication** by file hash; **embedding reuse** by chunk text hash.
+- **Soft delete:** `DELETE` archives versions (preserves audit).
+- **The embedding model is recorded per chunk** and fixed from the start; changing it requires reindexing (in parallel, without taking search down).
+- **Query security:** ACL copied to the chunks and applied *inside* the vector query (never post-filter), with Postgres Row-Level Security as a second barrier. Auth, ACL/RLS and audit are phase 1 priorities.
+- **Prompt injection:** chunks delimited in the prompt and treated as data; no tools with side effects in the query flow.
+- **Frontend:** Angular + Tailwind CSS + SpartanNG, for document management, versions and querying with sources. It is only an API client: no business or access rules in the frontend; OIDC login (Keycloak, Authorization Code + PKCE). The normative design system is `docs/ui-spec.md`; pages and flows go in separate feature specs. `docs/tech-stack.md` describes another project (STC) and does not apply to Macedon.
+- **Inference is 100% external API, nothing local.** OpenAI is the default provider, but this is an open-source project: generation, embeddings and reranking sit behind own interfaces (`LLMProvider`, `EmbeddingProvider`, `Reranker`) configurable by provider/model/key. Never couple the pipeline to a specific SDK. Model names come from the OpenAI models page and change fast: revalidate before fixing them.
+- **Identity:** Keycloak (OIDC/JWT) is the default provider, but it only authenticates and supplies claims (groups, roles). The API only validates the JWT, without depending on Keycloak-specific APIs, so the provider can be swapped. Authorization over documents/chunks (ACL + RLS) lives in the platform, never delegated to Keycloak.
+- Upload: validate type from the bytes, size limit, parsing in an isolated worker.
 
-Regra de recuperação unificada: cada chunk guarda `doc_id`, `section_id`, `position`; se a seção couber em ~1500 tokens envia-se a seção inteira, senão a janela de vizinhos.
+## Chunking strategy
 
-Qualquer mudança de chunking, modelo de embedding ou reranker deve ser medida com o conjunto de avaliação RAGAS.
+Adoption order: (1) structural splitting (section > paragraph > sentence; 500–800 tokens, 10–15% overlap; tables/lists whole), (2) document path prefix before embedding, (4) parent-child (index ~200 tokens, deliver the parent block), with (5) N±1 neighbor expansion as fallback for unstructured text. (3) Contextual Retrieval only if evaluation shows ambiguous chunks being missed. Semantic chunking by embeddings is out of scope.
 
-## API planejada
+Unified retrieval rule: each chunk stores `doc_id`, `section_id`, `position`; if the section fits in ~1500 tokens the whole section is sent, otherwise the neighbor window.
 
-`POST /documents`, `GET /documents/{id}`, `POST|GET /documents/{id}/versions`, `POST /documents/{id}/versions/{v}/activate` (também rollback), `DELETE /documents/{id}`, `POST /query` (resposta com fontes: documento, versão, página, seção).
+Any change to chunking, embedding model or reranker must be measured with the RAGAS evaluation set.
 
-## Questões em aberto
+## Planned API
 
-Volume esperado, local de processamento e retenção nas APIs externas, serviço de reranker, multi-tenant desde o início, formatos de arquivo iniciais. Veja o doc de visão antes de assumir qualquer uma dessas decisões.
+`POST /documents`, `GET /documents/{id}`, `POST|GET /documents/{id}/versions`, `POST /documents/{id}/versions/{v}/activate` (also rollback), `DELETE /documents/{id}`, `POST /query` (answer with sources: document, version, page, section).
+
+## Open questions
+
+None. Deferred decision: reranker service (see "Deferred decisions" in `docs/vision.md`; do not assume a provider). The README warns that document content is sent to external APIs, with no data masking.
