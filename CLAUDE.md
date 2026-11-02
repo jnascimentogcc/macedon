@@ -37,6 +37,10 @@ Ingestion is asynchronous (upload responds immediately, processing in a worker);
 - **Identity:** Keycloak (OIDC/JWT) is the default provider, but it only authenticates and supplies claims (groups, roles). The API only validates the JWT, without depending on Keycloak-specific APIs, so the provider can be swapped. Authorization over documents/chunks (ACL + RLS) lives in the platform, never delegated to Keycloak.
 - Upload: validate type from the bytes, size limit, parsing in an isolated worker.
 
+## CI
+
+GitHub Actions CI is part of the first code commit; do not add workflows before there is code to run. Start with lint/format, type checks, backend tests, the frontend build and a check that migrations apply from scratch; also enable Dependabot and secret scanning. Integration tests with Postgres + pgvector in a container come later. Do not run the RAGAS evaluation on every PR (it calls paid APIs and fork PRs have no secrets): keep it as a manual or scheduled job, and use mocked providers (`LLMProvider`, `EmbeddingProvider`) in PR tests.
+
 ## Chunking strategy
 
 Adoption order: (1) structural splitting (section > paragraph > sentence; 500–800 tokens, 10–15% overlap; tables/lists whole), (2) document path prefix before embedding, (4) parent-child (index ~200 tokens, deliver the parent block), with (5) N±1 neighbor expansion as fallback for unstructured text. (3) Contextual Retrieval only if evaluation shows ambiguous chunks being missed. Semantic chunking by embeddings is out of scope.
