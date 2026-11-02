@@ -128,9 +128,32 @@ Authentication, authorization with RLS and audit are a priority from the start: 
 
 ## Phased roadmap
 
-&#91;embedded content: roadmap · 3 phases, 2 milestones\]
-
 Phase 1 concentrates what is expensive to add later (authentication, ACL with RLS, audit and versioning). Phase 2 only starts with secure querying working end to end, and phase 3 starts from a metrics baseline to justify each evolution.
+
+### Phase 1: secure foundation
+
+- Postgres schema (`halfvec(3072)`, versions, ACL) with Row-Level Security.
+- Authentication with Keycloak and audit.
+- Ingestion of PDF, DOCX and TXT in an isolated worker, with structural chunking and path prefix.
+- Document and version endpoints, with atomic switch and rollback.
+- CI from the first commit of code.
+
+**Milestone 1:** secure querying working end to end, with `/query` filtering by ACL and citing sources.
+
+### Phase 2: quality and interface
+
+- Hybrid search, parent-child and neighbor expansion.
+- RAGAS evaluation set and metrics baseline.
+- Reranker (deferred decision, taken here).
+- Frontend: document and version management first, then the query screen.
+
+**Milestone 2:** metrics baseline measured.
+
+### Phase 3: metrics-driven evolution
+
+- Contextual Retrieval, only if evaluation shows ambiguous chunks being missed.
+- Text diff between versions, to review before activating.
+- Performance and cost tuning.
 
 ## Open questions
 
