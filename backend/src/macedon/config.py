@@ -22,6 +22,8 @@ class Settings(BaseSettings):
 
     oidc_issuer: str = "http://localhost:8080/realms/macedon"
     oidc_audience: str = "macedon-api"
+    oidc_jwks_url: str = "http://127.0.0.1:8080/realms/macedon/protocol/openid-connect/certs"
+    admin_role: str = "admin"
 
     max_upload_bytes: int = 50 * 1024 * 1024
 
