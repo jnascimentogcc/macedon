@@ -12,7 +12,7 @@ Plataforma RAG de documentos (nome do repo: Macedon): recebe documentos, faz chu
 
 ## Stack planejada
 
-Python + FastAPI (valida JWT em toda requisição); Postgres + pgvector (índice HNSW) — sem banco vetorial dedicado no início; S3/MinIO para originais (um objeto por versão); fila de ingestão (Celery, RQ ou Arq) com workers; extração via Docling / PyMuPDF / python-docx; embeddings BGE-M3 (local) ou API; busca híbrida (vetorial + full-text do Postgres) com reranker (top 20–30 → top 5); geração por LLM; avaliação com RAGAS (30–50 perguntas). Pipeline escrito direto, **sem LangChain/LlamaIndex**.
+Python + FastAPI (valida JWT em toda requisição); Postgres + pgvector (índice HNSW) — sem banco vetorial dedicado no início; S3/MinIO para originais (um objeto por versão); fila de ingestão (Celery, RQ ou Arq) com workers; extração via Docling / PyMuPDF / python-docx; embeddings OpenAI `text-embedding-3-large`; busca híbrida (vetorial + full-text do Postgres) com reranker via API externa, serviço ainda a definir (candidato: Cohere Rerank; top 20–30 → top 5); geração por LLM da OpenAI (camada intermediária, ex. GPT-6.1 Terra; camada mini, ex. GPT-6 Luna, para Contextual Retrieval); avaliação com RAGAS (30–50 perguntas). Pipeline escrito direto, **sem LangChain/LlamaIndex**.
 
 Ingestão é assíncrona (upload responde na hora, processamento em worker); a consulta roda direto na API.
 
@@ -26,8 +26,9 @@ Ingestão é assíncrona (upload responde na hora, processamento em worker); a c
 - **Modelo de embedding é registrado por chunk** e fixado desde o início; trocar exige reindexar (em paralelo, sem derrubar a busca).
 - **Segurança na consulta:** ACL copiada para os chunks e aplicada *dentro* da query vetorial (nunca pós-filtro), com Row-Level Security do Postgres como segunda barreira. Auth, ACL/RLS e auditoria são prioridade da fase 1.
 - **Prompt injection:** chunks delimitados no prompt e tratados como dados; nenhuma ferramenta com efeito colateral no fluxo de consulta.
+- **Inferência 100% via API externa, nada local.** OpenAI é o provedor padrão, mas é projeto open-source: geração, embeddings e reranking ficam atrás de interfaces próprias (`LLMProvider`, `EmbeddingProvider`, `Reranker`) configuráveis por provedor/modelo/chave. Nunca acople o pipeline a um SDK específico. Os nomes de modelos vêm da página de modelos da OpenAI e mudam rápido: revalide antes de fixar.
 - **Identidade:** Keycloak (OIDC/JWT) é o provedor padrão, mas só autentica e fornece claims (grupos, papéis, `tenant_id`). A API apenas valida o JWT, sem depender de APIs específicas do Keycloak, para permitir trocar de provedor. A autorização sobre documentos/chunks (ACL + RLS) fica na plataforma, nunca delegada ao Keycloak.
-- Upload: validar tipo pelos bytes, limite de tamanho, parsing em worker isolado. LGPD: mascarar CPF/e-mail/telefone na ingestão (Presidio).
+- Upload: validar tipo pelos bytes, limite de tamanho, parsing em worker isolado.
 
 ## Estratégia de chunking
 
@@ -43,4 +44,4 @@ Qualquer mudança de chunking, modelo de embedding ou reranker deve ser medida c
 
 ## Questões em aberto
 
-Volume esperado, embeddings local vs API, LLM e local de processamento, multi-tenant desde o início, formatos de arquivo iniciais. Veja o doc de visão antes de assumir qualquer uma dessas decisões.
+Volume esperado, local de processamento e retenção nas APIs externas, serviço de reranker, multi-tenant desde o início, formatos de arquivo iniciais. Veja o doc de visão antes de assumir qualquer uma dessas decisões.

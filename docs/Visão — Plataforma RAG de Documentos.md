@@ -44,12 +44,14 @@ A base é Python com FastAPI e Postgres com pgvector, o que evita manter um banc
 | Armazenamento de originais | S3 ou MinIO | Um objeto por versão |
 | Fila de ingestão | Celery, RQ ou Arq | Upload não bloqueia |
 | Extração de texto | Docling (PDF estruturado), PyMuPDF, python-docx | Docling preserva títulos e tabelas |
-| Embeddings | BGE-M3 (local) ou API (OpenAI, Voyage) | Modelo fixado desde o início; trocar exige reindexar |
+| Embeddings | API da OpenAI: `text-embedding-3-large` | Modelo fixado desde o início; trocar exige reindexar |
 | Banco vetorial | Postgres + pgvector, índice HNSW | Migrar para Qdrant só com milhões de chunks ou filtros pesados |
 | Busca por palavra-chave | Full-text do Postgres | Base da busca híbrida |
-| Reranker | bge-reranker ou Cohere Rerank | Reordena o top 20–30 |
-| Geração | LLM (ex.: Claude) | Responde citando as fontes |
+| Reranker | A definir (API externa) | Reordena o top 20–30; a OpenAI não oferece reranker. Candidato: Cohere Rerank |
+| Geração | OpenAI, camada intermediária (ex.: GPT-6.1 Terra) | Responde citando as fontes; camada mini (ex.: GPT-6 Luna) para o Contextual Retrieval |
 | Avaliação | RAGAS | Conjunto de 30–50 perguntas |
+
+**Provedores externos e troca de provedor.** Toda a inferência (embeddings, geração e reranking) usa APIs externas; nada roda localmente. A OpenAI é o provedor padrão, mas, por ser open-source, quem adotar o projeto pode usar outros. Geração, embeddings e reranking ficam atrás de interfaces próprias e pequenas (`LLMProvider`, `EmbeddingProvider`, `Reranker`), escolhidas por configuração (provedor, modelo, chave). Como cada chunk registra o `embedding_model`, trocar o provedor de embeddings se resolve reindexando em paralelo. Os modelos citados acima refletem a [página de modelos da OpenAI](https://developers.openai.com/api/docs/models/all) em nov/2026 e devem ser revalidados antes de fixar.
 
 LangChain e LlamaIndex ajudam a prototipar, mas o pipeline é simples o bastante para ser escrito direto, com menos abstração e mais controle.
 
@@ -108,7 +110,6 @@ O controle mais importante é garantir que cada usuário só recupere chunks de 
 | Autorização | O Keycloak informa quem é o usuário e seus grupos; a decisão de acesso aos documentos fica na plataforma: ACL por documento (usuários, grupos, `tenant_id`) copiada para os chunks; filtro na query, nunca pós-filtro; Row-Level Security do Postgres como segunda barreira |
 | Upload | Tipo real validado pelos bytes, limite de tamanho, parsing em worker isolado |
 | Prompt injection | Chunks delimitados no prompt e tratados como dados; sem ferramentas com efeito colateral no fluxo de consulta; resposta escapada no front |
-| Dados pessoais (LGPD) | Detecção e mascaramento de CPF, e-mail e telefone na ingestão (Presidio com regras brasileiras); verificar local de processamento e retenção de APIs externas |
 | Infraestrutura | TLS em tudo, criptografia em repouso (S3 e Postgres), segredos em cofre, rate limiting por usuário no `/query` |
 | Auditoria | Registro de upload, ativação, consulta e exclusão, incluindo os chunks usados em cada resposta |
 
@@ -123,7 +124,7 @@ A fase 1 concentra o que é caro de adicionar depois (autenticação, ACL com RL
 ## Questões em aberto
 
 - [ ] Qual o volume esperado de documentos e de chunks no primeiro ano?
-- [ ] Embeddings locais (BGE-M3) ou via API?
-- [ ] Qual LLM será usado na geração, e onde os dados podem ser processados?
+- [ ] Qual serviço de reranker usar (API externa; a OpenAI não oferece)?
+- [ ] Onde os dados podem ser processados e qual a retenção nas APIs externas (OpenAI e reranker)?
 - [ ] A plataforma será multi-empresa (multi-tenant) desde o início?
 - [ ] Quais formatos de arquivo entram no escopo inicial?
