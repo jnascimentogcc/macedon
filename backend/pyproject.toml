@@ -21,6 +21,8 @@ dependencies = [
     "httpx>=0.28",
     "python-multipart>=0.0.17",
     "boto3>=1.43.123",
+    "pymupdf>=2.0",
+    "python-docx>=1.2.0",
 ]
 
 [project.scripts]
@@ -60,3 +62,7 @@ testpaths = ["tests"]
 [[tool.mypy.overrides]]
 module = ["boto3", "botocore.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["macedon.ingestion.extract", "test_extract"]
+disallow_untyped_calls = false  # pymupdf and python-docx are only partially typed
