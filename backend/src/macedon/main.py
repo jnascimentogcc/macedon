@@ -5,6 +5,7 @@ from fastapi import Depends, FastAPI
 from macedon.auth import get_identity
 from macedon.db.identity import Identity
 from macedon.documents.router import router as documents_router
+from macedon.query.router import router as query_router
 
 
 def create_app() -> FastAPI:
@@ -23,6 +24,7 @@ def create_app() -> FastAPI:
         }
 
     app.include_router(documents_router)
+    app.include_router(query_router)
     return app
 
 

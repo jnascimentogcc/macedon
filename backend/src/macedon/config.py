@@ -27,8 +27,11 @@ class Settings(BaseSettings):
 
     max_upload_bytes: int = 50 * 1024 * 1024
 
+    query_rate_limit_per_minute: int = 30
+
     openai_api_key: SecretStr | None = None
     openai_base_url: str = "https://api.openai.com/v1"
+    llm_model: str = "gpt-6.1-terra"  # mid tier; see the OpenAI models page
     embedding_model: str = "text-embedding-3-large"
     embedding_dimensions: int = 3072  # must match the halfvec(3072) column
 
