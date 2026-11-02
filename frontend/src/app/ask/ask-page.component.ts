@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
+import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
-import { DocumentItem, DocumentsApi, QueryApi, QueryResult, errorKey } from '../core/api';
+import { DocumentItem, DocumentsApi, QueryApi, QueryResult, QueryScope, errorKey } from '../core/api';
+import { CollectionsStore, parseTags } from '../core/collections.store';
 import { MessageKey, TranslatePipe } from '../core/i18n';
 
 @Component({
   selector: 'app-ask-page',
-  imports: [FormsModule, RouterLink, TranslatePipe, HlmBadgeImports, HlmButtonImports, HlmLabelImports],
+  imports: [FormsModule, RouterLink, TranslatePipe, HlmBadgeImports, HlmButtonImports, HlmInputImports, HlmLabelImports],
   template: `
     <header class="mb-6">
       <h1 class="text-2xl font-bold">{{ 'ask.title' | t }}</h1>
@@ -40,18 +42,44 @@ import { MessageKey, TranslatePipe } from '../core/i18n';
         </div>
 
         <div class="flex flex-col gap-1.5">
-          <label hlmLabel for="scope">{{ 'ask.document' | t }}</label>
+          <label hlmLabel for="scope">{{ 'ask.scope' | t }}</label>
           <select
             id="scope"
             name="scope"
             class="border-input bg-background focus-visible:ring-ring/50 focus-visible:border-ring h-9 w-full rounded-md border px-2 text-sm outline-none focus-visible:ring-3"
-            [(ngModel)]="documentId"
+            [(ngModel)]="scope"
           >
-            <option [ngValue]="null">{{ 'ask.allDocuments' | t }}</option>
-            @for (doc of documents(); track doc.id) {
-              <option [ngValue]="doc.id">{{ doc.name }}</option>
+            <option value="">{{ 'ask.allDocuments' | t }}</option>
+            @if (store.ordered().length) {
+              <optgroup [label]="'ask.scopeCollections' | t">
+                @for (node of store.ordered(); track node.collection.id) {
+                  <option [value]="'c:' + node.collection.id">
+                    {{ '  '.repeat(node.collection.depth - 1) + node.collection.name }}
+                  </option>
+                }
+              </optgroup>
+            }
+            @if (documents().length) {
+              <optgroup [label]="'ask.scopeDocuments' | t">
+                @for (doc of documents(); track doc.id) {
+                  <option [value]="'d:' + doc.id">{{ doc.name }}</option>
+                }
+              </optgroup>
             }
           </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label hlmLabel for="ask-tags">{{ 'ask.tags' | t }}</label>
+          <input
+            id="ask-tags"
+            hlmInput
+            name="tags"
+            autocomplete="off"
+            aria-describedby="ask-tags-help"
+            [(ngModel)]="tagText"
+          />
+          <p id="ask-tags-help" class="text-muted-foreground text-xs">{{ 'tags.filterHelp' | t }}</p>
         </div>
 
         <button hlmBtn type="submit" [disabled]="busy()">
@@ -68,9 +96,7 @@ import { MessageKey, TranslatePipe } from '../core/i18n';
           <article class="bg-card rounded-lg border p-4">
             <h2 class="text-lg font-bold">{{ 'ask.answer' | t }}</h2>
             <p class="mt-2 whitespace-pre-wrap">{{ current.answer }}</p>
-            @if (current.model) {
-              <p class="text-muted-foreground mt-3 text-xs">{{ 'ask.model' | t: { model: current.model } }}</p>
-            }
+            <p class="text-muted-foreground mt-3 text-xs">{{ 'ask.disclaimer' | t }}</p>
           </article>
 
           <h2 class="mt-6 mb-2 text-lg font-bold">{{ 'ask.sources' | t }}</h2>
@@ -115,7 +141,9 @@ import { MessageKey, TranslatePipe } from '../core/i18n';
 })
 export class AskPageComponent implements OnInit {
   protected question = '';
-  protected documentId: string | null = null;
+  protected scope = '';
+  protected tagText = '';
+  protected readonly store = inject(CollectionsStore);
   protected readonly documents = signal<DocumentItem[]>([]);
   protected readonly result = signal<QueryResult | null>(null);
   protected readonly busy = signal(false);
@@ -128,6 +156,7 @@ export class AskPageComponent implements OnInit {
   private readonly documentsApi = inject(DocumentsApi);
 
   ngOnInit(): void {
+    this.store.load();
     this.documentsApi.list(100, 0, false).subscribe({
       next: (page) => this.documents.set(page.items.filter((doc) => doc.active_version)),
       error: () => undefined, // the scope selector is optional; asking still works
@@ -143,7 +172,7 @@ export class AskPageComponent implements OnInit {
     this.formError.set(null);
     this.failure.set(null);
     this.busy.set(true);
-    this.queryApi.ask(question, this.documentId).subscribe({
+    this.queryApi.ask(question, this.queryScope()).subscribe({
       next: (result) => {
         this.result.set(result);
         this.busy.set(false);
@@ -154,6 +183,15 @@ export class AskPageComponent implements OnInit {
         this.failure.set(this.messageFor(error));
       },
     });
+  }
+
+  private queryScope(): QueryScope {
+    const [kind, id] = this.scope.split(':');
+    return {
+      documentId: kind === 'd' ? (id ?? null) : null,
+      collectionId: kind === 'c' ? (id ?? null) : null,
+      tags: parseTags(this.tagText),
+    };
   }
 
   private messageFor(error: unknown): MessageKey {

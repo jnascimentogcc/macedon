@@ -25,4 +25,14 @@ async def test_cors_allows_the_frontend_origin_only() -> None:
         )
 
     assert allowed.headers["access-control-allow-origin"] == "http://localhost:4200"
+    for method in ("PATCH", "DELETE", "POST"):
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            preflight = await client.options(
+                "/documents/x",
+                headers={
+                    "Origin": "http://localhost:4200",
+                    "Access-Control-Request-Method": method,
+                },
+            )
+        assert preflight.status_code == 200, method
     assert "access-control-allow-origin" not in denied.headers

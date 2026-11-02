@@ -22,12 +22,32 @@ export interface DocumentItem {
   doc_type: string;
   owner_id: string;
   tags: string[];
+  collection_id: string | null;
   acl_users: string[];
   acl_groups: string[];
   created_at: string;
   archived_at: string | null;
   latest_version: DocumentVersion | null;
   active_version: DocumentVersion | null;
+}
+
+export interface Collection {
+  id: string;
+  parent_id: string | null;
+  name: string;
+  depth: number;
+  document_count: number;
+}
+
+export interface DocumentFilters {
+  collectionId: string | null;
+  tags: string[];
+}
+
+export interface DocumentChanges {
+  name?: string;
+  tags?: string[];
+  collection_id?: string | null;
 }
 
 export interface DocumentPage {
@@ -64,6 +84,8 @@ export interface UploadFields {
   file: File;
   name?: string;
   groups?: string[];
+  tags?: string[];
+  collectionId?: string | null;
 }
 
 /** Maps a failed request to an interface message the user can act on. */
@@ -88,11 +110,22 @@ export class DocumentsApi {
   private readonly http = inject(HttpClient);
   private readonly base = `${APP_CONFIG.apiUrl}/documents`;
 
-  list(limit: number, offset: number, includeArchived: boolean): Observable<DocumentPage> {
-    const params = new HttpParams()
+  list(
+    limit: number,
+    offset: number,
+    includeArchived: boolean,
+    filters: DocumentFilters = { collectionId: null, tags: [] },
+  ): Observable<DocumentPage> {
+    let params = new HttpParams()
       .set('limit', limit)
       .set('offset', offset)
       .set('include_archived', includeArchived);
+    if (filters.collectionId) {
+      params = params.set('collection_id', filters.collectionId);
+    }
+    for (const tag of filters.tags) {
+      params = params.append('tag', tag);
+    }
     return this.http.get<DocumentPage>(this.base, { params });
   }
 
@@ -113,7 +146,17 @@ export class DocumentsApi {
     for (const group of fields.groups ?? []) {
       body.append('acl_groups', group);
     }
+    for (const tag of fields.tags ?? []) {
+      body.append('tags', tag);
+    }
+    if (fields.collectionId) {
+      body.append('collection_id', fields.collectionId);
+    }
     return this.http.post<UploadResult>(this.base, body);
+  }
+
+  update(id: string, changes: DocumentChanges): Observable<DocumentItem> {
+    return this.http.patch<DocumentItem>(`${this.base}/${id}`, changes);
   }
 
   uploadVersion(id: string, file: File): Observable<UploadResult> {
@@ -135,10 +178,51 @@ export class DocumentsApi {
 export class QueryApi {
   private readonly http = inject(HttpClient);
 
-  ask(question: string, documentId: string | null): Observable<QueryResult> {
+  ask(question: string, scope: QueryScope): Observable<QueryResult> {
     return this.http.post<QueryResult>(`${APP_CONFIG.apiUrl}/query`, {
       question,
-      document_id: documentId,
+      document_id: scope.documentId,
+      collection_id: scope.collectionId,
+      tags: scope.tags,
     });
+  }
+}
+
+export interface QueryScope {
+  documentId: string | null;
+  collectionId: string | null;
+  tags: string[];
+}
+
+@Injectable({ providedIn: 'root' })
+export class CollectionsApi {
+  private readonly http = inject(HttpClient);
+  private readonly base = `${APP_CONFIG.apiUrl}/collections`;
+
+  list(): Observable<Collection[]> {
+    return this.http.get<Collection[]>(this.base);
+  }
+
+  create(name: string, parentId: string | null): Observable<Collection> {
+    return this.http.post<Collection>(this.base, { name, parent_id: parentId });
+  }
+
+  rename(id: string, name: string): Observable<Collection> {
+    return this.http.patch<Collection>(`${this.base}/${id}`, { name });
+  }
+
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${id}`);
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class MeApi {
+  private readonly http = inject(HttpClient);
+
+  get(): Observable<{ user_id: string; groups: string[]; is_admin: boolean }> {
+    return this.http.get<{ user_id: string; groups: string[]; is_admin: boolean }>(
+      `${APP_CONFIG.apiUrl}/me`,
+    );
   }
 }

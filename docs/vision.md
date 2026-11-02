@@ -21,7 +21,9 @@ The API covers three fronts: asynchronous ingestion, querying with sources, and 
 | Endpoint | Purpose |
 | --- | --- |
 | `POST /documents` | Uploads a new document (creates version 1) |
-| `GET /documents` | Lists the documents the caller can read, paginated |
+| `GET /documents` | Lists the documents the caller can read, paginated; filters `collection_id` (with descendants) and `tag` |
+| `PATCH /documents/{id}` | Renames, retags or moves a document (owner or admin) |
+| `GET /collections` | The collection tree (everyone); `POST`, `PATCH`, `DELETE` are admin only |
 | `GET /documents/{id}` | Returns metadata and processing status |
 | `POST /documents/{id}/versions` | Uploads a new version of the document |
 | `GET /documents/{id}/versions` | Lists the version history |

@@ -5,7 +5,9 @@ import { Router, RouterLink } from '@angular/router';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmTableImports } from '@spartan-ng/helm/table';
 import { DocumentItem, DocumentVersion, DocumentsApi, UploadResult, errorKey } from '../core/api';
+import { CollectionsStore } from '../core/collections.store';
 import { I18n, MessageKey, TranslatePipe } from '../core/i18n';
+import { EditDocumentDialogComponent } from './edit-document-dialog.component';
 import { ModalComponent } from '../shared/modal.component';
 import { StatusBadgeComponent } from '../shared/status-badge.component';
 import { UploadDialogComponent } from './upload-dialog.component';
@@ -20,6 +22,7 @@ const POLL_MS = 3000;
     TranslatePipe,
     HlmButtonImports,
     HlmTableImports,
+    EditDocumentDialogComponent,
     ModalComponent,
     StatusBadgeComponent,
     UploadDialogComponent,
@@ -44,6 +47,9 @@ const POLL_MS = 3000;
         </div>
         @if (!doc.archived_at) {
           <div class="flex flex-wrap gap-2">
+            <button hlmBtn variant="outline" type="button" (click)="editing.set(true)">
+              {{ 'edit.action' | t }}
+            </button>
             <button hlmBtn variant="secondary" type="button" (click)="uploading.set(true)">
               {{ 'detail.newVersion' | t }}
             </button>
@@ -89,6 +95,10 @@ const POLL_MS = 3000;
           <div>
             <dt class="text-muted-foreground text-xs">{{ 'detail.groups' | t }}</dt>
             <dd class="text-sm">{{ doc.acl_groups.length ? doc.acl_groups.join(', ') : ('common.none' | t) }}</dd>
+          </div>
+          <div>
+            <dt class="text-muted-foreground text-xs">{{ 'collections.one' | t }}</dt>
+            <dd class="text-sm">{{ store.pathName(doc.collection_id) || ('collections.none' | t) }}</dd>
           </div>
           <div>
             <dt class="text-muted-foreground text-xs">{{ 'detail.tags' | t }}</dt>
@@ -157,6 +167,13 @@ const POLL_MS = 3000;
       @if (uploading()) {
         <app-upload-dialog [documentId]="doc.id" (closed)="uploading.set(false)" (done)="uploaded($event)" />
       }
+      @if (editing()) {
+        <app-edit-document-dialog
+          [document]="doc"
+          (closed)="editing.set(false)"
+          (done)="edited($event)"
+        />
+      }
       @if (confirming()) {
         <app-modal [heading]="'detail.deleteTitle' | t" (closed)="confirming.set(false)">
           <p class="mb-6">{{ 'detail.deleteBody' | t: { name: doc.name } }}</p>
@@ -183,6 +200,8 @@ export class DocumentDetailComponent implements OnInit {
   protected readonly notice = signal('');
   protected readonly uploading = signal(false);
   protected readonly confirming = signal(false);
+  protected readonly editing = signal(false);
+  protected readonly store = inject(CollectionsStore);
   protected readonly activating = signal<number | null>(null);
   protected readonly processing = computed(() =>
     this.versions().some((version) => version.status === 'processing'),
@@ -194,6 +213,7 @@ export class DocumentDetailComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
+    this.store.load();
     this.load();
     const timer = setInterval(() => {
       if (this.processing()) {
@@ -231,6 +251,12 @@ export class DocumentDetailComponent implements OnInit {
       this.i18n.t(result.duplicate ? 'upload.duplicate' : 'upload.accepted'),
     );
     this.refresh(true);
+  }
+
+  protected edited(updated: DocumentItem): void {
+    this.editing.set(false);
+    this.document.set(updated);
+    this.store.load();
   }
 
   protected activate(version: DocumentVersion): void {

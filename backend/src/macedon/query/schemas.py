@@ -9,6 +9,14 @@ class QueryRequest(BaseModel):
     document_id: uuid.UUID | None = Field(
         default=None, description="Limit the search to one document."
     )
+    collection_id: uuid.UUID | None = Field(
+        default=None, description="Limit the search to this collection and its subcollections."
+    )
+    tags: list[str] = Field(
+        default_factory=list,
+        max_length=20,
+        description="Limit the search to documents that have all of these tags.",
+    )
     version: int | None = Field(
         default=None,
         ge=1,

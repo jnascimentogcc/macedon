@@ -37,6 +37,7 @@ JOIN document_versions v ON v.id = c.version_id
 JOIN documents d ON d.id = c.document_id
 WHERE d.archived_at IS NULL
   AND {scope}
+  {filters}
   AND (
         CAST(:is_admin AS boolean)
         OR CAST(:user_id AS text) = ANY (c.acl_users)
@@ -110,12 +111,16 @@ async def search(
     *,
     document_id: uuid.UUID | None = None,
     version: int | None = None,
+    collection_id: uuid.UUID | None = None,
+    tags: list[str] | None = None,
     limit: int = 5,
 ) -> list[Hit]:
     """Return the best `limit` chunks the caller may read, best first.
 
     By default only active versions are searched. With `document_id` the search is limited to
     that document, and with `version` as well it targets that (possibly historical) version.
+    `collection_id` limits it to that collection and everything below it, and `tags` to documents
+    that carry all of them. Both are written into the SQL, like the ACL.
     """
     params: dict[str, object] = {
         "is_admin": identity.is_admin,
@@ -133,12 +138,25 @@ async def search(
         params["document_id"] = document_id
         params["version"] = version
 
+    filters = ""
+    if collection_id is not None:
+        filters += (
+            "AND d.collection_id IN (SELECT s.id FROM collections s "
+            "JOIN collections r ON r.id = :collection_id "
+            "WHERE starts_with(s.path, r.path)) "
+        )
+        params["collection_id"] = collection_id
+    if tags:
+        filters += "AND d.tags @> CAST(:tags AS text[]) "
+        params["tags"] = list(tags)
+
     # Filtered HNSW searches may need to keep scanning to fill the limit (pgvector 0.8+).
     await session.execute(text("SELECT set_config('hnsw.iterative_scan', 'relaxed_order', true)"))
     vector_rows = await session.execute(
         text(
             _SELECT.format(
                 scope=scope,
+                filters=filters,
                 extra="",
                 order="c.embedding <=> CAST(CAST(:query_vector AS text) AS halfvec)",
             )
@@ -154,6 +172,7 @@ async def search(
             text(
                 _SELECT.format(
                     scope=scope,
+                    filters=filters,
                     extra="AND c.tsv @@ to_tsquery('simple', :tsquery)",
                     order="ts_rank_cd(c.tsv, to_tsquery('simple', :tsquery)) DESC, c.id",
                 )

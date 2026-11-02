@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class VersionOut(BaseModel):
@@ -20,6 +20,7 @@ class DocumentOut(BaseModel):
     doc_type: str
     owner_id: str
     tags: list[str]
+    collection_id: uuid.UUID | None
     acl_users: list[str]
     acl_groups: list[str]
     created_at: datetime
@@ -39,3 +40,12 @@ class DocumentPage(BaseModel):
     total: int
     limit: int
     offset: int
+
+
+class DocumentUpdate(BaseModel):
+    """Fields left out stay as they are; `collection_id: null` takes the document out of its
+    collection."""
+
+    name: str | None = Field(default=None, min_length=1, max_length=255)
+    tags: list[str] | None = None
+    collection_id: uuid.UUID | None = None

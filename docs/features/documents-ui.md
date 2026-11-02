@@ -13,9 +13,19 @@ the API (ACL + RLS), so the UI shows what the API returns and explains its refus
 
 | Route | Purpose |
 | --- | --- |
-| `/documents` | Paginated table (name, type, latest version status, active version, created), "show archived" filter, upload dialog. Refreshes by itself while a version is processing. |
-| `/documents/:id` | Metadata, version table, upload a new version, make an archived version active (rollback), archive the document (with confirmation). |
-| `/ask` | Question form, optional "search in" document, answer with sources (document, version, page, section, cited or not, passage on demand). |
+| `/documents` | Collection tree on the left (counts include subcollections; administrators create, rename and delete), tag filter, paginated table (name and tags, collection, type, latest version status, active version, created), "show archived" filter, upload dialog. Refreshes by itself while a version is processing. |
+| `/documents/:id` | Metadata (collection, tags), edit details (name, collection, tags; owner only), version table, upload a new version, make an archived version active (rollback), archive the document (with confirmation). |
+| `/ask` | Question form, "search in" a collection (and its subcollections) or one document, optional tag filter, answer with sources (document, version, page, section, cited or not, passage on demand). |
+
+## Organization
+
+- Collections are a tree (one parent, four levels at most) that anyone signed in can read and only
+  administrators change. A document lives in at most one collection and carries free tags.
+- Organization never grants access: the ACL stays on each document, and a scoped query returns
+  only what the caller could already read. The tree and its names are visible to everyone.
+- Tags are stored lowercase, joined with `-`, at most 20 per document and 40 characters each.
+- Queries and the document list filter by collection (with descendants) and by tags (all must
+  match); the filter is part of the SQL, like the ACL.
 
 ## States and messages
 
@@ -34,5 +44,5 @@ the API (ACL + RLS), so the UI shows what the API returns and explains its refus
 
 ## Not covered yet
 
-Tags and per-user ACL editing, text diff between versions (phase 3), and a visual review at all
+Editing a document's ACL, moving a collection under another parent, bulk moves, text diff between versions (phase 3), and a visual review at all
 breakpoints and in dark mode.

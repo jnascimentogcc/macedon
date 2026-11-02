@@ -4,6 +4,7 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from macedon.auth import get_identity
+from macedon.collections.router import router as collections_router
 from macedon.config import get_settings
 from macedon.db.identity import Identity
 from macedon.documents.router import router as documents_router
@@ -15,7 +16,7 @@ def create_app() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=get_settings().cors_origins,
-        allow_methods=["GET", "POST", "DELETE"],
+        allow_methods=["GET", "POST", "PATCH", "DELETE"],
         allow_headers=["Authorization", "Content-Type"],
     )
 
@@ -31,6 +32,7 @@ def create_app() -> FastAPI:
             "is_admin": identity.is_admin,
         }
 
+    app.include_router(collections_router)
     app.include_router(documents_router)
     app.include_router(query_router)
     return app

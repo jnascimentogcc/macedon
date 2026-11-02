@@ -94,6 +94,8 @@ async def seed(
     acl_groups: tuple[str, ...] = (),
     archived: bool = False,
     page: int | None = 3,
+    collection_id: uuid.UUID | None = None,
+    tags: tuple[str, ...] = (),
 ) -> uuid.UUID:
     """Insert a document (first call) and one indexed version, as the worker would leave it."""
     new_document = document_id is None
@@ -104,9 +106,10 @@ async def seed(
             await conn.execute(
                 text(
                     "INSERT INTO documents "
-                    "(id, name, doc_type, owner_id, acl_users, acl_groups, archived_at) "
+                    "(id, name, doc_type, owner_id, acl_users, acl_groups, archived_at, "
+                    "collection_id, tags) "
                     "VALUES (:id, :name, 'txt', 'alice', :users, :groups, "
-                    "CASE WHEN :archived THEN now() END)"
+                    "CASE WHEN :archived THEN now() END, :collection, :tags)"
                 ),
                 {
                     "id": document_id,
@@ -114,6 +117,8 @@ async def seed(
                     "users": list(acl_users),
                     "groups": list(acl_groups),
                     "archived": archived,
+                    "collection": collection_id,
+                    "tags": list(tags),
                 },
             )
         await conn.execute(

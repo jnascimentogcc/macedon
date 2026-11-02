@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from macedon.audit import record_audit
 from macedon.db.identity import Identity
+from macedon.documents.tags import normalize_tags
 from macedon.ingestion.embeddings import EmbeddingProvider
 from macedon.llm import LLMProvider
 from macedon.query import prompt
@@ -37,6 +38,8 @@ async def answer_question(
         vector,
         document_id=request.document_id,
         version=request.version,
+        collection_id=request.collection_id,
+        tags=normalize_tags(request.tags),
         limit=request.top_k,
     )
     passages = await build_passages(session, hits)
@@ -50,6 +53,8 @@ async def answer_question(
         details={
             "question": request.question[:AUDITED_QUESTION_CHARS],
             "version": request.version,
+            "collection_id": str(request.collection_id) if request.collection_id else None,
+            "tags": request.tags,
             "passages": len(passages),
         },
     )

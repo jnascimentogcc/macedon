@@ -16,6 +16,19 @@ class Base(DeclarativeBase):
     pass
 
 
+class Collection(Base):
+    """A node of the tree that organizes documents. Organization only, never access."""
+
+    __tablename__ = "collections"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    parent_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("collections.id"))
+    name: Mapped[str] = mapped_column(String(120))
+    path: Mapped[str] = mapped_column(Text)  # "/<ancestor id>/.../<own id>/"
+    depth: Mapped[int] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class Document(Base):
     __tablename__ = "documents"
 
@@ -24,6 +37,7 @@ class Document(Base):
     doc_type: Mapped[str] = mapped_column(String(16))
     owner_id: Mapped[str] = mapped_column(String(255))
     tags: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
+    collection_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("collections.id"))
     acl_users: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
     acl_groups: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

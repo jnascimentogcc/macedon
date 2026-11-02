@@ -3,19 +3,27 @@ import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile, status
-from sqlalchemy import func, select, update
+from sqlalchemy import ColumnElement, func, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import aliased
 
 from macedon.audit import record_audit
 from macedon.auth import get_identity
 from macedon.config import Settings, get_settings
 from macedon.db.identity import Identity
-from macedon.db.models import Document, DocumentVersion
+from macedon.db.models import Collection, Document, DocumentVersion
 from macedon.db.session import get_session
 from macedon.documents.queue import JobQueue, get_job_queue
-from macedon.documents.schemas import DocumentOut, DocumentPage, UploadOut, VersionOut
+from macedon.documents.schemas import (
+    DocumentOut,
+    DocumentPage,
+    DocumentUpdate,
+    UploadOut,
+    VersionOut,
+)
 from macedon.documents.storage import ObjectStore, get_object_store
+from macedon.documents.tags import InvalidTagError, normalize_tags
 from macedon.documents.validation import UnsupportedFileError, detect_document_type
 
 router = APIRouter(prefix="/documents", tags=["documents"])
@@ -53,6 +61,18 @@ def _require_manager(document: Document, identity: Identity) -> None:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "only the owner can change this document")
     if document.archived_at is not None:
         raise HTTPException(status.HTTP_409_CONFLICT, "document is archived")
+
+
+def _clean_tags(tags: list[str] | None) -> list[str]:
+    try:
+        return normalize_tags(tags)
+    except InvalidTagError as exc:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
+
+
+async def _require_collection(session: AsyncSession, collection_id: uuid.UUID | None) -> None:
+    if collection_id is not None and await session.get(Collection, collection_id) is None:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "collection not found")
 
 
 async def _versions(session: AsyncSession, document_id: uuid.UUID) -> list[DocumentVersion]:
@@ -117,6 +137,7 @@ async def upload_document(
     file: Annotated[UploadFile, File()],
     name: Annotated[str | None, Form()] = None,
     tags: Annotated[list[str] | None, Form()] = None,
+    collection_id: Annotated[uuid.UUID | None, Form()] = None,
     acl_users: Annotated[list[str] | None, Form()] = None,
     acl_groups: Annotated[list[str] | None, Form()] = None,
 ) -> UploadOut:
@@ -127,12 +148,15 @@ async def upload_document(
     except UnsupportedFileError as exc:
         raise HTTPException(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, str(exc)) from exc
 
+    clean_tags = _clean_tags(tags)
+    await _require_collection(session, collection_id)
     document = Document(
         id=uuid.uuid4(),
         name=name or file.filename or "untitled",
         doc_type=doc_type,
         owner_id=identity.user_id,
-        tags=tags or [],
+        tags=clean_tags,
+        collection_id=collection_id,
         # The owner can always read their own document.
         acl_users=sorted({identity.user_id, *(acl_users or [])}),
         acl_groups=sorted(set(acl_groups or [])),
@@ -158,9 +182,29 @@ async def list_documents(
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
     offset: Annotated[int, Query(ge=0)] = 0,
     include_archived: bool = False,
+    collection_id: Annotated[
+        uuid.UUID | None, Query(description="Only documents in this collection or below.")
+    ] = None,
+    tag: Annotated[
+        list[str] | None, Query(description="Only documents with all these tags.")
+    ] = None,
 ) -> DocumentPage:
     """The documents the caller can read, newest first. Row-Level Security does the filtering."""
-    conditions = [] if include_archived else [Document.archived_at.is_(None)]
+    conditions: list[ColumnElement[bool]] = (
+        [] if include_archived else [Document.archived_at.is_(None)]
+    )
+    if collection_id is not None:
+        root = aliased(Collection)
+        conditions.append(
+            Document.collection_id.in_(
+                select(Collection.id)
+                .join(root, root.id == collection_id)
+                .where(func.starts_with(Collection.path, root.path))
+            )
+        )
+    wanted_tags = _clean_tags(tag)
+    if wanted_tags:
+        conditions.append(Document.tags.contains(wanted_tags))
     total = (
         await session.execute(select(func.count()).select_from(Document).where(*conditions))
     ).scalar_one()
@@ -195,6 +239,26 @@ async def list_documents(
 @router.get("/{document_id}", response_model=DocumentOut)
 async def get_document(document_id: uuid.UUID, session: SessionDep) -> DocumentOut:
     return await _document_out(session, await _load_document(session, document_id))
+
+
+@router.patch("/{document_id}", response_model=DocumentOut)
+async def update_document(
+    document_id: uuid.UUID, body: DocumentUpdate, session: SessionDep, identity: IdentityDep
+) -> DocumentOut:
+    """Rename, retag or move a document. Only its owner or an administrator can."""
+    document = await _load_document(session, document_id)
+    _require_manager(document, identity)
+    fields = body.model_fields_set
+    if "name" in fields and body.name is not None:
+        document.name = body.name.strip()
+    if "tags" in fields:
+        document.tags = _clean_tags(body.tags)
+    if "collection_id" in fields:
+        await _require_collection(session, body.collection_id)
+        document.collection_id = body.collection_id
+    await session.flush()
+    await record_audit(session, identity, "update", document_id=document.id)
+    return await _document_out(session, document)
 
 
 @router.post(

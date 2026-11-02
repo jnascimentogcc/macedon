@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, OnInit, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { DocumentsApi, UploadResult } from '../core/api';
+import { CollectionsStore, parseTags } from '../core/collections.store';
 import { MessageKey, TranslatePipe } from '../core/i18n';
 import { ModalComponent } from '../shared/modal.component';
 
@@ -61,6 +62,38 @@ import { ModalComponent } from '../shared/modal.component';
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
+            <label hlmLabel for="upload-collection">
+              {{ 'collections.one' | t }} <span class="text-muted-foreground">{{ 'common.optional' | t }}</span>
+            </label>
+            <select
+              id="upload-collection"
+              name="collection"
+              class="border-input bg-background focus-visible:ring-ring/50 focus-visible:border-ring h-9 w-full rounded-md border px-2 text-sm outline-none focus-visible:ring-3"
+              [(ngModel)]="collectionId"
+            >
+              <option [ngValue]="null">{{ 'collections.none' | t }}</option>
+              @for (node of store.ordered(); track node.collection.id) {
+                <option [ngValue]="node.collection.id">
+                  {{ '  '.repeat(node.collection.depth - 1) + node.collection.name }}
+                </option>
+              }
+            </select>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label hlmLabel for="upload-tags">
+              {{ 'tags.label' | t }} <span class="text-muted-foreground">{{ 'common.optional' | t }}</span>
+            </label>
+            <input
+              id="upload-tags"
+              hlmInput
+              name="tags"
+              autocomplete="off"
+              aria-describedby="upload-tags-help"
+              [(ngModel)]="tags"
+            />
+            <p id="upload-tags-help" class="text-muted-foreground text-xs">{{ 'tags.help' | t }}</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
             <label hlmLabel for="upload-groups">
               {{ 'upload.groups' | t }} <span class="text-muted-foreground">{{ 'common.optional' | t }}</span>
             </label>
@@ -96,17 +129,25 @@ import { ModalComponent } from '../shared/modal.component';
     </app-modal>
   `,
 })
-export class UploadDialogComponent {
+export class UploadDialogComponent implements OnInit {
   readonly documentId = input<string | null>(null);
+  readonly defaultCollectionId = input<string | null>(null);
   readonly done = output<UploadResult>();
   readonly closed = output<void>();
 
   protected name = '';
+  protected tags = '';
+  protected collectionId: string | null = null;
+  protected readonly store = inject(CollectionsStore);
   protected groups = '';
   protected readonly busy = signal(false);
   protected readonly error = signal<MessageKey | null>(null);
   private file: File | null = null;
   private readonly api = inject(DocumentsApi);
+
+  ngOnInit(): void {
+    this.collectionId = this.defaultCollectionId();
+  }
 
   protected pick(event: Event): void {
     this.file = (event.target as HTMLInputElement).files?.item(0) ?? null;
@@ -124,6 +165,8 @@ export class UploadDialogComponent {
       : this.api.upload({
           file: this.file,
           name: this.name.trim() || undefined,
+          tags: parseTags(this.tags),
+          collectionId: this.collectionId,
           groups: this.groups
             .split(',')
             .map((group) => group.trim())
@@ -150,8 +193,9 @@ export class UploadDialogComponent {
         case 413:
           return 'upload.tooLarge';
         case 415:
-        case 422:
           return 'upload.unsupported';
+        case 422:
+          return this.documentId() ? 'upload.unsupported' : 'tags.invalid';
       }
     }
     return 'common.unknownError';
