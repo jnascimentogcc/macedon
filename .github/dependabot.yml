@@ -4,6 +4,12 @@ updates:
     directory: /backend
     schedule:
       interval: weekly
+    ignore:
+      # The evaluation group pins these on purpose: newer releases broke the RAGAS run
+      # (see backend/eval/README.md). Bump them by hand, together, and re-run the evaluation.
+      - dependency-name: ragas
+      - dependency-name: langchain-community
+      - dependency-name: langchain-openai
   - package-ecosystem: npm
     directory: /frontend
     schedule:
