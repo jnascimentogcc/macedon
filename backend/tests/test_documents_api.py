@@ -92,7 +92,9 @@ async def api(app_engine: AsyncEngine) -> AsyncIterator[Api]:
     app.dependency_overrides[get_engine] = lambda: app_engine
     app.dependency_overrides[get_object_store] = lambda: fake_store
     app.dependency_overrides[get_job_queue] = lambda: fake_queue
-    app.dependency_overrides[get_settings] = lambda: Settings(max_upload_bytes=1024)
+    app.dependency_overrides[get_settings] = lambda: Settings(
+        max_upload_bytes=1024, known_groups=["engineering", "legal"]
+    )
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         instance = Api(client, current)
         instance.store, instance.queue = fake_store, fake_queue
@@ -145,6 +147,22 @@ async def test_upload_adds_extra_acl_entries_but_keeps_the_owner(api: Api) -> No
     document = response.json()["document"]
     assert document["acl_users"] == ["alice", "bob"]
     assert document["acl_groups"] == ["legal"]
+
+
+async def test_upload_rejects_groups_nobody_knows(api: Api) -> None:
+    response = await api.upload(acl_groups=["legl"])
+
+    assert response.status_code == 422
+    assert "legl" in response.json()["detail"]
+    assert api.queue.enqueued == []
+
+
+async def test_groups_lists_the_configured_ones_and_the_callers_own(api: Api) -> None:
+    api.as_user(Identity(user_id="carol", groups=("sales",)))
+
+    response = await api.get("/groups")
+
+    assert response.json() == ["engineering", "legal", "sales"]
 
 
 @pytest.mark.parametrize(

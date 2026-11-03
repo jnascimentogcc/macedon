@@ -8,6 +8,7 @@ from macedon.collections.router import router as collections_router
 from macedon.config import get_settings
 from macedon.db.identity import Identity
 from macedon.documents.router import router as documents_router
+from macedon.groups import router as groups_router
 from macedon.query.router import router as query_router
 
 
@@ -32,6 +33,7 @@ def create_app() -> FastAPI:
             "is_admin": identity.is_admin,
         }
 
+    app.include_router(groups_router)
     app.include_router(collections_router)
     app.include_router(documents_router)
     app.include_router(query_router)

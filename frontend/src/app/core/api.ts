@@ -217,6 +217,16 @@ export class CollectionsApi {
 }
 
 @Injectable({ providedIn: 'root' })
+export class GroupsApi {
+  private readonly http = inject(HttpClient);
+
+  /** Groups a document can be shared with. */
+  list(): Observable<string[]> {
+    return this.http.get<string[]>(`${APP_CONFIG.apiUrl}/groups`);
+  }
+}
+
+@Injectable({ providedIn: 'root' })
 export class MeApi {
   private readonly http = inject(HttpClient);
 

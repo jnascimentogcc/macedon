@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:4200"]  # browser origins allowed to call the API
     oidc_jwks_url: str = "http://127.0.0.1:8080/realms/macedon/protocol/openid-connect/certs"
     admin_role: str = "admin"
+    # Groups a document can be shared with, besides the caller's own (JSON list in the env).
+    known_groups: list[str] = []
 
     max_upload_bytes: int = 50 * 1024 * 1024
 

@@ -25,6 +25,7 @@ from macedon.documents.schemas import (
 from macedon.documents.storage import ObjectStore, get_object_store
 from macedon.documents.tags import InvalidTagError, normalize_tags
 from macedon.documents.validation import UnsupportedFileError, detect_document_type
+from macedon.groups import available_groups
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -150,6 +151,11 @@ async def upload_document(
 
     clean_tags = _clean_tags(tags)
     await _require_collection(session, collection_id)
+    unknown = set(acl_groups or []) - set(available_groups(settings, identity))
+    if unknown:
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_CONTENT, f"unknown groups: {', '.join(sorted(unknown))}"
+        )
     document = Document(
         id=uuid.uuid4(),
         name=name or file.filename or "untitled",

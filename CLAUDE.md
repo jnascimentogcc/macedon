@@ -66,7 +66,7 @@ Any change to chunking, embedding model or reranker must be measured with the RA
 
 ## Planned API
 
-`GET|POST /collections`, `PATCH|DELETE /collections/{id}`, `POST /documents`, `GET /documents`, `GET|PATCH /documents/{id}`, `POST|GET /documents/{id}/versions`, `POST /documents/{id}/versions/{v}/activate` (also rollback), `DELETE /documents/{id}`, `POST /query` (answer with sources: document, version, page, section).
+`GET /groups` (configured `MACEDON_KNOWN_GROUPS` plus the caller's own; uploads naming any other group get 422), `GET|POST /collections`, `PATCH|DELETE /collections/{id}`, `POST /documents`, `GET /documents`, `GET|PATCH /documents/{id}`, `POST|GET /documents/{id}/versions`, `POST /documents/{id}/versions/{v}/activate` (also rollback), `DELETE /documents/{id}`, `POST /query` (answer with sources: document, version, page, section).
 
 ## Open questions
 

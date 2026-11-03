@@ -105,7 +105,9 @@ async def main(top_k: int, out: Path) -> None:
     app.dependency_overrides[get_identity] = lambda: current[0]
     app.dependency_overrides[get_engine] = lambda: engine
     app.dependency_overrides[get_job_queue] = lambda: InlineQueue()
-    app.dependency_overrides[get_settings] = lambda: Settings(query_rate_limit_per_minute=10_000)
+    app.dependency_overrides[get_settings] = lambda: Settings(
+        query_rate_limit_per_minute=10_000, known_groups=["engineering", "legal"]
+    )
     truncate = text(
         "TRUNCATE chunks, document_versions, documents, audit_log RESTART IDENTITY CASCADE"
     )

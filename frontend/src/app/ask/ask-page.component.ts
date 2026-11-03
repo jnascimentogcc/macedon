@@ -93,6 +93,10 @@ import { MessageKey, TranslatePipe } from '../core/i18n';
             {{ key | t }}
           </div>
         } @else if (result(); as current) {
+          <div class="bg-muted mb-4 rounded-lg border p-4">
+            <h2 class="text-muted-foreground text-xs font-medium uppercase">{{ 'ask.asked' | t }}</h2>
+            <p class="mt-1 text-lg font-bold break-words whitespace-pre-wrap">{{ asked() }}</p>
+          </div>
           <article class="bg-card rounded-lg border p-4">
             <h2 class="text-lg font-bold">{{ 'ask.answer' | t }}</h2>
             <p class="mt-2 whitespace-pre-wrap">{{ current.answer }}</p>
@@ -146,6 +150,7 @@ export class AskPageComponent implements OnInit {
   protected readonly store = inject(CollectionsStore);
   protected readonly documents = signal<DocumentItem[]>([]);
   protected readonly result = signal<QueryResult | null>(null);
+  protected readonly asked = signal('');
   protected readonly busy = signal(false);
   protected readonly failure = signal<MessageKey | null>(null);
   protected readonly formError = signal<MessageKey | null>(null);
@@ -171,6 +176,9 @@ export class AskPageComponent implements OnInit {
     }
     this.formError.set(null);
     this.failure.set(null);
+    this.result.set(null);
+    this.asked.set(question);
+    this.question = '';
     this.busy.set(true);
     this.queryApi.ask(question, this.queryScope()).subscribe({
       next: (result) => {

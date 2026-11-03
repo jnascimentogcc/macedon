@@ -67,25 +67,26 @@ interface NamingTarget {
       <section aria-labelledby="documents-heading">
         <h2 id="documents-heading" class="sr-only">{{ 'documents.table' | t }}</h2>
 
-        <form class="mb-4 flex flex-wrap items-end gap-3" (ngSubmit)="applyTags()">
-          <div class="flex min-w-48 flex-1 flex-col gap-1.5">
-            <label hlmLabel for="tag-filter">{{ 'tags.filter' | t }}</label>
+        <form class="mb-4" (ngSubmit)="applyTags()">
+          <label hlmLabel for="tag-filter" class="mb-1.5">{{ 'tags.filter' | t }}</label>
+          <div class="flex flex-wrap items-center gap-3">
             <input
               id="tag-filter"
               hlmInput
+              class="min-w-48 flex-1"
               name="tags"
               autocomplete="off"
               aria-describedby="tag-filter-help"
               [(ngModel)]="tagText"
             />
-            <p id="tag-filter-help" class="text-muted-foreground text-xs">{{ 'tags.filterHelp' | t }}</p>
+            <button hlmBtn variant="secondary" type="submit">{{ 'tags.apply' | t }}</button>
+            @if (tags().length) {
+              <button hlmBtn variant="ghost" type="button" (click)="clearTags()">
+                {{ 'tags.clear' | t }}
+              </button>
+            }
           </div>
-          <button hlmBtn variant="secondary" type="submit">{{ 'tags.apply' | t }}</button>
-          @if (tags().length) {
-            <button hlmBtn variant="ghost" type="button" (click)="clearTags()">
-              {{ 'tags.clear' | t }}
-            </button>
-          }
+          <p id="tag-filter-help" class="text-muted-foreground mt-1.5 text-xs">{{ 'tags.filterHelp' | t }}</p>
         </form>
 
         <div class="mb-4 flex items-center gap-2">

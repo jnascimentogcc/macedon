@@ -58,7 +58,8 @@ export const EN = {
   'upload.nameHelp': 'Defaults to the file name.',
   'upload.groups': 'Groups with access',
   'upload.groupsHelp':
-    'Comma-separated group names. You and administrators always have access; leave empty to keep it private.',
+    'You and administrators always have access; select none to keep it private.',
+  'upload.groupsNone': 'No groups are available to share with.',
   'upload.submit': 'Upload',
   'upload.submitting': 'Uploading…',
   'upload.fileRequired': 'Choose a file to upload.',
@@ -105,6 +106,7 @@ export const EN = {
   'ask.submit': 'Ask',
   'ask.submitting': 'Searching…',
   'ask.answer': 'Answer',
+  'ask.asked': 'Your question',
   'ask.disclaimer': 'Check the sources before relying on this answer.',
   'ask.sources': 'Sources',
   'ask.noSources': 'No source was found for this question.',
