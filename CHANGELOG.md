@@ -14,6 +14,11 @@ All notable changes to this project are documented here. The format follows
   audited as `acl_update`. Groups must be known (`MACEDON_KNOWN_GROUPS` or the caller's own), except
   ones the document already has, which can always be kept or dropped.
 
+### Fixed
+
+- Answers are asked to be plain text: the interface shows them as written, so Markdown such as
+  `**bold**` appeared with literal asterisks.
+
 ### Changed
 
 - Migration 0003: the owner of a document can update the ACL columns of its chunks; the
