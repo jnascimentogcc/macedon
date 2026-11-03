@@ -107,11 +107,14 @@ async def test_non_admin_cannot_write_chunks(app_engine: AsyncEngine) -> None:
 
     async with app_engine.begin() as conn:
         await apply_identity(conn, ALICE)
-        result = await conn.execute(
-            text("UPDATE chunks SET content = 'tampered' WHERE version_id = :v"),
-            {"v": version_id},
-        )
-        assert result.rowcount == 0  # the write policy hides every row from non-admins
+        with pytest.raises(DBAPIError):  # the owner may re-share (ACL columns), never rewrite
+            await conn.execute(
+                text("UPDATE chunks SET content = 'tampered' WHERE version_id = :v"),
+                {"v": version_id},
+            )
+
+    async with app_engine.begin() as conn:
+        await apply_identity(conn, ALICE)
         with pytest.raises(DBAPIError):
             await conn.execute(
                 text(
@@ -126,6 +129,21 @@ async def test_non_admin_cannot_write_chunks(app_engine: AsyncEngine) -> None:
         await apply_identity(conn, ALICE)
         result = await conn.execute(text("SELECT content FROM chunks"))
         assert result.scalar_one() == "c"
+
+
+async def test_only_the_owner_can_change_the_acl_on_chunks(app_engine: AsyncEngine) -> None:
+    document_id, _ = await make_document(
+        app_engine, owner="alice", acl_users=["alice", "bob"]
+    )  # bob can read the chunks, but does not own the document
+    update = text("UPDATE chunks SET acl_groups = ARRAY['legal'] WHERE document_id = :d")
+
+    async with app_engine.begin() as conn:
+        await apply_identity(conn, BOB)
+        assert (await conn.execute(update, {"d": document_id})).rowcount == 0
+
+    async with app_engine.begin() as conn:
+        await apply_identity(conn, ALICE)
+        assert (await conn.execute(update, {"d": document_id})).rowcount == 1
 
 
 async def test_non_owner_cannot_add_a_version(app_engine: AsyncEngine) -> None:

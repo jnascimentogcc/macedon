@@ -48,6 +48,7 @@ export interface DocumentChanges {
   name?: string;
   tags?: string[];
   collection_id?: string | null;
+  acl_groups?: string[];
 }
 
 export interface DocumentPage {
