@@ -4,6 +4,25 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/). Before 1.0.0, minor versions may include breaking changes.
 
+## [0.1.1] - 2026-11-03
+
+Maintenance release: dependency updates and a packaging fix. No behaviour changes.
+
+### Changed
+
+- Updated runtime and build dependencies: `uvicorn` 0.54, `sqlalchemy` 2.1.6, `pyjwt` 2.15.1,
+  `uv-build` 0.13, `@ng-icons/core` and `@ng-icons/lucide` 36. The full backend test suite and the
+  frontend build and tests pass with them.
+- Updated GitHub Actions: `actions/checkout` 7, `actions/setup-node` 7 and `astral-sh/setup-uv` 7.
+- Dependabot no longer proposes TypeScript major updates (Angular 22 supports only TypeScript 6.0)
+  or updates to `ragas`, `langchain-community` and `langchain-openai`, which the evaluation group
+  pins on purpose.
+
+### Fixed
+
+- `uv build` of the backend package failed because `pyproject.toml` pointed its `readme` at a file
+  outside the package; the field was removed.
+
 ## [0.1.0] - 2026-11-03
 
 First release: a working document RAG platform with a secure foundation, a web interface and an
@@ -47,4 +66,5 @@ evaluation baseline.
 - The web interface has not been reviewed visually at every breakpoint or in dark mode.
 - The dev stack is not hardened and must not be exposed.
 
+[0.1.1]: https://github.com/jnascimentogcc/macedon/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jnascimentogcc/macedon/releases/tag/v0.1.0
