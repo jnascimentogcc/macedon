@@ -5,9 +5,14 @@ the answer and an `evidence` phrase that must appear in a retrieved passage for 
 count as a hit. Questions with `document=None` have no answer in the corpus: the system should say
 so instead of inventing one. `acl` is the group allowed to read the document (None = everyone),
 used by the access-control checks.
+
+The scoped part (`SCOPED_DOCS`, `SCOPED_QUESTIONS`) covers collection and tag filters. The original
+documents are placed in a collection tree and tagged (`PLACEMENT`), which does not change the
+unscoped questions. The scoped documents are ingested after the unscoped baseline has been
+measured, so their confusable passages never disturb it.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 Section = tuple[str, list[str]]
 
@@ -17,6 +22,8 @@ class Doc:
     name: str
     sections: list[Section]
     group: str | None = None
+    collection: str | None = None  # slash-separated path in the collection tree
+    tags: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -282,6 +289,110 @@ DOCS: list[Doc] = [
     ),
 ]
 
+PLACEMENT: dict[str, tuple[str, list[str]]] = {
+    "Travel Policy": ("Group/Policies", ["travel", "finance"]),
+    "Employee Handbook": ("Group/Policies", ["hr"]),
+    "Information Security Standard": ("Group/Security", ["security"]),
+    "Procurement Guidelines": ("Group/Policies", ["finance"]),
+    "Customer Support Playbook": ("Group/Support", ["support"]),
+    "Data Retention Policy": ("Group/Security", ["security", "legal"]),
+    "Engineering Onboarding": ("Group/Engineering", ["engineering", "hr"]),
+    "Contract Review Checklist": ("Group/Legal", ["legal"]),
+}
+DOCS = [
+    replace(doc, collection=PLACEMENT[doc.name][0], tags=PLACEMENT[doc.name][1]) for doc in DOCS
+]
+
+# Regional variants that answer the same questions as the group-wide documents with other facts.
+SCOPED_DOCS: list[Doc] = [
+    Doc(
+        "Germany Travel Addendum",
+        [
+            (
+                "Flights",
+                [
+                    "For the German subsidiary, business class needs written approval from "
+                    "the regional director and is allowed for flights longer than four hours.",
+                ],
+            ),
+            (
+                "Hotels",
+                [
+                    "The nightly hotel limit for the German subsidiary is 150 euros in "
+                    "capital cities and 100 euros elsewhere.",
+                ],
+            ),
+            (
+                "Claims",
+                [
+                    "German subsidiary expense claims must be filed within 20 days of the "
+                    "end of the trip.",
+                ],
+            ),
+        ],
+        collection="Subsidiaries/Germany",
+        tags=["travel", "germany"],
+    ),
+    Doc(
+        "Brazil Travel Addendum",
+        [
+            (
+                "Flights",
+                [
+                    "For the Brazilian subsidiary, business class needs written approval "
+                    "from the country manager and is allowed for flights longer than five "
+                    "hours.",
+                ],
+            ),
+            (
+                "Hotels",
+                [
+                    "The nightly hotel limit for the Brazilian subsidiary is 600 reais in "
+                    "capital cities and 400 reais elsewhere.",
+                ],
+            ),
+            (
+                "Claims",
+                [
+                    "Brazilian subsidiary expense claims must be filed within 15 days of "
+                    "the end of the trip.",
+                ],
+            ),
+        ],
+        collection="Subsidiaries/Brazil",
+        tags=["travel", "brazil"],
+    ),
+    Doc(
+        "Germany Handbook Addendum",
+        [
+            (
+                "Vacation",
+                [
+                    "Employees of the German subsidiary accrue 30 days of paid vacation per year.",
+                ],
+            ),
+            (
+                "Remote work",
+                [
+                    "German employees may work remotely up to two days per week.",
+                ],
+            ),
+        ],
+        collection="Subsidiaries/Germany",
+        tags=["hr", "germany"],
+    ),
+]
+ALL_DOCS: list[Doc] = [*DOCS, *SCOPED_DOCS]
+
+
+def in_scope(doc: Doc, collection: str | None, tags: list[str]) -> bool:
+    """Whether a query scoped to a collection subtree and to all of these tags can see the doc."""
+    if collection is not None and not (
+        doc.collection == collection or (doc.collection or "").startswith(collection + "/")
+    ):
+        return False
+    return set(tags) <= set(doc.tags)
+
 
 QUESTIONS: list[Question] = [
     # Travel Policy
@@ -509,5 +620,181 @@ QUESTIONS: list[Question] = [
         None,
         "There is no answer in the documents.",
         ["no-answer"],
+    ),
+]
+
+
+@dataclass(frozen=True)
+class ScopedQuestion:
+    """A question asked inside a collection subtree and/or a tag filter.
+
+    `document` is the document that answers it within the scope (None when nothing in scope
+    does, so the system must abstain). `compare_unscoped` also asks it without the scope, to
+    measure what the scope adds when similar documents compete. `acl` repeats it as a user
+    outside the restricted document's group, who must get no passage of it.
+    """
+
+    question: str
+    document: str | None
+    evidence: str | None
+    reference: str
+    kind: str
+    collection: str | None = None
+    tags: list[str] = field(default_factory=list)
+    compare_unscoped: bool = False
+    acl: bool = False
+
+
+NO_ANSWER = "There is no answer in the documents."
+HOTEL = "What is the nightly hotel limit in capital cities?"
+CLAIMS = "How long do I have to file an expense claim after a trip?"
+BUSINESS = "Who has to approve business class flights?"
+VACATION = "How many vacation days do employees get per year?"
+PAYMENT = "What is the standard payment term for invoices?"
+
+SCOPED_QUESTIONS: list[ScopedQuestion] = [
+    # Ambiguous: similar documents compete, the scope picks one
+    ScopedQuestion(
+        HOTEL,
+        "Germany Travel Addendum",
+        "150 euros in capital cities",
+        "150 euros in capital cities (German subsidiary).",
+        "ambiguous",
+        collection="Subsidiaries/Germany",
+        compare_unscoped=True,
+    ),
+    ScopedQuestion(
+        HOTEL,
+        "Brazil Travel Addendum",
+        "600 reais in capital cities",
+        "600 reais in capital cities (Brazilian subsidiary).",
+        "ambiguous",
+        collection="Subsidiaries/Brazil",
+        compare_unscoped=True,
+    ),
+    ScopedQuestion(
+        HOTEL,
+        "Travel Policy",
+        "180 euros in capital cities",
+        "180 euros in capital cities.",
+        "ambiguous",
+        collection="Group/Policies",
+        compare_unscoped=True,
+    ),
+    ScopedQuestion(
+        CLAIMS,
+        "Brazil Travel Addendum",
+        "within 15 days",
+        "Within 15 days of the end of the trip.",
+        "ambiguous",
+        collection="Subsidiaries/Brazil",
+        compare_unscoped=True,
+    ),
+    ScopedQuestion(
+        BUSINESS,
+        "Germany Travel Addendum",
+        "regional director",
+        "The regional director, in writing.",
+        "ambiguous",
+        tags=["germany"],
+        compare_unscoped=True,
+    ),
+    ScopedQuestion(
+        VACATION,
+        "Germany Handbook Addendum",
+        "30 days of paid vacation",
+        "30 days of paid vacation per year.",
+        "ambiguous",
+        collection="Subsidiaries",
+        compare_unscoped=True,
+    ),
+    # Tags: all of them must match
+    ScopedQuestion(
+        BUSINESS,
+        "Brazil Travel Addendum",
+        "country manager",
+        "The country manager, in writing.",
+        "ambiguous",
+        tags=["travel", "brazil"],
+        compare_unscoped=True,
+    ),
+    # Subtree: a scope on the parent includes its children and excludes its siblings
+    ScopedQuestion(
+        VACATION,
+        "Employee Handbook",
+        "25 days of paid vacation",
+        "25 days of paid vacation per year.",
+        "subtree",
+        collection="Group",
+        compare_unscoped=True,
+    ),
+    ScopedQuestion(
+        "How many days per week can employees work remotely?",
+        "Germany Handbook Addendum",
+        "up to two days per week",
+        "Up to two days per week.",
+        "subtree",
+        collection="Subsidiaries",
+    ),
+    # In scope, nothing to compete with
+    ScopedQuestion(
+        "How long are production database backups retained?",
+        "Information Security Standard",
+        "retained for 35 days",
+        "35 days.",
+        "in-scope",
+        collection="Group/Security",
+    ),
+    ScopedQuestion(
+        PAYMENT,
+        "Procurement Guidelines",
+        "45 days after invoice receipt",
+        "45 days after invoice receipt.",
+        "in-scope",
+        tags=["finance"],
+    ),
+    # Nothing in scope answers: abstain and show nothing from outside the scope
+    ScopedQuestion(
+        "How long does the probation period last?",
+        None,
+        None,
+        NO_ANSWER,
+        "out-of-scope",
+        collection="Subsidiaries/Brazil",
+    ),
+    ScopedQuestion(
+        "What is the daily meal allowance?",
+        None,
+        None,
+        NO_ANSWER,
+        "out-of-scope",
+        collection="Subsidiaries",
+    ),
+    ScopedQuestion(
+        PAYMENT,
+        None,
+        None,
+        NO_ANSWER,
+        "out-of-scope",
+        tags=["finance", "germany"],
+    ),
+    # Access control still applies inside a scope
+    ScopedQuestion(
+        "How many reviewers does a database migration need?",
+        "Engineering Onboarding",
+        "two reviewers",
+        "Two reviewers, one of them from the platform team.",
+        "acl",
+        collection="Group/Engineering",
+        acl=True,
+    ),
+    ScopedQuestion(
+        "What notice period must customer contracts allow for termination?",
+        "Contract Review Checklist",
+        "90 days of written notice",
+        "90 days of written notice.",
+        "acl",
+        tags=["legal"],
+        acl=True,
     ),
 ]
