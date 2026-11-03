@@ -1,10 +1,14 @@
 """Score the answers saved by run.py with RAGAS (LLM-as-judge; calls paid APIs).
 
-    uv run --group eval python eval/ragas_score.py [--results eval/results/baseline.json]
+    uv run --group eval python eval/ragas_score.py [--results eval/results/baseline.json] [--scoped]
 
 Adds faithfulness (is the answer supported by the retrieved passages), response relevancy and
 answer correctness (a binary judge against the reference answer) to the results file. The judge
 uses the same provider settings as the application.
+
+With `--scoped` it scores only the scoped questions that compete with similar documents (the
+`ambiguous` ones), where the scope decides which document answers, and stores the result under
+`scoped.ragas`.
 """
 
 import argparse
@@ -31,14 +35,19 @@ class FixedTemperatureChatOpenAI(ChatOpenAI):
         return payload
 
 
-def main(results_path: Path) -> None:
+def main(results_path: Path, scoped: bool) -> None:
     settings = get_settings()
     if settings.openai_api_key is None:
         raise SystemExit("MACEDON_OPENAI_API_KEY is not set")
     key = settings.openai_api_key.get_secret_value()
 
     report = json.loads(results_path.read_text(encoding="utf-8"))
-    rows = [r for r in report["rows"] if r["document"] is not None]
+    section = report["scoped"] if scoped else report
+    rows = [
+        r
+        for r in section["rows"]
+        if r["document"] is not None and (not scoped or r["kind"] == "ambiguous")
+    ]
     dataset = EvaluationDataset.from_list(
         [
             {
@@ -84,7 +93,7 @@ def main(results_path: Path) -> None:
         row["ragas"] = {
             c: (None if scored[c] != scored[c] else float(scored[c])) for c in metric_columns
         }
-    report["ragas"] = {"judge": settings.llm_model, "scores": scores}
+    section["ragas"] = {"judge": settings.llm_model, "scores": scores}
     results_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps(scores, indent=2))
 
@@ -92,4 +101,6 @@ def main(results_path: Path) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--results", type=Path, default=Path("eval/results/baseline.json"))
-    main(parser.parse_args().results)
+    parser.add_argument("--scoped", action="store_true")
+    args = parser.parse_args()
+    main(args.results, args.scoped)

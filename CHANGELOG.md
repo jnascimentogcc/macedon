@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- The evaluation covers collection and tag scopes: 3 regional documents that compete with the
+  group-wide ones, 16 scoped questions (ambiguous, subtree, tags, out of scope, access control)
+  and scoped metrics in `baseline.json`. The 34 unscoped questions are unchanged.
+
 ## [0.2.0] - 2026-11-03
 
 The groups a document is shared with can now be changed after the upload.

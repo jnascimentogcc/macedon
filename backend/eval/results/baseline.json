@@ -1093,5 +1093,580 @@
       "answer_relevancy": 0.8158,
       "answer_correct": 0.9355
     }
+  },
+  "scoped": {
+    "date": "2026-11-03T15:39:05+00:00",
+    "metrics": {
+      "questions": 16,
+      "answerable": 13,
+      "top_k": 5,
+      "scoped_evidence_hit@5": 1.0,
+      "scoped_evidence_hit@1": 1.0,
+      "scoped_mrr": 1.0,
+      "out_of_scope_sources": 0,
+      "out_of_scope_abstained": 1.0,
+      "compared_questions": 8,
+      "unscoped_evidence_hit@1": 0.25,
+      "scoped_evidence_hit@1_on_compared": 1.0,
+      "unscoped_evidence_hit@5": 1.0,
+      "scoped_evidence_hit@5_on_compared": 1.0,
+      "acl_leaks": 0,
+      "latency_p50_s": 1.9899999999999998
+    },
+    "rows": [
+      {
+        "question": "What is the nightly hotel limit in capital cities?",
+        "kind": "ambiguous",
+        "collection": "Subsidiaries/Germany",
+        "scope_tags": [],
+        "document": "Germany Travel Addendum",
+        "evidence": "150 euros in capital cities",
+        "reference": "150 euros in capital cities (German subsidiary).",
+        "answer": "The nightly hotel limit in capital cities is €150 for the German subsidiary. [1]",
+        "contexts": [
+          "The nightly hotel limit for the German subsidiary is 150 euros in capital cities and 100 euros elsewhere.",
+          "For the German subsidiary, business class needs written approval from the regional director and is allowed for flights longer than four hours.",
+          "German subsidiary expense claims must be filed within 20 days of the end of the trip.",
+          "German employees may work remotely up to two days per week.",
+          "Employees of the German subsidiary accrue 30 days of paid vacation per year."
+        ],
+        "source_documents": [
+          "Germany Travel Addendum",
+          "Germany Travel Addendum",
+          "Germany Travel Addendum",
+          "Germany Handbook Addendum",
+          "Germany Handbook Addendum"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.98,
+        "unscoped_evidence_rank": 2,
+        "unscoped_source_documents": [
+          "Travel Policy",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Travel Policy",
+          "Travel Policy"
+        ],
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.8064421765196864,
+          "answer_correct": 1.0
+        }
+      },
+      {
+        "question": "What is the nightly hotel limit in capital cities?",
+        "kind": "ambiguous",
+        "collection": "Subsidiaries/Brazil",
+        "scope_tags": [],
+        "document": "Brazil Travel Addendum",
+        "evidence": "600 reais in capital cities",
+        "reference": "600 reais in capital cities (Brazilian subsidiary).",
+        "answer": "The nightly hotel limit in capital cities is 600 reais. [1]",
+        "contexts": [
+          "The nightly hotel limit for the Brazilian subsidiary is 600 reais in capital cities and 400 reais elsewhere.",
+          "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours.",
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip."
+        ],
+        "source_documents": [
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 1.97,
+        "unscoped_evidence_rank": 3,
+        "unscoped_source_documents": [
+          "Travel Policy",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Travel Policy",
+          "Travel Policy"
+        ],
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0000000000000002,
+          "answer_correct": 1.0
+        }
+      },
+      {
+        "question": "What is the nightly hotel limit in capital cities?",
+        "kind": "ambiguous",
+        "collection": "Group/Policies",
+        "scope_tags": [],
+        "document": "Travel Policy",
+        "evidence": "180 euros in capital cities",
+        "reference": "180 euros in capital cities.",
+        "answer": "The nightly hotel limit in capital cities is 180 euros. [1]",
+        "contexts": [
+          "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
+          "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
+          "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
+          "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+          "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session."
+        ],
+        "source_documents": [
+          "Travel Policy",
+          "Travel Policy",
+          "Travel Policy",
+          "Travel Policy",
+          "Employee Handbook"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 1.67,
+        "unscoped_evidence_rank": 1,
+        "unscoped_source_documents": [
+          "Travel Policy",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Travel Policy",
+          "Travel Policy"
+        ],
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.9999996103162432,
+          "answer_correct": 1.0
+        }
+      },
+      {
+        "question": "How long do I have to file an expense claim after a trip?",
+        "kind": "ambiguous",
+        "collection": "Subsidiaries/Brazil",
+        "scope_tags": [],
+        "document": "Brazil Travel Addendum",
+        "evidence": "within 15 days",
+        "reference": "Within 15 days of the end of the trip.",
+        "answer": "You have 15 days after the trip ends to file an expense claim for the Brazilian subsidiary. [1]",
+        "contexts": [
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
+          "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours.",
+          "The nightly hotel limit for the Brazilian subsidiary is 600 reais in capital cities and 400 reais elsewhere."
+        ],
+        "source_documents": [
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 1.8,
+        "unscoped_evidence_rank": 3,
+        "unscoped_source_documents": [
+          "Travel Policy",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Travel Policy",
+          "Travel Policy"
+        ],
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.790198535018592,
+          "answer_correct": 1.0
+        }
+      },
+      {
+        "question": "Who has to approve business class flights?",
+        "kind": "ambiguous",
+        "collection": null,
+        "scope_tags": [
+          "germany"
+        ],
+        "document": "Germany Travel Addendum",
+        "evidence": "regional director",
+        "reference": "The regional director, in writing.",
+        "answer": "The regional director must provide written approval for business class flights for the German subsidiary. [1]",
+        "contexts": [
+          "For the German subsidiary, business class needs written approval from the regional director and is allowed for flights longer than four hours.",
+          "The nightly hotel limit for the German subsidiary is 150 euros in capital cities and 100 euros elsewhere.",
+          "German subsidiary expense claims must be filed within 20 days of the end of the trip.",
+          "Employees of the German subsidiary accrue 30 days of paid vacation per year.",
+          "German employees may work remotely up to two days per week."
+        ],
+        "source_documents": [
+          "Germany Travel Addendum",
+          "Germany Travel Addendum",
+          "Germany Travel Addendum",
+          "Germany Handbook Addendum",
+          "Germany Handbook Addendum"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 1.73,
+        "unscoped_evidence_rank": 2,
+        "unscoped_source_documents": [
+          "Travel Policy",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Information Security Standard",
+          "Customer Support Playbook"
+        ],
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.7636925713299362,
+          "answer_correct": 1.0
+        }
+      },
+      {
+        "question": "How many vacation days do employees get per year?",
+        "kind": "ambiguous",
+        "collection": "Subsidiaries",
+        "scope_tags": [],
+        "document": "Germany Handbook Addendum",
+        "evidence": "30 days of paid vacation",
+        "reference": "30 days of paid vacation per year.",
+        "answer": "Employees of the German subsidiary accrue 30 days of paid vacation per year. [1]",
+        "contexts": [
+          "Employees of the German subsidiary accrue 30 days of paid vacation per year.",
+          "German employees may work remotely up to two days per week.",
+          "German subsidiary expense claims must be filed within 20 days of the end of the trip.",
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
+          "For the German subsidiary, business class needs written approval from the regional director and is allowed for flights longer than four hours."
+        ],
+        "source_documents": [
+          "Germany Handbook Addendum",
+          "Germany Handbook Addendum",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Germany Travel Addendum"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.08,
+        "unscoped_evidence_rank": 2,
+        "unscoped_source_documents": [
+          "Employee Handbook",
+          "Germany Handbook Addendum",
+          "Employee Handbook",
+          "Employee Handbook",
+          "Germany Handbook Addendum"
+        ],
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.6560226055324281,
+          "answer_correct": 1.0
+        }
+      },
+      {
+        "question": "Who has to approve business class flights?",
+        "kind": "ambiguous",
+        "collection": null,
+        "scope_tags": [
+          "travel",
+          "brazil"
+        ],
+        "document": "Brazil Travel Addendum",
+        "evidence": "country manager",
+        "reference": "The country manager, in writing.",
+        "answer": "For the Brazilian subsidiary, the country manager must approve business class flights in writing. [1]",
+        "contexts": [
+          "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours.",
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
+          "The nightly hotel limit for the Brazilian subsidiary is 600 reais in capital cities and 400 reais elsewhere."
+        ],
+        "source_documents": [
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.87,
+        "unscoped_evidence_rank": 3,
+        "unscoped_source_documents": [
+          "Travel Policy",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Information Security Standard",
+          "Customer Support Playbook"
+        ],
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.7193957051993554,
+          "answer_correct": 1.0
+        }
+      },
+      {
+        "question": "How many vacation days do employees get per year?",
+        "kind": "subtree",
+        "collection": "Group",
+        "scope_tags": [],
+        "document": "Employee Handbook",
+        "evidence": "25 days of paid vacation",
+        "reference": "25 days of paid vacation per year.",
+        "answer": "Full-time employees accrue 25 days of paid vacation per year. [1]",
+        "contexts": [
+          "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
+          "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
+          "Employees must notify their manager before 10:00 on the first day of sick leave. A medical certificate is required after three consecutive days of absence.",
+          "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+          "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days."
+        ],
+        "source_documents": [
+          "Employee Handbook",
+          "Employee Handbook",
+          "Employee Handbook",
+          "Travel Policy",
+          "Data Retention Policy"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.19,
+        "unscoped_evidence_rank": 1,
+        "unscoped_source_documents": [
+          "Employee Handbook",
+          "Germany Handbook Addendum",
+          "Employee Handbook",
+          "Employee Handbook",
+          "Germany Handbook Addendum"
+        ]
+      },
+      {
+        "question": "How many days per week can employees work remotely?",
+        "kind": "subtree",
+        "collection": "Subsidiaries",
+        "scope_tags": [],
+        "document": "Germany Handbook Addendum",
+        "evidence": "up to two days per week",
+        "reference": "Up to two days per week.",
+        "answer": "German employees may work remotely up to two days per week. [1]",
+        "contexts": [
+          "German employees may work remotely up to two days per week.",
+          "Employees of the German subsidiary accrue 30 days of paid vacation per year.",
+          "German subsidiary expense claims must be filed within 20 days of the end of the trip.",
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
+          "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours."
+        ],
+        "source_documents": [
+          "Germany Handbook Addendum",
+          "Germany Handbook Addendum",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.01
+      },
+      {
+        "question": "How long are production database backups retained?",
+        "kind": "in-scope",
+        "collection": "Group/Security",
+        "scope_tags": [],
+        "document": "Information Security Standard",
+        "evidence": "retained for 35 days",
+        "reference": "35 days.",
+        "answer": "Production database backups are retained for 35 days. [1]",
+        "contexts": [
+          "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
+          "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
+          "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+          "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+          "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing."
+        ],
+        "source_documents": [
+          "Information Security Standard",
+          "Information Security Standard",
+          "Data Retention Policy",
+          "Data Retention Policy",
+          "Data Retention Policy"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 1.72
+      },
+      {
+        "question": "What is the standard payment term for invoices?",
+        "kind": "in-scope",
+        "collection": null,
+        "scope_tags": [
+          "finance"
+        ],
+        "document": "Procurement Guidelines",
+        "evidence": "45 days after invoice receipt",
+        "reference": "45 days after invoice receipt.",
+        "answer": "The standard payment term is 45 days after invoice receipt. [1]",
+        "contexts": [
+          "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
+          "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+          "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
+          "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
+          "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO."
+        ],
+        "source_documents": [
+          "Procurement Guidelines",
+          "Travel Policy",
+          "Travel Policy",
+          "Procurement Guidelines",
+          "Procurement Guidelines"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.28
+      },
+      {
+        "question": "How long does the probation period last?",
+        "kind": "out-of-scope",
+        "collection": "Subsidiaries/Brazil",
+        "scope_tags": [],
+        "document": null,
+        "evidence": null,
+        "reference": "There is no answer in the documents.",
+        "answer": "I could not find the probation period in the available documents.",
+        "contexts": [
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
+          "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours.",
+          "The nightly hotel limit for the Brazilian subsidiary is 600 reais in capital cities and 400 reais elsewhere."
+        ],
+        "source_documents": [
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum",
+          "Brazil Travel Addendum"
+        ],
+        "evidence_rank": null,
+        "document_hit": false,
+        "cited": 0,
+        "out_of_scope_sources": [],
+        "latency_s": 1.71
+      },
+      {
+        "question": "What is the daily meal allowance?",
+        "kind": "out-of-scope",
+        "collection": "Subsidiaries",
+        "scope_tags": [],
+        "document": null,
+        "evidence": null,
+        "reference": "There is no answer in the documents.",
+        "answer": "I could not find the daily meal allowance in the available documents.",
+        "contexts": [
+          "The nightly hotel limit for the German subsidiary is 150 euros in capital cities and 100 euros elsewhere.",
+          "The nightly hotel limit for the Brazilian subsidiary is 600 reais in capital cities and 400 reais elsewhere.",
+          "German subsidiary expense claims must be filed within 20 days of the end of the trip.",
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
+          "Employees of the German subsidiary accrue 30 days of paid vacation per year."
+        ],
+        "source_documents": [
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Germany Travel Addendum",
+          "Brazil Travel Addendum",
+          "Germany Handbook Addendum"
+        ],
+        "evidence_rank": null,
+        "document_hit": false,
+        "cited": 0,
+        "out_of_scope_sources": [],
+        "latency_s": 1.94
+      },
+      {
+        "question": "What is the standard payment term for invoices?",
+        "kind": "out-of-scope",
+        "collection": null,
+        "scope_tags": [
+          "finance",
+          "germany"
+        ],
+        "document": null,
+        "evidence": null,
+        "reference": "There is no answer in the documents.",
+        "answer": "I could not find anything about this in the documents you have access to.",
+        "contexts": [],
+        "source_documents": [],
+        "evidence_rank": null,
+        "document_hit": false,
+        "cited": 0,
+        "out_of_scope_sources": [],
+        "latency_s": 0.4
+      },
+      {
+        "question": "How many reviewers does a database migration need?",
+        "kind": "acl",
+        "collection": "Group/Engineering",
+        "scope_tags": [],
+        "document": "Engineering Onboarding",
+        "evidence": "two reviewers",
+        "reference": "Two reviewers, one of them from the platform team.",
+        "answer": "A database migration needs two reviewers, one of whom must be from the platform team. [1]",
+        "contexts": [
+          "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team.",
+          "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+          "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training."
+        ],
+        "source_documents": [
+          "Engineering Onboarding",
+          "Engineering Onboarding",
+          "Engineering Onboarding"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.05,
+        "acl_leak": false
+      },
+      {
+        "question": "What notice period must customer contracts allow for termination?",
+        "kind": "acl",
+        "collection": null,
+        "scope_tags": [
+          "legal"
+        ],
+        "document": "Contract Review Checklist",
+        "evidence": "90 days of written notice",
+        "reference": "90 days of written notice.",
+        "answer": "Customer contracts must allow termination for convenience with 90 days’ written notice. [1]",
+        "contexts": [
+          "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window.",
+          "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
+          "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
+          "Liability caps must not exceed 12 months of fees. Uncapped liability is only acceptable for confidentiality breaches and requires the general counsel's approval.",
+          "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval."
+        ],
+        "source_documents": [
+          "Contract Review Checklist",
+          "Data Retention Policy",
+          "Data Retention Policy",
+          "Contract Review Checklist",
+          "Contract Review Checklist"
+        ],
+        "evidence_rank": 1,
+        "document_hit": true,
+        "cited": 1,
+        "out_of_scope_sources": [],
+        "latency_s": 2.01,
+        "acl_leak": false
+      }
+    ],
+    "ragas": {
+      "judge": "gpt-6.1-terra",
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8194,
+        "answer_correct": 1.0
+      }
+    }
   }
 }
