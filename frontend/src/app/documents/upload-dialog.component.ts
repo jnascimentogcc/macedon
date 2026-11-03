@@ -100,7 +100,7 @@ import { ModalComponent } from '../shared/modal.component';
             @if (groupOptions().length) {
               <div class="flex flex-wrap gap-x-4 gap-y-1.5 pt-1.5">
                 @for (group of groupOptions(); track group) {
-                  <label class="flex items-center gap-2 text-sm">
+                  <label class="flex min-h-[44px] items-center gap-2 text-sm sm:min-h-[24px]">
                     <input
                       type="checkbox"
                       class="size-4"

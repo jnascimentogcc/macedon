@@ -129,7 +129,9 @@
   --color-secondary: var(--surface-2);
   --color-secondary-foreground: var(--text);
   --color-muted: var(--surface-2);
-  --color-muted-foreground: var(--text-3);
+  /* --text-3 only reaches about 3.7:1 on the page background, below the 4.5:1 the spec
+     requires for normal text, so secondary copy uses --text-2. */
+  --color-muted-foreground: var(--text-2);
   --color-accent: var(--accent-soft);
   --color-accent-foreground: var(--text);
   --color-destructive: var(--danger);
@@ -140,6 +142,19 @@
   --radius-md: var(--radius);
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
+}
+
+/* The spec asks for 44x44px touch targets whenever possible. Spartan's default controls are 32px,
+   which suits a pointer, so they grow on narrow screens and touch devices. */
+@layer components {
+  @media (max-width: 639px), (pointer: coarse) {
+    button,
+    select,
+    nav a,
+    input:not([type='checkbox'], [type='radio'], [type='file'], [type='hidden']) {
+      min-height: 44px;
+    }
+  }
 }
 
 @layer base {
