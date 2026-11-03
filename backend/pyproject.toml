@@ -38,7 +38,7 @@ dev = [
 # Answer-quality evaluation (manual job, see eval/). Pinned: newer ragas releases break against
 # current langchain-community.
 eval = [
-    "ragas==0.3.9",
+    "ragas==0.4.3",
     "langchain-community<0.4",
     "langchain-openai<1",
 ]
