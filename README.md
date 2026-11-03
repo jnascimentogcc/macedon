@@ -29,6 +29,26 @@ Anyone adopting the project can configure other providers, and the responsibilit
 - Access control: each document belongs to its owner and to the groups it is shared with. The rule is applied inside the search SQL and, as a second barrier, by Postgres Row-Level Security.
 - An Angular web interface and a REST API (interactive docs at `/docs`).
 
+## Screenshots
+
+Sample documents of a fictional company, shown with the development user `alice`.
+
+**Documents.** Collections on the left, tags and statuses in the list. Filter by collection (and everything below it) and by tags.
+
+![The documents list, with the collections tree and tags](docs/images/documents.jpg)
+
+**Ask.** A question, an answer that cites its sources, and the passages the answer used. Questions can be limited to a collection, a document or tags.
+
+![An answer with a citation and the source passage](docs/images/ask.jpg)
+
+**Document and versions.** Metadata, who it is shared with, and every version. Only the active version answers; any older one can be activated again.
+
+![A document with its metadata and versions](docs/images/document-detail.jpg)
+
+**Sharing.** Choose the groups a document is shared with. The change applies to search at once.
+
+![The edit dialog with the group picker](docs/images/share-with-groups.jpg)
+
 ## Architecture
 
 | Piece | Technology |
