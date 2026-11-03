@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-02T15:08:47+00:00",
+  "date": "2026-11-03T15:15:29+00:00",
   "models": {
     "llm": "gpt-6.1-terra",
     "embedding": "text-embedding-3-large"
@@ -15,7 +15,7 @@
     "answered_with_citation": 1.0,
     "no_answer_abstained": 1.0,
     "acl_leaks": 0,
-    "latency_p50_s": 1.95
+    "latency_p50_s": 1.89
   },
   "rows": [
     {
@@ -24,7 +24,7 @@
       "evidence": "180 euros in capital cities",
       "reference": "180 euros per night in capital cities.",
       "tags": [],
-      "answer": "The nightly hotel limit in capital cities is €180. [1]",
+      "answer": "The nightly hotel limit in capital cities is 180 euros. [1]",
       "contexts": [
         "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
         "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
@@ -42,7 +42,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.66,
+      "latency_s": 2.3,
       "ragas": {
         "faithfulness": 1.0,
         "answer_relevancy": 1.0000000000000002,
@@ -55,7 +55,7 @@
       "evidence": "written approval from a director",
       "reference": "A director, in writing, and only for flights over six hours.",
       "tags": [],
-      "answer": "A director must approve business class flights in writing. [1]",
+      "answer": "A director must give written approval. [1]",
       "contexts": [
         "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
         "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
@@ -73,10 +73,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.04,
+      "latency_s": 2.39,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.9063183368407123,
+        "answer_relevancy": 0.4747973625869561,
         "answer_correct": 0.0
       }
     },
@@ -86,7 +86,7 @@
       "evidence": "within 30 days",
       "reference": "Within 30 days of the end of the trip, with original receipts.",
       "tags": [],
-      "answer": "You have **30 days after the end of the trip** to file an expense claim, with original receipts attached. [1]",
+      "answer": "You have 30 days from the end of the trip to file your expense claim, with original receipts attached. [1]",
       "contexts": [
         "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
         "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
@@ -104,10 +104,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.32,
+      "latency_s": 2.18,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.8767557062382886,
+        "answer_relevancy": 0.8548210943134467,
         "answer_correct": 1.0
       }
     },
@@ -117,7 +117,7 @@
       "evidence": "Alcohol is never reimbursed",
       "reference": "No, alcohol is never reimbursed.",
       "tags": [],
-      "answer": "No. Alcohol is never reimbursed. [1]",
+      "answer": "No, alcohol is never reimbursed. [1]",
       "contexts": [
         "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
         "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
@@ -135,10 +135,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.66,
+      "latency_s": 2.07,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.8480209689404259,
+        "answer_relevancy": 0.8332074393804192,
         "answer_correct": 1.0
       }
     },
@@ -166,7 +166,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.16,
+      "latency_s": 1.67,
       "ragas": {
         "faithfulness": 1.0,
         "answer_relevancy": 0.6959817711039825,
@@ -179,7 +179,7 @@
       "evidence": "25 days of paid vacation",
       "reference": "25 days of paid vacation per year.",
       "tags": [],
-      "answer": "Full-time employees accrue 25 paid vacation days per year. [1]",
+      "answer": "Full-time employees accrue 25 days of paid vacation per year. [1]",
       "contexts": [
         "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
         "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
@@ -197,10 +197,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.37,
+      "latency_s": 2.06,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.788323294510683,
+        "answer_relevancy": 0.7896278313205748,
         "answer_correct": 1.0
       }
     },
@@ -228,10 +228,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.92,
+      "latency_s": 3.37,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.9549069357378478,
+        "answer_relevancy": 0.9534350642098225,
         "answer_correct": 1.0
       }
     },
@@ -243,7 +243,7 @@
       "tags": [
         "identifier"
       ],
-      "answer": "SEC-204 requires employees to use a company VPN for every remote session. [1]",
+      "answer": "SEC-204 requires a company VPN for every remote session. [1]",
       "contexts": [
         "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
         "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
@@ -261,10 +261,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.76,
+      "latency_s": 1.89,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.6466092720128049,
+        "answer_relevancy": 0.73998738629524,
         "answer_correct": 1.0
       }
     },
@@ -292,7 +292,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.79,
+      "latency_s": 1.8,
       "ragas": {
         "faithfulness": 1.0,
         "answer_relevancy": 0.7910288715116102,
@@ -323,7 +323,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.7,
+      "latency_s": 1.93,
       "ragas": {
         "faithfulness": 1.0,
         "answer_relevancy": 0.9999995618216623,
@@ -336,7 +336,7 @@
       "evidence": "up to three days per week",
       "reference": "Up to three days per week.",
       "tags": [],
-      "answer": "You can work remotely up to **three days per week**. [1]",
+      "answer": "You can work remotely up to three days per week. [1]",
       "contexts": [
         "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
         "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
@@ -354,10 +354,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.99,
+      "latency_s": 1.72,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.999999722956824,
+        "answer_relevancy": 0.9999999999999998,
         "answer_correct": 1.0
       }
     },
@@ -367,7 +367,7 @@
       "evidence": "at least 14 characters",
       "reference": "At least 14 characters.",
       "tags": [],
-      "answer": "Passwords must be at least **14 characters** long. [1]",
+      "answer": "The minimum password length is 14 characters. [1]",
       "contexts": [
         "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
         "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
@@ -385,10 +385,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.65,
+      "latency_s": 1.97,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.9759094052853904,
+        "answer_relevancy": 0.9999999999999999,
         "answer_correct": 1.0
       }
     },
@@ -398,7 +398,7 @@
       "evidence": "within one hour",
       "reference": "Within one hour, to the security team.",
       "tags": [],
-      "answer": "A suspected security incident must be reported to the security team within one hour. [1]",
+      "answer": "Any suspected security incident must be reported to the security team within one hour. [1]",
       "contexts": [
         "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
         "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
@@ -416,10 +416,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.93,
+      "latency_s": 1.65,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.815864462569838,
+        "answer_relevancy": 0.8231700771762014,
         "answer_correct": 1.0
       }
     },
@@ -447,10 +447,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.01,
+      "latency_s": 1.76,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.8329209425759275,
+        "answer_relevancy": 0.8354345402685054,
         "answer_correct": 0.0
       }
     },
@@ -481,7 +481,7 @@
       "latency_s": 1.73,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 1.0000000000000002,
+        "answer_relevancy": 0.9999995922684709,
         "answer_correct": 1.0
       }
     },
@@ -491,7 +491,7 @@
       "evidence": "within five business days",
       "reference": "Within five business days, for S1 incidents.",
       "tags": [],
-      "answer": "Within five business days. [1]",
+      "answer": "The post-mortem must be published within five business days. [1]",
       "contexts": [
         "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
         "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
@@ -509,10 +509,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.68,
+      "latency_s": 1.83,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.19214924606692743,
+        "answer_relevancy": 0.8608346323044243,
         "answer_correct": 1.0
       }
     },
@@ -524,7 +524,7 @@
       "tags": [
         "multi-hop"
       ],
-      "answer": "The department head approves a purchase of €5,000. [1]",
+      "answer": "The department head approves a purchase of 5,000 euros. [1]",
       "contexts": [
         "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
         "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
@@ -542,10 +542,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.57,
+      "latency_s": 1.84,
       "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9455353916434563,
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9999999999999998,
         "answer_correct": 1.0
       }
     },
@@ -557,7 +557,7 @@
       "tags": [
         "multi-hop"
       ],
-      "answer": "At least three written quotes are required. [2]",
+      "answer": "At least three written quotes are required for a €15,000 purchase. [2]",
       "contexts": [
         "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
         "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
@@ -575,10 +575,10 @@
       "evidence_rank": 2,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.64,
+      "latency_s": 2.02,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.6333811374318733,
+        "answer_relevancy": 0.9053056070468662,
         "answer_correct": 1.0
       }
     },
@@ -606,10 +606,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.08,
+      "latency_s": 1.93,
       "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.7995684407560582,
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7943792681479133,
         "answer_correct": 1.0
       }
     },
@@ -619,7 +619,7 @@
       "evidence": "4 hours for P2",
       "reference": "4 hours.",
       "tags": [],
-      "answer": "The first response target for a P2 ticket is **4 hours**. [1]",
+      "answer": "The first response target for a P2 ticket is 4 hours. [1]",
       "contexts": [
         "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
         "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
@@ -637,7 +637,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.91,
+      "latency_s": 1.78,
       "ragas": {
         "faithfulness": 1.0,
         "answer_relevancy": 0.9999995587467945,
@@ -650,7 +650,7 @@
       "evidence": "not resolved within 4 hours",
       "reference": "When it is not resolved within 4 hours, to the on-call engineering manager.",
       "tags": [],
-      "answer": "A P1 ticket is escalated to the on-call engineering manager if it remains unresolved after 4 hours. The customer success lead must be notified at the same time. [1]",
+      "answer": "A P1 ticket is escalated to the on-call engineering manager if it is not resolved within 4 hours. The customer success lead must be notified at the same time. [1]",
       "contexts": [
         "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time.",
         "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
@@ -668,10 +668,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.32,
+      "latency_s": 2.59,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.8288793682919304,
+        "answer_relevancy": 0.7116085052140301,
         "answer_correct": 1.0
       }
     },
@@ -681,7 +681,7 @@
       "evidence": "up to 200 euros without approval",
       "reference": "200 euros.",
       "tags": [],
-      "answer": "An agent can refund up to €200 without approval. [2]",
+      "answer": "An agent can refund up to 200 euros without approval. [2]",
       "contexts": [
         "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
         "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
@@ -699,10 +699,10 @@
       "evidence_rank": 2,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.97,
+      "latency_s": 2.08,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.9626429705965867,
+        "answer_relevancy": 0.9629274848594065,
         "answer_correct": 1.0
       }
     },
@@ -730,10 +730,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.97,
+      "latency_s": 1.67,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 1.0000000000000002,
+        "answer_relevancy": 0.9999995433345852,
         "answer_correct": 1.0
       }
     },
@@ -743,7 +743,7 @@
       "evidence": "within 30 days",
       "reference": "Within 30 days.",
       "tags": [],
-      "answer": "Customer deletion requests must be completed within **30 days**. [1] If a legal hold applies to the affected records, deletion is suspended until the hold is lifted in writing. [2]",
+      "answer": "Customer deletion requests must be completed within 30 days. [1]",
       "contexts": [
         "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
         "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
@@ -760,11 +760,11 @@
       ],
       "evidence_rank": 1,
       "document_hit": true,
-      "cited": 2,
-      "latency_s": 1.97,
+      "cited": 1,
+      "latency_s": 1.77,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.7746942510200889,
+        "answer_relevancy": 0.9055881542130333,
         "answer_correct": 1.0
       }
     },
@@ -774,7 +774,7 @@
       "evidence": "deletion for the affected records is suspended",
       "reference": "Deletion is suspended until the hold is lifted in writing.",
       "tags": [],
-      "answer": "All deletions of affected records are suspended until the legal hold is lifted in writing. [1]",
+      "answer": "All deletion of the affected records is suspended until the legal hold is lifted in writing. [1]",
       "contexts": [
         "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
         "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval.",
@@ -792,10 +792,10 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.85,
+      "latency_s": 1.8,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.7858654285278907,
+        "answer_relevancy": 0.7374061989640183,
         "answer_correct": 1.0
       }
     },
@@ -807,7 +807,7 @@
       "tags": [
         "acl:engineering"
       ],
-      "answer": "A database migration needs two reviewers, one from the platform team. [1]",
+      "answer": "A database migration needs two reviewers, including one from the platform team. [1]",
       "contexts": [
         "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team.",
         "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
@@ -825,11 +825,11 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.82,
+      "latency_s": 1.65,
       "acl_leak": false,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.9060716594818937,
+        "answer_relevancy": 0.9115467958505459,
         "answer_correct": 1.0
       }
     },
@@ -859,11 +859,11 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.94,
+      "latency_s": 1.88,
       "acl_leak": false,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.48811632012223843,
+        "answer_relevancy": 0.5538948745127081,
         "answer_correct": 1.0
       }
     },
@@ -875,7 +875,7 @@
       "tags": [
         "acl:legal"
       ],
-      "answer": "The maximum liability cap is **12 months of fees**. [1]",
+      "answer": "The liability cap must not exceed 12 months of fees. [1]",
       "contexts": [
         "Liability caps must not exceed 12 months of fees. Uncapped liability is only acceptable for confidentiality breaches and requires the general counsel's approval.",
         "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window.",
@@ -893,11 +893,11 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.83,
+      "latency_s": 2.03,
       "acl_leak": false,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.8296907170766478,
+        "answer_relevancy": 0.8296870808990596,
         "answer_correct": 1.0
       }
     },
@@ -909,7 +909,7 @@
       "tags": [
         "acl:legal"
       ],
-      "answer": "Customer contracts must allow termination for convenience with **90 days’ written notice**. [1]",
+      "answer": "Customer contracts must allow termination for convenience with 90 days’ written notice. [1]",
       "contexts": [
         "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window.",
         "The probation period lasts six months. Either party may end the contract with two weeks of notice during probation.",
@@ -927,11 +927,11 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.71,
+      "latency_s": 2.21,
       "acl_leak": false,
       "ragas": {
         "faithfulness": 1.0,
-        "answer_relevancy": 0.9151884033055456,
+        "answer_relevancy": 0.6876918927866652,
         "answer_correct": 1.0
       }
     },
@@ -943,7 +943,7 @@
       "tags": [
         "paraphrase"
       ],
-      "answer": "You can work remotely up to three days per week, but you must use the company VPN for every remote session. [2]\n\nThe documents do not explicitly say whether you may take your laptop home.",
+      "answer": "You may work remotely up to three days per week and must use the company VPN for every remote session. [2] The available documents do not specify whether you may take your laptop home.",
       "contexts": [
         "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
         "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
@@ -961,7 +961,7 @@
       "evidence_rank": 2,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 3.84,
+      "latency_s": 3.8,
       "ragas": {
         "faithfulness": 1.0,
         "answer_relevancy": 0.0,
@@ -976,7 +976,7 @@
       "tags": [
         "paraphrase"
       ],
-      "answer": "If you suspect a security incident, report it to the security team within one hour. [3]",
+      "answer": "If you suspect a security incident on your account, report it to the security team within one hour. [3]",
       "contexts": [
         "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time.",
         "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
@@ -994,10 +994,10 @@
       "evidence_rank": 3,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.88,
+      "latency_s": 2.54,
       "ragas": {
-        "faithfulness": 0.0,
-        "answer_relevancy": 0.5273095906266304,
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6380517639326754,
         "answer_correct": 1.0
       }
     },
@@ -1027,7 +1027,7 @@
       "evidence_rank": null,
       "document_hit": false,
       "cited": 0,
-      "latency_s": 2.04
+      "latency_s": 1.68
     },
     {
       "question": "How much is the annual training budget per engineer?",
@@ -1055,7 +1055,7 @@
       "evidence_rank": null,
       "document_hit": false,
       "cited": 0,
-      "latency_s": 1.81
+      "latency_s": 1.89
     },
     {
       "question": "What is the company's dress code?",
@@ -1083,14 +1083,14 @@
       "evidence_rank": null,
       "document_hit": false,
       "cited": 0,
-      "latency_s": 1.98
+      "latency_s": 1.89
     }
   ],
   "ragas": {
     "judge": "gpt-6.1-terra",
     "scores": {
-      "faithfulness": 0.9677,
-      "answer_relevancy": 0.7975,
+      "faithfulness": 0.9355,
+      "answer_relevancy": 0.8158,
       "answer_correct": 0.9355
     }
   }

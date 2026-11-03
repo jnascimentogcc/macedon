@@ -13,7 +13,7 @@ from macedon.query.router import router as query_router
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="Macedon", version="0.1.1")
+    app = FastAPI(title="Macedon", version="0.2.0")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=get_settings().cors_origins,
