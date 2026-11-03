@@ -1,0 +1,75 @@
+[project]
+name = "macedon"
+version = "0.1.0"
+description = "Document RAG platform: versioned documents, secure retrieval and answers with sources."
+readme = "../README.md"
+license = "MIT"
+authors = [
+    { name = "Jorge Nascimento", email = "jnascimento.gcc@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pydantic-settings>=2.6",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30",
+    "alembic>=1.14",
+    "pgvector>=0.3.6",
+    "arq>=0.26",
+    "pyjwt[crypto]>=2.10",
+    "httpx>=0.28",
+    "python-multipart>=0.0.17",
+    "boto3>=1.43.123",
+    "pymupdf>=2.0",
+    "python-docx>=1.2.0",
+]
+
+[project.scripts]
+macedon = "macedon.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+# Answer-quality evaluation (manual job, see eval/). Pinned: newer ragas releases break against
+# current langchain-community.
+eval = [
+    "ragas==0.3.9",
+    "langchain-community<0.4",
+    "langchain-openai<1",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.28,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "ASYNC"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.mypy]
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[[tool.mypy.overrides]]
+module = ["boto3", "botocore.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["macedon.ingestion.extract", "test_extract"]
+disallow_untyped_calls = false  # pymupdf and python-docx are only partially typed

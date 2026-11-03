@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+dist/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/
+.nx/
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store

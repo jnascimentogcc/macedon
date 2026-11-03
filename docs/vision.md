@@ -21,6 +21,9 @@ The API covers three fronts: asynchronous ingestion, querying with sources, and 
 | Endpoint | Purpose |
 | --- | --- |
 | `POST /documents` | Uploads a new document (creates version 1) |
+| `GET /documents` | Lists the documents the caller can read, paginated; filters `collection_id` (with descendants) and `tag` |
+| `PATCH /documents/{id}` | Renames, retags or moves a document (owner or admin) |
+| `GET /collections` | The collection tree (everyone); `POST`, `PATCH`, `DELETE` are admin only |
 | `GET /documents/{id}` | Returns metadata and processing status |
 | `POST /documents/{id}/versions` | Uploads a new version of the document |
 | `GET /documents/{id}/versions` | Lists the version history |
@@ -44,17 +47,48 @@ Stack: Angular, Tailwind CSS and SpartanNG. The design system, accessibility (WC
 
 The foundation is Python with FastAPI and Postgres with pgvector, which avoids maintaining a separate vector database at the start. Ingestion runs in queue-fed workers; querying runs directly in the API.
 
-&#91;embedded content: architecture · ingestion and query flow\]
+```mermaid
+flowchart LR
+    User([User]) --> FE[Angular frontend]
+    FE -->|JWT| API[FastAPI]
+    KC[Keycloak] -. login, OIDC .-> FE
+    KC -. JWT validation .-> API
 
-On the left, ingestion writes chunks and embeddings to Postgres; on the right, the query searches there, reranks and generates the answer.
+    subgraph Ingestion
+        direction TB
+        Q[(Queue)] --> W[Isolated worker]
+        W --> X[Extraction and chunking]
+    end
+
+    subgraph Query
+        direction TB
+        H[Hybrid search with ACL filter] --> R[Reranker]
+        R --> G[LLM generation]
+    end
+
+    API -->|upload| S3[(S3-compatible storage)]
+    API -->|enqueue| Q
+    S3 --> W
+    X -->|chunks and embeddings| PG[(Postgres + pgvector)]
+    API -->|/query| H
+    H <--> PG
+    G -->|answer with sources| API
+
+    X -. embeddings .-> EXT{{External APIs: OpenAI, reranker}}
+    H -. query embedding .-> EXT
+    R -.-> EXT
+    G -.-> EXT
+```
+
+Ingestion stores the original in S3-compatible storage and, through the queue and an isolated worker, writes chunks and embeddings to Postgres; the query searches there with the ACL filter, reranks and generates the answer. Dashed lines are calls to external APIs and to Keycloak.
 
 | Layer | Choice | Notes |
 | --- | --- | --- |
 | API | FastAPI | Validates the JWT on every request |
 | Frontend | Angular, Tailwind CSS and SpartanNG | SPA that consumes the API; design system in `ui-spec.md` |
-| Original file storage | S3 or MinIO | One object per version |
+| Original file storage | Any S3-compatible store (SeaweedFS in the dev stack) | One object per version. MinIO no longer publishes a community image, so the dev stack uses SeaweedFS; the code only speaks the S3 API |
 | Ingestion queue | Celery, RQ or Arq | Upload does not block |
-| Text extraction | Docling (structured PDF), PyMuPDF, python-docx; TXT read directly | Docling preserves headings and tables. Initial formats: PDF, DOCX and TXT |
+| Text extraction | PyMuPDF (PDF), python-docx (DOCX); TXT read directly | Initial formats: PDF, DOCX and TXT. PDF headings are detected by font size; DOCX tables are kept as tables, but tables inside PDFs are extracted as plain text for now. Docling would preserve them, but it pulls in PyTorch and model downloads, so it stays a possible later swap behind the extraction module |
 | Embeddings | OpenAI API: `text-embedding-3-large` | Model fixed from the start; changing it requires reindexing |
 | Vector store | Postgres + pgvector, HNSW index | Estimated volume: ~5,000 documents per year (roughly hundreds of thousands of chunks), well within pgvector's capacity. `text-embedding-3-large` produces 3072 dimensions and pgvector's HNSW indexes `vector` only up to 2000; the decision is to store embeddings as `halfvec(3072)` (HNSW up to 4000 dimensions), without reducing quality. Plan B if performance becomes a problem: reduce to 1536 through OpenAI's `dimensions` parameter. Move to Qdrant only with millions of chunks or heavy filtering |
 | Keyword search | Postgres full-text | Basis of hybrid search |
@@ -97,7 +131,7 @@ Each document has several versions and only one active; chunks belong to the ver
 | Table | Main content |
 | --- | --- |
 | `documents` | Logical identity: name, type, owner, tags, ACL |
-| `document_versions` | Version number, SHA-256 hash of the file, S3 path, status (`processing`, `active`, `archived`), author, date |
+| `document_versions` | Version number, SHA-256 hash of the file, S3 path, status (`processing`, `active`, `archived`, `failed`), author, date |
 | `chunks` | Text, embedding, `version_id`, `section_id`, `position`, text hash, `embedding_model`, permission metadata |
 
 **Rules**
@@ -128,9 +162,32 @@ Authentication, authorization with RLS and audit are a priority from the start: 
 
 ## Phased roadmap
 
-&#91;embedded content: roadmap · 3 phases, 2 milestones\]
-
 Phase 1 concentrates what is expensive to add later (authentication, ACL with RLS, audit and versioning). Phase 2 only starts with secure querying working end to end, and phase 3 starts from a metrics baseline to justify each evolution.
+
+### Phase 1: secure foundation
+
+- Postgres schema (`halfvec(3072)`, versions, ACL) with Row-Level Security.
+- Authentication with Keycloak and audit.
+- Ingestion of PDF, DOCX and TXT in an isolated worker, with structural chunking and path prefix.
+- Document and version endpoints, with atomic switch and rollback.
+- CI from the first commit of code.
+
+**Milestone 1:** secure querying working end to end, with `/query` filtering by ACL and citing sources.
+
+### Phase 2: quality and interface
+
+- Hybrid search, parent-child and neighbor expansion.
+- RAGAS evaluation set and metrics baseline.
+- Reranker (deferred decision, taken here).
+- Frontend: document and version management first, then the query screen.
+
+**Milestone 2:** metrics baseline measured.
+
+### Phase 3: metrics-driven evolution
+
+- Contextual Retrieval, only if evaluation shows ambiguous chunks being missed.
+- Text diff between versions, to review before activating.
+- Performance and cost tuning.
 
 ## Open questions
 
@@ -138,4 +195,4 @@ None at the moment.
 
 ## Deferred decisions
 
-- **Reranker service:** will be chosen later (external API; OpenAI does not offer one). Candidate: Cohere Rerank. Since the reranker sits behind the `Reranker` interface, the choice does not affect the rest of the pipeline.
+- **Reranker service:** will be chosen later (external API; OpenAI does not offer one). Candidate: Cohere Rerank. Since the reranker sits behind the `Reranker` interface, the choice does not affect the rest of the pipeline. The first baseline (`backend/eval/`, 34 questions over 8 synthetic documents, 27 chunks) already gets the evidence into the top 5 for every answerable question (MRR 0.93), so it gives no evidence that a reranker is needed yet; the corpus is too small and easy to decide either way. Decide it when the baseline is rerun on a larger, harder corpus.
