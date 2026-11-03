@@ -2,7 +2,6 @@
 name = "macedon"
 version = "0.1.0"
 description = "Document RAG platform: versioned documents, secure retrieval and answers with sources."
-readme = "../README.md"
 license = "MIT"
 authors = [
     { name = "Jorge Nascimento", email = "jnascimento.gcc@gmail.com" }
