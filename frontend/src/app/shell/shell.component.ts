@@ -19,7 +19,7 @@ import { ThemeService } from '../core/theme.service';
         class="mx-auto flex max-w-[var(--content-max)] flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-2 sm:px-6"
       >
         <div class="flex items-center gap-6">
-          <a routerLink="/" class="text-lg font-bold">{{ 'app.name' | t }}</a>
+          <a routerLink="/" class="inline-flex min-h-[44px] items-center text-lg font-bold sm:min-h-[24px]">{{ 'app.name' | t }}</a>
           <nav [attr.aria-label]="'nav.main' | t" class="flex gap-1">
             <a
               hlmBtn

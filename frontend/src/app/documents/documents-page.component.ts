@@ -89,7 +89,7 @@ interface NamingTarget {
           <p id="tag-filter-help" class="text-muted-foreground mt-1.5 text-xs">{{ 'tags.filterHelp' | t }}</p>
         </form>
 
-        <div class="mb-4 flex items-center gap-2">
+        <div class="mb-4 flex min-h-[44px] items-center gap-2 sm:min-h-[24px]">
           <input
             id="show-archived"
             type="checkbox"
@@ -142,7 +142,7 @@ interface NamingTarget {
                   @for (doc of current.items; track doc.id) {
                     <tr hlmTr>
                       <td hlmTd class="font-medium">
-                        <a [routerLink]="['/documents', doc.id]" class="underline-offset-4 hover:underline">{{
+                        <a [routerLink]="['/documents', doc.id]" class="inline-flex min-h-[44px] items-center underline-offset-4 hover:underline sm:min-h-[24px]">{{
                           doc.name
                         }}</a>
                         @if (doc.archived_at) {

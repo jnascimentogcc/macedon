@@ -28,7 +28,10 @@ const POLL_MS = 3000;
     UploadDialogComponent,
   ],
   template: `
-    <a routerLink="/documents" class="text-muted-foreground text-sm underline-offset-4 hover:underline">
+    <a
+      routerLink="/documents"
+      class="text-muted-foreground inline-flex min-h-[44px] items-center text-sm underline-offset-4 hover:underline sm:min-h-[24px]"
+    >
       ← {{ 'detail.back' | t }}
     </a>
 

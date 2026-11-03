@@ -41,8 +41,19 @@ the API (ACL + RLS), so the UI shows what the API returns and explains its refus
   dialog, to keep a single accessible implementation.
 - Interface strings go through a small typed dictionary (`src/app/core/i18n.ts`) with a `t` pipe
   rather than Angular's compile-time i18n, so a locale can be added as one more object.
+- Secondary text (`muted-foreground`) uses `--text-2`, not `--text-3`: the spec's `--text-3` reaches
+  only about 3.7:1 on the page background, below the 4.5:1 the spec itself requires.
+- Controls grow to 44px on screens narrower than 640px and on touch devices (Spartan's defaults are
+  32px); from 640px up, links and buttons keep a 24px minimum.
+
+## Visual review
+
+Checked at 375, 768 and 1024px in the light and dark themes, on the documents list, the upload
+dialog, the document detail, the edit dialog and the ask screen with an answer: no horizontal
+overflow, no text below the contrast minimum, no control without an accessible name. The check was
+done by script against the rendered DOM; a review by eye and with a screen reader is still open.
 
 ## Not covered yet
 
-Editing a document's ACL, moving a collection under another parent, bulk moves, text diff between versions (phase 3), and a visual review at all
-breakpoints and in dark mode.
+Editing a document's ACL, moving a collection under another parent, bulk moves, and text diff between
+versions (phase 3).

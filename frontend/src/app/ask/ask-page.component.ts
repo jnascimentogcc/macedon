@@ -114,7 +114,7 @@ import { MessageKey, TranslatePipe } from '../core/i18n';
                     <span class="font-mono text-sm">[{{ source.id }}]</span>
                     <a
                       [routerLink]="['/documents', source.document_id]"
-                      class="font-medium underline-offset-4 hover:underline"
+                      class="inline-flex min-h-[44px] items-center font-medium underline-offset-4 hover:underline sm:min-h-[24px]"
                       >{{ source.document_name }}</a
                     >
                     <span hlmBadge variant="outline" [class]="source.cited ? citedTone : ''">{{
@@ -129,7 +129,7 @@ import { MessageKey, TranslatePipe } from '../core/i18n';
                     · {{ source.section }}
                   </p>
                   <details class="mt-2">
-                    <summary class="cursor-pointer text-sm">{{ 'ask.showText' | t }}</summary>
+                    <summary class="cursor-pointer py-3.5 text-sm sm:py-0">{{ 'ask.showText' | t }}</summary>
                     <p class="mt-2 text-sm whitespace-pre-wrap">{{ source.text }}</p>
                   </details>
                 </li>
