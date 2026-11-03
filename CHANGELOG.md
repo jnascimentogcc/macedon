@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-03
+
+The groups a document is shared with can now be changed after the upload.
+
+### Upgrading
+
+Run `uv run alembic upgrade head` (migration 0003) and restart the API and the worker.
+
 ### Added
 
 - **Editing who a document is shared with:** `PATCH /documents/{id}` accepts `acl_groups`, and the
@@ -13,11 +21,14 @@ All notable changes to this project are documented here. The format follows
   document and to every chunk copy in one transaction, takes effect on search at once, and is
   audited as `acl_update`. Groups must be known (`MACEDON_KNOWN_GROUPS` or the caller's own), except
   ones the document already has, which can always be kept or dropped.
+- A Screenshots section in the README.
 
 ### Fixed
 
 - Answers are asked to be plain text: the interface shows them as written, so Markdown such as
-  `**bold**` appeared with literal asterisks.
+  `**bold**` appeared with literal asterisks. The evaluation was re-run: retrieval is unchanged
+  (evidence in the top 5 for every answerable question, MRR 0.93, no ACL leaks), answer
+  correctness is 0.94 as before, and no answer contains Markdown any more (7 did).
 
 ### Changed
 
@@ -88,6 +99,7 @@ evaluation baseline.
 - The web interface has not been reviewed visually at every breakpoint or in dark mode.
 - The dev stack is not hardened and must not be exposed.
 
-[Unreleased]: https://github.com/jnascimentogcc/macedon/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/jnascimentogcc/macedon/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/jnascimentogcc/macedon/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/jnascimentogcc/macedon/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jnascimentogcc/macedon/releases/tag/v0.1.0
