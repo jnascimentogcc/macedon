@@ -8,6 +8,11 @@ updates:
     directory: /frontend
     schedule:
       interval: weekly
+    ignore:
+      # @angular/build pins the TypeScript range it supports (currently >=6.0 <6.1), so a major
+      # bump breaks `npm ci`. Lift this once Angular's peer range allows the new major.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
