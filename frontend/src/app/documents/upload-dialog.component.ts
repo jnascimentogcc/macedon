@@ -7,6 +7,7 @@ import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { DocumentsApi, GroupsApi, UploadResult } from '../core/api';
 import { CollectionsStore, parseTags } from '../core/collections.store';
 import { MessageKey, TranslatePipe } from '../core/i18n';
+import { GroupPickerComponent } from '../shared/group-picker.component';
 import { ModalComponent } from '../shared/modal.component';
 
 /** Uploads a new document, or a new version when `documentId` is set. */
@@ -14,6 +15,7 @@ import { ModalComponent } from '../shared/modal.component';
   selector: 'app-upload-dialog',
   imports: [
     FormsModule,
+    GroupPickerComponent,
     ModalComponent,
     TranslatePipe,
     HlmButtonImports,
@@ -93,31 +95,7 @@ import { ModalComponent } from '../shared/modal.component';
             />
             <p id="upload-tags-help" class="text-muted-foreground text-xs">{{ 'tags.help' | t }}</p>
           </div>
-          <fieldset class="flex flex-col gap-1.5" aria-describedby="upload-groups-help">
-            <legend class="text-sm leading-none font-medium">
-              {{ 'upload.groups' | t }} <span class="text-muted-foreground">{{ 'common.optional' | t }}</span>
-            </legend>
-            @if (groupOptions().length) {
-              <div class="flex flex-wrap gap-x-4 gap-y-1.5 pt-1.5">
-                @for (group of groupOptions(); track group) {
-                  <label class="flex min-h-[44px] items-center gap-2 text-sm sm:min-h-[24px]">
-                    <input
-                      type="checkbox"
-                      class="size-4"
-                      [checked]="selectedGroups().has(group)"
-                      (change)="toggleGroup(group)"
-                    />
-                    {{ group }}
-                  </label>
-                }
-              </div>
-            } @else {
-              <p class="text-muted-foreground pt-1.5 text-sm">{{ 'upload.groupsNone' | t }}</p>
-            }
-            <p id="upload-groups-help" class="text-muted-foreground text-xs">
-              {{ 'upload.groupsHelp' | t }}
-            </p>
-          </fieldset>
+          <app-group-picker idPrefix="upload-groups" [options]="groupOptions()" [(value)]="selectedGroups" />
         }
 
         <p id="upload-error" class="text-destructive text-sm" role="alert">
@@ -149,7 +127,7 @@ export class UploadDialogComponent implements OnInit {
   protected collectionId: string | null = null;
   protected readonly store = inject(CollectionsStore);
   protected readonly groupOptions = signal<string[]>([]);
-  protected readonly selectedGroups = signal<ReadonlySet<string>>(new Set());
+  protected readonly selectedGroups = signal<string[]>([]);
   protected readonly busy = signal(false);
   protected readonly error = signal<MessageKey | null>(null);
   private file: File | null = null;
@@ -164,16 +142,6 @@ export class UploadDialogComponent implements OnInit {
         error: () => undefined, // sharing is optional; the upload still works privately
       });
     }
-  }
-
-  protected toggleGroup(group: string): void {
-    this.selectedGroups.update((current) => {
-      const next = new Set(current);
-      if (!next.delete(group)) {
-        next.add(group);
-      }
-      return next;
-    });
   }
 
   protected pick(event: Event): void {
@@ -194,7 +162,7 @@ export class UploadDialogComponent implements OnInit {
           name: this.name.trim() || undefined,
           tags: parseTags(this.tags),
           collectionId: this.collectionId,
-          groups: [...this.selectedGroups()],
+          groups: this.selectedGroups(),
         });
     this.busy.set(true);
     this.error.set(null);

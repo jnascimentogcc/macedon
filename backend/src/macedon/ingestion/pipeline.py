@@ -71,7 +71,13 @@ async def ingest_version(version_id: uuid.UUID, deps: IngestionDeps) -> None:
     async with sessions() as session:
         await apply_identity(session, WORKER)
         version = await session.get(DocumentVersion, version_id)
-        document = await session.get(Document, version.document_id) if version else None
+        # A shared lock on the document row: the ACL copied onto the new chunks cannot change
+        # between this read and the commit (re-sharing takes the exclusive lock).
+        document = (
+            await session.get(Document, version.document_id, with_for_update={"read": True})
+            if version
+            else None
+        )
         if version is None or document is None or version.status != "processing":
             return
         if document.archived_at is not None:

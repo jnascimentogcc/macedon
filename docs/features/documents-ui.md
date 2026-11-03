@@ -55,5 +55,5 @@ done by script against the rendered DOM; a review by eye and with a screen reade
 
 ## Not covered yet
 
-Editing a document's ACL, moving a collection under another parent, bulk moves, and text diff between
+Moving a collection under another parent, bulk moves, and text diff between
 versions (phase 3).

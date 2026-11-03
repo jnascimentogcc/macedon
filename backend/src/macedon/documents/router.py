@@ -12,7 +12,7 @@ from macedon.audit import record_audit
 from macedon.auth import get_identity
 from macedon.config import Settings, get_settings
 from macedon.db.identity import Identity
-from macedon.db.models import Collection, Document, DocumentVersion
+from macedon.db.models import Chunk, Collection, Document, DocumentVersion
 from macedon.db.session import get_session
 from macedon.documents.queue import JobQueue, get_job_queue
 from macedon.documents.schemas import (
@@ -74,6 +74,42 @@ def _clean_tags(tags: list[str] | None) -> list[str]:
 async def _require_collection(session: AsyncSession, collection_id: uuid.UUID | None) -> None:
     if collection_id is not None and await session.get(Collection, collection_id) is None:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "collection not found")
+
+
+async def _set_groups(
+    session: AsyncSession,
+    document: Document,
+    groups: list[str],
+    identity: Identity,
+    settings: Settings,
+) -> None:
+    """Change who the document is shared with, on the document and on every chunk copy.
+
+    Groups the document already has stay valid even if they are no longer configured, so an
+    owner can always keep or drop them. Locking the row serializes this against a worker that
+    is about to copy the ACL onto new chunks.
+    """
+    wanted = sorted(set(groups))
+    unknown = set(wanted) - set(available_groups(settings, identity)) - set(document.acl_groups)
+    if unknown:
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_CONTENT, f"unknown groups: {', '.join(sorted(unknown))}"
+        )
+    await session.refresh(document, with_for_update=True)
+    before = list(document.acl_groups)
+    if wanted == before:
+        return
+    document.acl_groups = wanted
+    await session.execute(
+        update(Chunk).where(Chunk.document_id == document.id).values(acl_groups=wanted)
+    )
+    await record_audit(
+        session,
+        identity,
+        "acl_update",
+        document_id=document.id,
+        details={"groups_before": before, "groups_after": wanted},
+    )
 
 
 async def _versions(session: AsyncSession, document_id: uuid.UUID) -> list[DocumentVersion]:
@@ -249,12 +285,18 @@ async def get_document(document_id: uuid.UUID, session: SessionDep) -> DocumentO
 
 @router.patch("/{document_id}", response_model=DocumentOut)
 async def update_document(
-    document_id: uuid.UUID, body: DocumentUpdate, session: SessionDep, identity: IdentityDep
+    document_id: uuid.UUID,
+    body: DocumentUpdate,
+    session: SessionDep,
+    identity: IdentityDep,
+    settings: SettingsDep,
 ) -> DocumentOut:
-    """Rename, retag or move a document. Only its owner or an administrator can."""
+    """Rename, retag, move or re-share a document. Only its owner or an administrator can."""
     document = await _load_document(session, document_id)
     _require_manager(document, identity)
     fields = body.model_fields_set
+    if "acl_groups" in fields:
+        await _set_groups(session, document, body.acl_groups or [], identity, settings)
     if "name" in fields and body.name is not None:
         document.name = body.name.strip()
     if "tags" in fields:

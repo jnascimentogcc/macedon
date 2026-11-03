@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/). Before 1.0.0, minor versions may include breaking changes.
 
+## [Unreleased]
+
+### Added
+
+- **Editing who a document is shared with:** `PATCH /documents/{id}` accepts `acl_groups`, and the
+  edit dialog has a group picker (the upload form uses the same one). The change is applied to the
+  document and to every chunk copy in one transaction, takes effect on search at once, and is
+  audited as `acl_update`. Groups must be known (`MACEDON_KNOWN_GROUPS` or the caller's own), except
+  ones the document already has, which can always be kept or dropped.
+
+### Changed
+
+- Migration 0003: the owner of a document can update the ACL columns of its chunks; the
+  application role can no longer update any other chunk column.
+- Secondary text uses a darker token to reach the 4.5:1 contrast the UI spec requires, and controls
+  grow to 44px on narrow screens and touch devices.
+
 ## [0.1.1] - 2026-11-03
 
 Maintenance release: dependency updates and a packaging fix. No behaviour changes.
@@ -66,5 +83,6 @@ evaluation baseline.
 - The web interface has not been reviewed visually at every breakpoint or in dark mode.
 - The dev stack is not hardened and must not be exposed.
 
+[Unreleased]: https://github.com/jnascimentogcc/macedon/compare/v0.1.1...HEAD
 [0.1.1]: https://github.com/jnascimentogcc/macedon/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jnascimentogcc/macedon/releases/tag/v0.1.0

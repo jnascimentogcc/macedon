@@ -143,6 +143,8 @@ export const EN = {
   'collections.notEmpty': 'It still has subcollections or documents. Move or remove them first.',
   'tags.label': 'Tags',
   'tags.help': 'Comma-separated, for example: policy, 2026. They are saved in lowercase.',
+  'edit.invalid':
+    'Check the tags (at most 20, up to 40 characters each) and that every group is one you can share with.',
   'tags.invalid': 'Tags can have at most 40 characters each, and there can be at most 20.',
   'tags.filter': 'Filter by tags',
   'tags.filterHelp': 'Documents must have all the tags you list.',

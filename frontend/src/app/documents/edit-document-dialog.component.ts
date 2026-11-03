@@ -4,15 +4,24 @@ import { FormsModule } from '@angular/forms';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
-import { DocumentItem, DocumentsApi } from '../core/api';
+import { DocumentItem, DocumentsApi, GroupsApi } from '../core/api';
 import { CollectionsStore, parseTags } from '../core/collections.store';
 import { MessageKey, TranslatePipe } from '../core/i18n';
+import { GroupPickerComponent } from '../shared/group-picker.component';
 import { ModalComponent } from '../shared/modal.component';
 
-/** Renames, retags or moves a document. */
+/** Renames, retags, moves or re-shares a document. */
 @Component({
   selector: 'app-edit-document-dialog',
-  imports: [FormsModule, ModalComponent, TranslatePipe, HlmButtonImports, HlmInputImports, HlmLabelImports],
+  imports: [
+    FormsModule,
+    GroupPickerComponent,
+    ModalComponent,
+    TranslatePipe,
+    HlmButtonImports,
+    HlmInputImports,
+    HlmLabelImports,
+  ],
   template: `
     <app-modal [heading]="'edit.title' | t" (closed)="closed.emit()">
       <form (ngSubmit)="save()" class="flex flex-col gap-4" novalidate>
@@ -48,6 +57,12 @@ import { ModalComponent } from '../shared/modal.component';
           />
           <p id="edit-tags-help" class="text-muted-foreground text-xs">{{ 'tags.help' | t }}</p>
         </div>
+        <app-group-picker
+          idPrefix="edit-groups"
+          [optional]="false"
+          [options]="groupOptions()"
+          [(value)]="groups"
+        />
         <p class="text-destructive text-sm" role="alert">
           @if (error(); as key) {
             {{ key | t }}
@@ -71,16 +86,24 @@ export class EditDocumentDialogComponent implements OnInit {
   protected name = '';
   protected tags = '';
   protected collectionId: string | null = null;
+  protected readonly groups = signal<string[]>([]);
+  protected readonly groupOptions = signal<string[]>([]);
   protected readonly busy = signal(false);
   protected readonly error = signal<MessageKey | null>(null);
   protected readonly store = inject(CollectionsStore);
   private readonly api = inject(DocumentsApi);
+  private readonly groupsApi = inject(GroupsApi);
 
   ngOnInit(): void {
     const doc = this.document();
     this.name = doc.name;
     this.tags = doc.tags.join(', ');
     this.collectionId = doc.collection_id;
+    this.groups.set([...doc.acl_groups]);
+    this.groupsApi.list().subscribe({
+      next: (options) => this.groupOptions.set(options),
+      error: () => undefined, // the groups the document already has are still listed
+    });
   }
 
   protected save(): void {
@@ -91,6 +114,7 @@ export class EditDocumentDialogComponent implements OnInit {
         name: this.name.trim() || this.document().name,
         tags: parseTags(this.tags),
         collection_id: this.collectionId,
+        acl_groups: this.groups(),
       })
       .subscribe({
         next: (updated) => this.done.emit(updated),
@@ -104,7 +128,7 @@ export class EditDocumentDialogComponent implements OnInit {
   private messageFor(failure: unknown): MessageKey {
     if (failure instanceof HttpErrorResponse) {
       if (failure.status === 403) return 'common.ownerOnly';
-      if (failure.status === 422) return 'tags.invalid';
+      if (failure.status === 422) return 'edit.invalid';
       if (failure.status === 0) return 'common.offline';
     }
     return 'common.unknownError';
