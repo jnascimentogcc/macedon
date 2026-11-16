@@ -6,11 +6,66 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Upgrading
+
+- Run `uv run alembic upgrade head` (migration 0004) and restart the API and the worker. The
+  migration rebuilds the keyword index, which can take a while on a large database.
+- With Docker, `docker compose up -d --build` does both: the new `migrate` service applies the
+  migrations before the API and the worker start.
+- An existing Keycloak realm is not re-imported. To sign in at `http://127.0.0.1:4200`, add
+  `http://127.0.0.1:4200/*` as a redirect URI and `http://127.0.0.1:4200` as a web origin on the
+  `macedon-web` client (or run `docker compose down -v` to start from scratch).
+- PDFs ingested before this release keep their old structure (section paths, repeated page headers)
+  until a new version is uploaded.
+
 ### Added
 
+- **The API, the worker and the web interface run in Docker:** a backend image (API, Arq worker and
+  Alembic migrations) and a frontend image (Angular build served by nginx), both as non-root users,
+  and `migrate`, `api`, `worker` and `web` services in `docker-compose.yml`. `docker compose up -d
+  --build` starts everything; `docker compose up -d postgres redis s3 keycloak` starts only the
+  infrastructure, to run the rest on the host.
 - The evaluation covers collection and tag scopes: 3 regional documents that compete with the
   group-wide ones, 16 scoped questions (ambiguous, subtree, tags, out of scope, access control)
   and scoped metrics in `baseline.json`. The 34 unscoped questions are unchanged.
+- A Portuguese evaluation set (`eval/run_pt.py`: 3 documents, 13 questions on inflections, missing
+  accents, identifiers and paraphrases) and a real-document set (`eval/run_real.py`: 27 questions
+  over two public tender PDFs of 83 and 116 pages, kept outside the repository).
+- A one-page overview of the design in the README.
+
+### Changed
+
+- **Keyword search folds accents and stems Portuguese** (`macedon_text` text search configuration,
+  migration 0004) instead of matching identical words only. On the Portuguese set evidence@1 went
+  from 0.82 to 1.00 and MRR from 0.91 to 1.00; the English baseline is unchanged (MRR 0.93).
+- **PDF extraction:** page headers and footers repeated on the pages are dropped, and headings are
+  also found by structural label ("Cláusula 5.ª", "Artigo 10.º", "Chapter IV"), with the title line
+  merged in whatever its size and the label setting the depth. On the real PDFs the specifications
+  went from 2 headings and 3 section paths to 27 and 28, chunks carrying header or footer text from
+  75 and 96 to 0, so citations now name the clause instead of the cover title. Spans that sit apart
+  without a space are no longer glued together ("b)Encargos"). Retrieval metrics on the real set did
+  not move beyond noise (evidence@5 0.96, MRR 0.88).
+- Token estimates count letters, digits and punctuation separately instead of a flat 4 characters
+  per token. The flat rule undercounted tables, codes and dates by about half, so a section or the
+  context budget could hold twice the intended tokens; oversized text without punctuation is cut by
+  the same estimate.
+- The API's CORS setting and the Keycloak client accept `http://127.0.0.1:4200` as well as
+  `http://localhost:4200`.
+- Dependency updates (Dependabot): `pymupdf` 2.1, `sqlalchemy` 2.1.8, `boto3`, `ruff`, `uv-build`,
+  and in the frontend `jsdom` 31 (major), `vitest` 5.1, `@angular/cli` and `@angular/build` 22.2.x,
+  `@tailwindcss/postcss` 4.3.4. Extraction results with `pymupdf` 2.1 are identical to 2.0 on the
+  real PDFs.
+
+### Fixed
+
+- Signing in at `http://127.0.0.1:4200` failed with "Invalid parameter: redirect_uri", because only
+  `localhost:4200` was accepted.
+
+### Evaluated, not adopted
+
+- A cosine-distance relevance floor to send no sources for unanswerable questions: evidence found
+  only by vector search sits as far as 0.69 while the nearest chunk of an unanswerable question is
+  at 0.50 to 0.64, so no threshold separates them (see `backend/eval/README.md`).
 
 ## [0.2.0] - 2026-11-03
 
