@@ -34,6 +34,17 @@ Retrieval metrics: `evidence_hit@k` (a retrieved passage contains the evidence p
 `document_hit`, `no_answer_abstained` (no citation when nothing answers the question) and
 `acl_leaks` (a user outside the group got a passage of the restricted document; must stay 0).
 
+Portuguese check (`corpus_pt.py`, `run_pt.py`): 3 Portuguese documents and 13 questions that stress
+the keyword half of hybrid search, which uses the Postgres `simple` configuration (no stemming, no
+accent folding). Tags: `morphology` (another inflection than the document), `accent` (accents
+dropped), `identifier`, `paraphrase`, `no-answer`. It truncates the dev database. Run it before and
+after any change to the text search configuration and compare the two files:
+
+```bash
+uv run python eval/run_pt.py --label simple       # writes eval/results/pt_simple.json
+uv run python eval/run_pt.py --label portuguese   # after the change
+```
+
 Any change to chunking, the embedding model or the reranker must be measured against this
 baseline. The corpus is small and easy, so grow it before drawing conclusions from small
 differences. `ragas` is pinned because newer releases break against current `langchain-community`.

@@ -1,0 +1,282 @@
+{
+  "label": "portuguese",
+  "date": "2026-11-16T21:03:10+00:00",
+  "models": {
+    "llm": "gpt-6.1-terra",
+    "embedding": "text-embedding-3-large"
+  },
+  "metrics": {
+    "questions": 13,
+    "evidence_hit@5": 1.0,
+    "evidence_hit@1": 1.0,
+    "mrr": 1.0,
+    "no_answer_abstained": 1.0
+  },
+  "per_tag": {
+    "accent": {
+      "questions": 3,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "identifier": {
+      "questions": 1,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "morphology": {
+      "questions": 4,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "paraphrase": {
+      "questions": 4,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    }
+  },
+  "rows": [
+    {
+      "question": "Quais despesas de hospedagem podem ser reembolsadas e até quanto?",
+      "tags": [
+        "morphology"
+      ],
+      "document": "Politica de Reembolso",
+      "evidence": "limite diario de 350 reais",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 1,
+      "answer": "As despesas de hospedagem podem ser reembolsadas até o limite de R$ 350 por dia, mediante apresentação da nota fiscal original. [1]"
+    },
+    {
+      "question": "Quem precisa aprovar um reembolso grande?",
+      "tags": [
+        "morphology"
+      ],
+      "document": "Politica de Reembolso",
+      "evidence": "aprovados pelo gerente financeiro",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Manual de Segurança da Informação",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 1,
+      "answer": "Reembolsos acima de R$ 2.000 precisam ser aprovados pelo gerente financeiro antes do pagamento. [1]"
+    },
+    {
+      "question": "Como devem ser armazenados os dados confidenciais?",
+      "tags": [
+        "morphology"
+      ],
+      "document": "Contrato de Prestação de Serviços",
+      "evidence": "armazenadas em ambiente criptografado",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Contrato de Prestação de Serviços",
+        "Manual de Segurança da Informação",
+        "Politica de Reembolso",
+        "Manual de Segurança da Informação",
+        "Manual de Segurança da Informação"
+      ],
+      "cited": 1,
+      "answer": "Os dados confidenciais devem ser armazenados em ambiente criptografado. [1]"
+    },
+    {
+      "question": "Quando vencem as faturas emitidas?",
+      "tags": [
+        "morphology"
+      ],
+      "document": "Contrato de Prestação de Serviços",
+      "evidence": "vencem 28 dias",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços",
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 1,
+      "answer": "As faturas vencem 28 dias após a emissão. [1]"
+    },
+    {
+      "question": "Qual o aviso previo para rescisao do contrato?",
+      "tags": [
+        "accent"
+      ],
+      "document": "Contrato de Prestação de Serviços",
+      "evidence": "aviso prévio de 45 dias",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços",
+        "Politica de Reembolso",
+        "Manual de Segurança da Informação"
+      ],
+      "cited": 1,
+      "answer": "O aviso prévio é de 45 dias e deve ser comunicado por escrito. [1]"
+    },
+    {
+      "question": "Qual a multa rescisoria?",
+      "tags": [
+        "accent"
+      ],
+      "document": "Contrato de Prestação de Serviços",
+      "evidence": "10 por cento do valor restante",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços",
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Politica de Reembolso"
+      ],
+      "cited": 1,
+      "answer": "A multa rescisória é de 10% do valor restante do contrato. [1]"
+    },
+    {
+      "question": "Como deve ser a seguranca de um notebook da empresa?",
+      "tags": [
+        "accent",
+        "paraphrase"
+      ],
+      "document": "Manual de Segurança da Informação",
+      "evidence": "disco cifrado",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Manual de Segurança da Informação",
+        "Manual de Segurança da Informação",
+        "Manual de Segurança da Informação",
+        "Contrato de Prestação de Serviços",
+        "Politica de Reembolso"
+      ],
+      "cited": 1,
+      "answer": "O notebook deve ter o disco criptografado e receber atualizações automáticas de segurança. [1]"
+    },
+    {
+      "question": "O que diz a norma NSI-317?",
+      "tags": [
+        "identifier"
+      ],
+      "document": "Manual de Segurança da Informação",
+      "evidence": "norma NSI-317",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Manual de Segurança da Informação",
+        "Manual de Segurança da Informação",
+        "Manual de Segurança da Informação",
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 1,
+      "answer": "A norma NSI-317 exige VPN corporativa e autenticação em dois fatores para acesso remoto aos sistemas internos. [1]"
+    },
+    {
+      "question": "Em quanto tempo devo avisar a segurança sobre um problema?",
+      "tags": [
+        "paraphrase"
+      ],
+      "document": "Manual de Segurança da Informação",
+      "evidence": "em ate 2 horas",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Manual de Segurança da Informação",
+        "Politica de Reembolso",
+        "Manual de Segurança da Informação",
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 1,
+      "answer": "Se você identificar um incidente, deve avisar a equipe de segurança em até 2 horas, pelo canal de plantão. [1]"
+    },
+    {
+      "question": "Posso pedir reembolso depois de um mês da viagem?",
+      "tags": [
+        "paraphrase"
+      ],
+      "document": "Politica de Reembolso",
+      "evidence": "20 dias corridos",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 1,
+      "answer": "Sim, mas um pedido feito após um mês estará fora do prazo de 20 dias corridos após o retorno da viagem e exigirá justificativa da diretoria. [1]"
+    },
+    {
+      "question": "Qual o teto de gasto com comida em viagem?",
+      "tags": [
+        "paraphrase"
+      ],
+      "document": "Politica de Reembolso",
+      "evidence": "teto de 90 reais",
+      "evidence_rank": 1,
+      "source_documents": [
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Manual de Segurança da Informação",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 1,
+      "answer": "O teto para refeições em viagens a serviço é de R$ 90 por dia. [1]"
+    },
+    {
+      "question": "Qual é o salário do diretor financeiro?",
+      "tags": [
+        "no-answer"
+      ],
+      "document": null,
+      "evidence": null,
+      "evidence_rank": null,
+      "source_documents": [
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Politica de Reembolso",
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços"
+      ],
+      "cited": 0,
+      "answer": "Não encontrei o salário do diretor financeiro nos documentos disponíveis."
+    },
+    {
+      "question": "Quantos dias de férias o contrato prevê?",
+      "tags": [
+        "no-answer"
+      ],
+      "document": null,
+      "evidence": null,
+      "evidence_rank": null,
+      "source_documents": [
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços",
+        "Contrato de Prestação de Serviços",
+        "Politica de Reembolso",
+        "Politica de Reembolso"
+      ],
+      "cited": 0,
+      "answer": "Não encontrei essa informação nos documentos disponíveis."
+    }
+  ]
+}
