@@ -1,6 +1,6 @@
 {
   "label": "portuguese",
-  "date": "2026-11-16T21:03:10+00:00",
+  "date": "2026-11-16T21:36:39+00:00",
   "models": {
     "llm": "gpt-6.1-terra",
     "embedding": "text-embedding-3-large"
@@ -59,7 +59,7 @@
         "Contrato de Prestação de Serviços"
       ],
       "cited": 1,
-      "answer": "As despesas de hospedagem podem ser reembolsadas até o limite de R$ 350 por dia, mediante apresentação da nota fiscal original. [1]"
+      "answer": "Despesas de hospedagem podem ser reembolsadas até o limite de R$ 350 por dia, mediante apresentação da nota fiscal original. [1]"
     },
     {
       "question": "Quem precisa aprovar um reembolso grande?",
@@ -168,7 +168,7 @@
         "Politica de Reembolso"
       ],
       "cited": 1,
-      "answer": "O notebook deve ter o disco criptografado e receber atualizações automáticas de segurança. [1]"
+      "answer": "O notebook deve ter o disco cifrado e receber atualizações automáticas de segurança.[1]"
     },
     {
       "question": "O que diz a norma NSI-317?",
@@ -204,7 +204,7 @@
         "Contrato de Prestação de Serviços"
       ],
       "cited": 1,
-      "answer": "Se você identificar um incidente, deve avisar a equipe de segurança em até 2 horas, pelo canal de plantão. [1]"
+      "answer": "Se identificar um incidente, avise a equipe de segurança em até 2 horas, pelo canal de plantão. [1]"
     },
     {
       "question": "Posso pedir reembolso depois de um mês da viagem?",
@@ -222,7 +222,7 @@
         "Contrato de Prestação de Serviços"
       ],
       "cited": 1,
-      "answer": "Sim, mas um pedido feito após um mês estará fora do prazo de 20 dias corridos após o retorno da viagem e exigirá justificativa da diretoria. [1]"
+      "answer": "Sim, mas pedidos feitos após 20 dias corridos do retorno da viagem exigem justificativa da diretoria. [1]"
     },
     {
       "question": "Qual o teto de gasto com comida em viagem?",
@@ -258,7 +258,7 @@
         "Contrato de Prestação de Serviços"
       ],
       "cited": 0,
-      "answer": "Não encontrei o salário do diretor financeiro nos documentos disponíveis."
+      "answer": "Não encontrei essa informação nos documentos disponíveis."
     },
     {
       "question": "Quantos dias de férias o contrato prevê?",

@@ -11,6 +11,14 @@ def paragraph(words: int, page: int | None = None, seed: str = "word") -> Block:
     return Block("paragraph", " ".join(f"{seed}{i}" for i in range(words)), page=page)
 
 
+def test_numbers_and_punctuation_cost_more_tokens_per_character_than_prose() -> None:
+    prose = "The quarterly report is due on the last working day of the month. " * 5
+    numeric = "| 1.234,56 | R$ 2.000,00 | 2024-11-16 | NSI-317 |\n" * 7
+
+    assert abs(len(prose) - len(numeric)) < 40  # about the same length in characters
+    assert estimate_tokens(numeric) > 2 * estimate_tokens(prose)
+
+
 def test_path_prefix_follows_the_heading_hierarchy() -> None:
     blocks = [
         Block("heading", "Clause 5", level=1),

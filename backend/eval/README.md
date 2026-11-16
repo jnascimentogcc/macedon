@@ -45,6 +45,13 @@ uv run python eval/run_pt.py --label simple       # writes eval/results/pt_simpl
 uv run python eval/run_pt.py --label portuguese   # after the change
 ```
 
+Relevance floor (tried, not adopted): the idea was to drop vector-only hits above a cosine
+distance so unanswerable questions reach the model with no sources. Measured on both corpora, the
+evidence chunk of paraphrased questions sits as far as 0.69, while the nearest chunk of an
+unanswerable question is at 0.50 to 0.64, and the keyword search (an OR query) also matches
+unanswerable questions. No threshold separates them without dropping correct answers, so abstention
+stays with the model. Revisit it only with a reranker, whose scores are calibrated.
+
 Any change to chunking, the embedding model or the reranker must be measured against this
 baseline. The corpus is small and easy, so grow it before drawing conclusions from small
 differences. `ragas` is pinned because newer releases break against current `langchain-community`.
