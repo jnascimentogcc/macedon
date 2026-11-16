@@ -19,6 +19,118 @@ def make_pdf(pages: list[list[tuple[str, int]]]) -> bytes:
     return bytes(document.tobytes())
 
 
+def make_styled_pdf(
+    pages: list[list[tuple[str, float, bool]]],
+    header: str | None = None,
+    footer: str | None = None,
+) -> bytes:
+    """Pages of (text, size, bold) lines, plus an optional running header and footer.
+
+    "{n}" in the header or footer is replaced by the page number.
+    """
+    document = pymupdf.open()
+    for number, lines in enumerate(pages, start=1):
+        page = document.new_page()
+        if header:
+            page.insert_text((72, 30), header.format(n=number), fontsize=8)
+        if footer:
+            page.insert_text((72, 820), footer.format(n=number), fontsize=8)
+        y = 200.0
+        for text, size, bold in lines:
+            page.insert_text((72, y), text, fontsize=size, fontname="hebo" if bold else "helv")
+            y += size * 1.8
+    return bytes(document.tobytes())
+
+
+def test_pdf_running_headers_and_footers_are_dropped() -> None:
+    body = [("The supplier shall deliver the goods on time.", 10.0, False)]
+    pdf = make_styled_pdf(
+        [body] * 6, header="ACME Agency | Page {n} of 6", footer="Confidential {n}"
+    )
+
+    texts = [b.text for b in extract_blocks(pdf, "pdf")]
+
+    assert texts
+    assert not any("ACME" in t or "Confidential" in t or "Page" in t for t in texts)
+
+
+def test_pdf_short_documents_keep_their_margin_lines() -> None:
+    body = [("The supplier shall deliver the goods on time.", 10.0, False)]
+    pdf = make_styled_pdf([body] * 2, header="ACME Agency | Page {n} of 2")
+
+    assert any("ACME" in b.text for b in extract_blocks(pdf, "pdf"))
+
+
+def test_pdf_a_line_that_is_not_in_the_margin_is_kept_even_when_repeated() -> None:
+    line = ("See the annex for the price table of each lot.", 10.0, False)
+    pdf = make_styled_pdf([[line]] * 6)  # same text on every page, but in the body of the page
+
+    assert sum("price table" in b.text for b in extract_blocks(pdf, "pdf")) >= 1
+
+
+def test_pdf_bold_clause_labels_become_headings_with_their_title() -> None:
+    body = "The payment is made within thirty days of receiving each invoice."
+    pdf = make_styled_pdf(
+        [
+            [
+                ("Clause 5", 10.0, True),
+                ("Payment terms", 10.0, True),
+                (body, 10.0, False),
+                (body, 10.0, False),
+                ("Clause 6", 10.0, True),
+                ("Intellectual property", 10.0, True),
+                (body, 10.0, False),
+            ]
+        ]
+    )
+
+    blocks = extract_blocks(pdf, "pdf")
+
+    headings = [(b.text, b.level) for b in blocks if b.kind == "heading"]
+    assert headings == [("Clause 5 Payment terms", 3), ("Clause 6 Intellectual property", 3)]
+
+
+def test_pdf_label_and_title_in_different_sizes_stay_one_heading_of_the_same_depth() -> None:
+    body = "The committee answers questions in writing through the platform."
+    pdf = make_styled_pdf(
+        [
+            [
+                ("Article 10", 13.0, False),
+                ("Variant proposals", 13.0, False),
+                (body, 10.0, False),
+                ("Article 11", 12.0, False),  # same kind of label, another size
+                ("Deadline for proposals", 13.0, False),
+                (body, 10.0, False),
+                (body, 10.0, False),
+                (body, 10.0, False),
+            ]
+        ]
+    )
+
+    blocks = extract_blocks(pdf, "pdf")
+
+    headings = [(b.text, b.level) for b in blocks if b.kind == "heading"]
+    assert [text for text, _ in headings] == [
+        "Article 10 Variant proposals",
+        "Article 11 Deadline for proposals",
+    ]
+    assert headings[0][1] == headings[1][1]  # siblings, not nested
+
+
+def test_pdf_a_bold_sentence_that_only_starts_like_a_label_is_not_a_heading() -> None:
+    pdf = make_styled_pdf(
+        [
+            [
+                ("Part of the plan is to ship early.", 10.0, True),
+                ("Section a bit later in the text, we explain why.", 10.0, False),
+                ("The rest of the paragraph is ordinary body text here.", 10.0, False),
+            ]
+        ]
+    )
+
+    assert [b.kind for b in extract_blocks(pdf, "pdf")] == ["paragraph"]
+
+
 def test_txt_splits_on_blank_lines_and_joins_wrapped_lines() -> None:
     data = b"First line\nwrapped here.\n\n\nSecond paragraph.\r\n\r\nThird."
 

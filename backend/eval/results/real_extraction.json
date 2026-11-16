@@ -1,0 +1,1020 @@
+{
+  "label": "extraction",
+  "date": "2026-11-16T22:10:40+00:00",
+  "models": {
+    "llm": "gpt-6.1-terra",
+    "embedding": "text-embedding-3-large"
+  },
+  "chunks": 322,
+  "ingest_seconds": 30.6,
+  "metrics": {
+    "questions": 27,
+    "evidence_hit@5": 0.9583333333333334,
+    "evidence_hit@1": 0.8333333333333334,
+    "mrr": 0.8819444444444445,
+    "no_answer_abstained": 1.0,
+    "document_hit": 1.0
+  },
+  "per_tag": {
+    "both-documents": {
+      "questions": 1,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "confusable": {
+      "questions": 2,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "formula": {
+      "questions": 1,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "identifier": {
+      "questions": 1,
+      "evidence_hit@5": 0.0,
+      "evidence_hit@1": 0.0,
+      "mrr": 0.0,
+      "no_answer_abstained": null
+    },
+    "lookup": {
+      "questions": 14,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 0.8571428571428571,
+      "mrr": 0.9047619047619048,
+      "no_answer_abstained": null
+    },
+    "lot": {
+      "questions": 2,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "lot-price": {
+      "questions": 4,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 0.75,
+      "mrr": 0.875,
+      "no_answer_abstained": null
+    },
+    "number": {
+      "questions": 8,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 0.75,
+      "mrr": 0.8541666666666666,
+      "no_answer_abstained": null
+    },
+    "page-break": {
+      "questions": 2,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    },
+    "paraphrase": {
+      "questions": 5,
+      "evidence_hit@5": 1.0,
+      "evidence_hit@1": 1.0,
+      "mrr": 1.0,
+      "no_answer_abstained": null
+    }
+  },
+  "rows": [
+    {
+      "question": "Em quantos dias é feito o pagamento das faturas?",
+      "tags": [
+        "lookup",
+        "paraphrase"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "30 dias a contar da data da receção das faturas",
+      "reference": "30 dias a contar da data da receção das faturas.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 12,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 5.ª Condições de pagamento"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 28,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 25.ª Requisitos específicos de implementação para a segurança da informação"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 30.º Outorga do contrato"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 58,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > Modelo de Curriculum Vitae"
+        }
+      ],
+      "cited": 1,
+      "answer": "O pagamento é efetuado no prazo de 30 dias a contar da data de receção das faturas. [1]",
+      "latency_s": 3.37
+    },
+    {
+      "question": "Qual é o preço contratual global do concurso?",
+      "tags": [
+        "lookup",
+        "number"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "31.741.794,40",
+      "reference": "31.741.794,40 euros, acrescido de IVA.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 9,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        }
+      ],
+      "cited": 1,
+      "answer": "O preço contratual global é de 31.741.794,40 €, acrescido de IVA à taxa legal em vigor, se legalmente devido. [1]",
+      "latency_s": 2.14
+    },
+    {
+      "question": "Qual o tribunal competente para resolver litígios do contrato?",
+      "tags": [
+        "lookup"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "Tribunal Administrativo de Círculo de Lisboa",
+      "reference": "O Tribunal Administrativo de Círculo de Lisboa.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 18,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 14.ª Foro competente"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 29.º Reclamação da minuta do contrato"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 25,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 22.ª Gestor do contrato"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 19,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 26.º Redução do contrato a escrito"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 2,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO"
+        }
+      ],
+      "cited": 1,
+      "answer": "O tribunal competente é o Tribunal Administrativo de Círculo de Lisboa. [1]",
+      "latency_s": 2.05
+    },
+    {
+      "question": "Qual é o número do concurso público?",
+      "tags": [
+        "identifier"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "184/2023/CPI/CD",
+      "reference": "184/2023/CPI/CD.",
+      "evidence_rank": null,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 2,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 4,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 1.ª Objeto"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 23,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 19.ª Perfis técnicos dos recursos a afetar aos serviços"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 19,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 16.ª Descrição técnica do contrato"
+        }
+      ],
+      "cited": 1,
+      "answer": "O número do concurso público é 184/2023/CPI/CD. [1]",
+      "latency_s": 2.28
+    },
+    {
+      "question": "Em que consiste o Lote 5?",
+      "tags": [
+        "lookup",
+        "lot"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "serviços para gestão de conteúdos e UX writing",
+      "reference": "Serviços para gestão de conteúdos e UX writing em serviços digitais.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 5,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO I OBJETO E ÂMBITO DO CONCURSO > Artigo 1.º Identificação e objeto do concurso"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 4,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 1.ª Objeto"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 6,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 1.ª Objeto"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 6,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO I OBJETO E ÂMBITO DO CONCURSO > Artigo 1.º Identificação e objeto do concurso"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 6,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO I OBJETO E ÂMBITO DO CONCURSO > Artigo 1.º Identificação e objeto do concurso"
+        }
+      ],
+      "cited": 1,
+      "answer": "O Lote 5 consiste na contratação de serviços de gestão de conteúdos e UX writing para serviços digitais em diferentes canais, com um volume estimado de 28.719 horas. [1]",
+      "latency_s": 2.29
+    },
+    {
+      "question": "Qual o preço contratual do Lote 5?",
+      "tags": [
+        "lot-price",
+        "number"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "Lote 5 o preço contratual é de 1.020.000,00 €",
+      "reference": "1.020.000,00 €.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 9,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 10,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        }
+      ],
+      "cited": 1,
+      "answer": "O preço contratual do Lote 5 é de 1.020.000,00 €, acrescido de IVA à taxa legal em vigor, se legalmente devido. [1]",
+      "latency_s": 2.56
+    },
+    {
+      "question": "Quanto custa o Lote 12?",
+      "tags": [
+        "lot-price",
+        "number",
+        "paraphrase"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "Lote 12 o preço contratual é de 301.302,40 €",
+      "reference": "301.302,40 €.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 9,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 33,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > Anexo II"
+        }
+      ],
+      "cited": 2,
+      "answer": "O preço contratual do Lote 12 é 301.302,40 €, acrescido de IVA à taxa legal em vigor. [1][3]",
+      "latency_s": 2.79
+    },
+    {
+      "question": "Qual o valor estimado em 2025 para o lote 22?",
+      "tags": [
+        "lot-price",
+        "number"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "Lote 22 o preço contratual é de 710.707,20 €",
+      "reference": "222.096,00 € em 2025.",
+      "evidence_rank": 2,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 10,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 9,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        }
+      ],
+      "cited": 1,
+      "answer": "O valor estimado para o lote 22 em 2025 é de 222.096,00 €. [2]",
+      "latency_s": 2.28
+    },
+    {
+      "question": "Qual é o preço contratual do lote 30?",
+      "tags": [
+        "lot-price",
+        "number"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "Lote 30 o preço contratual é de 1.488.320,00 €",
+      "reference": "1.488.320,00 €.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 10,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 9,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        }
+      ],
+      "cited": 1,
+      "answer": "O preço contratual do lote 30 é de 1.488.320,00 €, acrescido de IVA à taxa legal em vigor. [1]",
+      "latency_s": 2.4
+    },
+    {
+      "question": "Qual o limite máximo acumulado das sanções pecuniárias?",
+      "tags": [
+        "lookup",
+        "number"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "não pode exceder 20 % do preço contratual",
+      "reference": "20% do preço contratual, elevado a 30% em certos casos.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 17,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 11.ª Penalidades contratuais"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 58,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > Modelo de Curriculum Vitae"
+        }
+      ],
+      "cited": 1,
+      "answer": "O limite acumulado é de 20% do preço contratual. Pode ser elevado para 30% se a AMA decidir não resolver o contrato por isso causar grave dano ao interesse público. [1]",
+      "latency_s": 2.46
+    },
+    {
+      "question": "Que penalidade se aplica por falhar os mecanismos de acompanhamento?",
+      "tags": [
+        "lookup",
+        "paraphrase"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "10% do preço a pagar no mês em que ocorre o incumprimento",
+      "reference": "10% do preço a pagar no mês do incumprimento.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 17,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 11.ª Penalidades contratuais"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 26,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 23.ª Mecanismos formais de acompanhamento"
+        }
+      ],
+      "cited": 1,
+      "answer": "Pode ser aplicada uma sanção de 10% do preço a pagar no mês em que ocorre o incumprimento. [1]",
+      "latency_s": 2.49
+    },
+    {
+      "question": "Até que data cessa o contrato do lote 13?",
+      "tags": [
+        "page-break"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "previsivelmente até 31 de dezembro de 2024",
+      "reference": "Previsivelmente até 31 de dezembro de 2024.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 7,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 3.ª Duração"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 30.º Outorga do contrato"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 9,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 19,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 26.º Redução do contrato a escrito"
+        }
+      ],
+      "cited": 1,
+      "answer": "O contrato do lote 13 cessa previsivelmente até 31 de dezembro de 2024. [1]",
+      "latency_s": 2.76
+    },
+    {
+      "question": "Quais os lotes cujos contratos produzem efeitos a partir de 1 de janeiro de 2025?",
+      "tags": [
+        "lookup",
+        "page-break"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "lotes 3, 12, 26 e 27",
+      "reference": "Os lotes 3, 12, 26 e 27.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 7,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 3.ª Duração"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 10,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        }
+      ],
+      "cited": 1,
+      "answer": "Os lotes 3, 12, 26 e 27. Os seus contratos produzem efeitos a partir de 1 de janeiro de 2025 ou, quando aplicável, após a obtenção do visto de conformidade do Tribunal de Contas, conforme o que ocorrer por último. [1]",
+      "latency_s": 2.5
+    },
+    {
+      "question": "Qual o prazo para resolver vulnerabilidades críticas durante o período de garantia?",
+      "tags": [
+        "confusable"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "Critical: 10 dias seguidos",
+      "reference": "10 dias seguidos (5 dias seguidos durante a execução do contrato).",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 28,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 25.ª Requisitos específicos de implementação para a segurança da informação"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 58,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > Modelo de Curriculum Vitae"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 13,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 13.º Prazo mínimo da obrigação de manutenção das propostas"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 21,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 17.ª Requisitos específicos de implementação para o tratamento de dados pessoais"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 15,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 8.ª Proteção de dados"
+        }
+      ],
+      "cited": 1,
+      "answer": "O prazo é de 10 dias seguidos. [1]",
+      "latency_s": 1.98
+    },
+    {
+      "question": "Qual o prazo para resolver vulnerabilidades críticas durante a execução do contrato?",
+      "tags": [
+        "confusable"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "Critical: 5 dias seguidos",
+      "reference": "5 dias seguidos (10 dias seguidos no período de garantia).",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 28,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 25.ª Requisitos específicos de implementação para a segurança da informação"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 29.º Reclamação da minuta do contrato"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 19,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 16.ª Descrição técnica do contrato"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 30.º Outorga do contrato"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 24,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 20.ª Alocação e substituição de recursos"
+        }
+      ],
+      "cited": 1,
+      "answer": "O prazo é de 5 dias seguidos para vulnerabilidades críticas encontradas em sistemas de produção durante a execução do contrato. [1]",
+      "latency_s": 2.5
+    },
+    {
+      "question": "Em quantos dias úteis deve começar a prestação dos serviços após a celebração?",
+      "tags": [
+        "lookup"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "no máximo até 10 dias úteis",
+      "reference": "No máximo até 10 dias úteis.",
+      "evidence_rank": 3,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 28,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 25.ª Requisitos específicos de implementação para a segurança da informação"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 26,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 23.ª Mecanismos formais de acompanhamento"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 24,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 20.ª Alocação e substituição de recursos"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 12,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 5.ª Condições de pagamento"
+        }
+      ],
+      "cited": 1,
+      "answer": "A prestação dos serviços deve começar no máximo 10 dias úteis após a celebração do contrato. [3]",
+      "latency_s": 1.93
+    },
+    {
+      "question": "Até que horas e dia se podem entregar as propostas?",
+      "tags": [
+        "lookup"
+      ],
+      "document": "Programa_do_procedimento_Lotes_VF_ama",
+      "evidence": "até às 23:59 horas do 33.º",
+      "reference": "Até às 23:59 horas do 33.º dia a contar do envio do anúncio.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 12,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 11.º Modo e prazo de apresentação das propostas"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 13,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 14.º Lista dos concorrentes e consulta das propostas apresentadas"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 10,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 8.º Proposta"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 2,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 11,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 9.º Agrupamento Concorrente"
+        }
+      ],
+      "cited": 1,
+      "answer": "As propostas podem ser entregues até às 23h59 do 33.º dia a contar do envio do anúncio. [1]",
+      "latency_s": 2.37
+    },
+    {
+      "question": "Durante quanto tempo os concorrentes têm de manter as propostas?",
+      "tags": [
+        "lookup",
+        "number"
+      ],
+      "document": "Programa_do_procedimento_Lotes_VF_ama",
+      "evidence": "120 (cento e vinte) dias",
+      "reference": "120 dias a contar do termo do prazo de apresentação.",
+      "evidence_rank": 3,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 13,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 14.º Lista dos concorrentes e consulta das propostas apresentadas"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 12,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 11.º Modo e prazo de apresentação das propostas"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 13,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 13.º Prazo mínimo da obrigação de manutenção das propostas"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 11,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO III PROPOSTAS > Artigo 9.º Agrupamento Concorrente"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 2,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO"
+        }
+      ],
+      "cited": 1,
+      "answer": "Os concorrentes têm de manter as propostas durante 120 dias, contados da data do termo do prazo para a sua apresentação. [3]",
+      "latency_s": 2.58
+    },
+    {
+      "question": "Como se calcula a pontuação global de cada proposta?",
+      "tags": [
+        "formula",
+        "paraphrase"
+      ],
+      "document": "Programa_do_procedimento_Lotes_VF_ama",
+      "evidence": "0,2*Preço + 0,8*Adequação da Equipa",
+      "reference": "PGP = 0,2*Preço + 0,8*Adequação da Equipa.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 14,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO IV ANÁLISE E AVALIAÇÃO DAS PROPOSTAS > Artigo 15.º Critério de adjudicação"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 16,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO IV ANÁLISE E AVALIAÇÃO DAS PROPOSTAS > Artigo 18.º Exclusão das propostas"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 15,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO IV ANÁLISE E AVALIAÇÃO DAS PROPOSTAS > Artigo 16.º Critério de desempate"
+        }
+      ],
+      "cited": 1,
+      "answer": "A pontuação global da proposta (PGP) para cada lote calcula-se pela fórmula: PGP = 0,2 × preço + 0,8 × adequação da equipa. Assim, o preço pesa 20% e a adequação da equipa 80%. [1]\n\nO fator preço é calculado pela diferença entre a média dos preços base unitários do lote e a média dos preços unitários propostos, dividida pela média dos preços base unitários do lote. O fator adequação da equipa corresponde à soma das pontuações de todos os recursos dividida pelo número de recursos do lote. [1]",
+      "latency_s": 3.56
+    },
+    {
+      "question": "Qual o valor da caução a prestar pelo adjudicatário?",
+      "tags": [
+        "lookup",
+        "number"
+      ],
+      "document": "Programa_do_procedimento_Lotes_VF_ama",
+      "evidence": "no valor de 5% do preço contratual",
+      "reference": "5% do preço contratual.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VIII CAUÇÃO > Artigo 31.º Caução"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 59,
+          "section": "CE_TicAPP_Lotes_VF_ama > ANEXOS"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 10,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        }
+      ],
+      "cited": 1,
+      "answer": "A caução é de 5% do preço contratual. É exigida para todos os lotes, exceto os lotes 11, 12, 13, 16, 24, 25, 26, 27, 28 e 31. [1]",
+      "latency_s": 2.76
+    },
+    {
+      "question": "Em que lotes não é exigida caução?",
+      "tags": [
+        "lookup",
+        "lot"
+      ],
+      "document": "Programa_do_procedimento_Lotes_VF_ama",
+      "evidence": "exceto nos Lotes 11, 12, 13, 16, 24, 25, 26, 27, 28 e 31",
+      "reference": "Lotes 11, 12, 13, 16, 24, 25, 26, 27, 28 e 31.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VIII CAUÇÃO > Artigo 31.º Caução"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 2,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 2,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS"
+        }
+      ],
+      "cited": 1,
+      "answer": "Não é exigida caução nos lotes 11, 12, 13, 16, 24, 25, 26, 27, 28 e 31. [1]",
+      "latency_s": 2.15
+    },
+    {
+      "question": "Quantos dias tem o adjudicatário para entregar os documentos de habilitação?",
+      "tags": [
+        "lookup"
+      ],
+      "document": "Programa_do_procedimento_Lotes_VF_ama",
+      "evidence": "no prazo de 10 dias a contar da notificação da decisão de adjudicação",
+      "reference": "10 dias a contar da notificação da adjudicação.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 18,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VI HABILITAÇÃO > Artigo 25.º Documentos de habilitação"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 30.º Outorga do contrato"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 28,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 25.ª Requisitos específicos de implementação para a segurança da informação"
+        }
+      ],
+      "cited": 1,
+      "answer": "O adjudicatário tem 10 dias a contar da notificação da decisão de adjudicação. [1]",
+      "latency_s": 2.48
+    },
+    {
+      "question": "Quando é que os interessados podem pedir esclarecimentos sobre as peças?",
+      "tags": [
+        "lookup",
+        "paraphrase"
+      ],
+      "document": "Programa_do_procedimento_Lotes_VF_ama",
+      "evidence": "no primeiro terço do prazo fixado para a apresentação das propostas",
+      "reference": "No primeiro terço do prazo de apresentação das propostas.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 9,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO II PEÇAS DO PROCEDIMENTO > Artigo 6.º Esclarecimentos e retificações sobre as peças do procedimento"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 2,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO"
+        }
+      ],
+      "cited": 1,
+      "answer": "Os interessados podem pedir esclarecimentos no primeiro terço do prazo fixado para a apresentação das propostas, por escrito, através da plataforma, ao júri do procedimento. [1]",
+      "latency_s": 2.43
+    },
+    {
+      "question": "Que percentagem dos pagamentos pode a AMA reter se não houver caução?",
+      "tags": [
+        "both-documents"
+      ],
+      "document": "CE_TicAPP_Lotes_VF_ama",
+      "evidence": "retenção de 10% do valor dos pagamentos",
+      "reference": "10% do valor dos pagamentos a efetuar.",
+      "evidence_rank": 1,
+      "document_hit": true,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VIII CAUÇÃO > Artigo 31.º Caução"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 12,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 5.ª Condições de pagamento"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 16,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 11.ª Penalidades contratuais"
+        }
+      ],
+      "cited": 1,
+      "answer": "A AMA pode reter 10% do valor dos pagamentos, caso se revele pertinente. [1]",
+      "latency_s": 2.35
+    },
+    {
+      "question": "Quantos funcionários tem a AMA?",
+      "tags": [
+        "no-answer"
+      ],
+      "document": null,
+      "evidence": null,
+      "reference": "Não há resposta nos documentos.",
+      "evidence_rank": null,
+      "document_hit": null,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 20,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 16.ª Descrição técnica do contrato"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 13,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 7.ª Sigilo"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 26,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 23.ª Mecanismos formais de acompanhamento"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 23,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 19.ª Perfis técnicos dos recursos a afetar aos serviços"
+        }
+      ],
+      "cited": 0,
+      "answer": "Não encontrei o número de funcionários da AMA nos documentos disponíveis.",
+      "latency_s": 2.18
+    },
+    {
+      "question": "Qual o preço contratual do Lote 40?",
+      "tags": [
+        "no-answer"
+      ],
+      "document": null,
+      "evidence": null,
+      "reference": "Não há resposta nos documentos.",
+      "evidence_rank": null,
+      "document_hit": null,
+      "sources": [
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 10,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 9,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        },
+        {
+          "document": "CE_TicAPP_Lotes_VF_ama",
+          "page": 8,
+          "section": "CE_TicAPP_Lotes_VF_ama > CONCURSO PÚBLICO INTERNACIONAL N.º 184/2023/CPI/CD ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 CADERNO DE ENCARGOS > Cláusula 4.ª Preço contratual e preços base unitários"
+        }
+      ],
+      "cited": 0,
+      "answer": "Não foi possível encontrar o preço contratual do Lote 40 nos documentos disponíveis.",
+      "latency_s": 2.22
+    },
+    {
+      "question": "Qual a sede social do adjudicatário no Porto?",
+      "tags": [
+        "no-answer"
+      ],
+      "document": null,
+      "evidence": null,
+      "reference": "Não há resposta nos documentos.",
+      "evidence_rank": null,
+      "document_hit": null,
+      "sources": [
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 18,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VI HABILITAÇÃO > Artigo 25.º Documentos de habilitação"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 20,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO VII CELEBRAÇÃO DO CONTRATO > Artigo 29.º Reclamação da minuta do contrato"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 8,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > CAPÍTULO I OBJETO E ÂMBITO DO CONCURSO > Artigo 2.º Entidade pública adjudicante"
+        },
+        {
+          "document": "Programa_do_procedimento_Lotes_VF_ama",
+          "page": 53,
+          "section": "Programa_do_procedimento_Lotes_VF_ama > ECOSSISTEMA DE SERVIÇOS DIGITAIS PRR 2024-2026 > PROGRAMA DO PROCEDIMENTO > Anexo II"
+        }
+      ],
+      "cited": 0,
+      "answer": "Não foi possível encontrar a sede social do adjudicatário no Porto nos documentos disponíveis.",
+      "latency_s": 2.4
+    }
+  ]
+}
