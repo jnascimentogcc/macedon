@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@angular/build": "^22.2.5",
-    "@angular/cli": "^22.2.5",
+    "@angular/cli": "^22.2.6",
     "@angular/compiler-cli": "^22.2.0",
     "@spartan-ng/cli": "^1.9.0",
     "@types/luxon": "^3.7.6",
