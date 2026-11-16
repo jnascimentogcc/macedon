@@ -88,16 +88,16 @@ cd macedon
 ### 2. Start the infrastructure
 
 ```bash
-docker compose up -d
+docker compose up -d postgres redis s3 keycloak
 ```
 
-This starts Postgres (with pgvector), Redis, an S3-compatible store and Keycloak, all bound to `127.0.0.1`. The first start downloads the images and Keycloak takes about a minute to be ready. Check with:
+This starts Postgres (with pgvector), Redis, an S3-compatible store and Keycloak, all bound to `127.0.0.1`. (This guide runs the API, the worker and the web interface on your machine; to run them in Docker too, skip to [Run everything in Docker](#run-everything-in-docker).) The first start downloads the images and Keycloak takes about a minute to be ready. Check with:
 
 ```bash
 docker compose ps
 ```
 
-All four services should be `running` (Postgres `healthy`). Keycloak imports the `macedon` realm, with the sign-in client and the dev users, from [deploy/keycloak/macedon-realm.json](deploy/keycloak/macedon-realm.json) on its first start.
+All four services should be `Up` (Postgres `healthy`). Keycloak imports the `macedon` realm, with the sign-in client and the dev users, from [deploy/keycloak/macedon-realm.json](deploy/keycloak/macedon-realm.json) on its first start.
 
 > The dev stack uses fixed, public passwords and is **not hardened**. Never expose it or reuse its credentials outside your machine.
 
@@ -159,6 +159,16 @@ npm start
 ```
 
 Open <http://localhost:4200>. The interface expects the API on `http://127.0.0.1:8000` and Keycloak on `http://localhost:8080`; both are set in [frontend/src/app/config.ts](frontend/src/app/config.ts).
+
+### Run everything in Docker
+
+Instead of steps 4 to 7, the API, the ingestion worker and the web interface can run in containers next to the infrastructure. Do step 3 first (only `MACEDON_OPENAI_API_KEY` and `MACEDON_KNOWN_GROUPS` matter; `backend/.env` is optional, but without the key ingestion and questions fail), then, from the repository root:
+
+```bash
+docker compose up -d --build
+```
+
+A one-off `migrate` service creates the schema and exits; the API (<http://localhost:8000>), the worker and the web interface (<http://localhost:4200>) start after it. Inside the compose network the services reach each other by name, and those addresses override the ones in `backend/.env`. The API and Keycloak addresses used by the browser are compiled into the web image (see [frontend/src/app/config.ts](frontend/src/app/config.ts)), so rebuild it (`docker compose up -d --build web`) after changing them. Do not run the host API, worker or `npm start` at the same time: they use the same ports. Then go on to step 8.
 
 ### 8. Sign in and try it
 

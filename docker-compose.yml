@@ -1,4 +1,26 @@
 # Local development stack. Not hardened: do not use these credentials outside your machine.
+#
+# `docker compose up -d --build` starts everything, including the API, the worker and the web
+# interface. To run the API, the worker or the web interface on the host instead (hot reload),
+# start only the infrastructure: `docker compose up -d postgres redis s3 keycloak`.
+x-backend: &backend
+  build: ./backend
+  restart: unless-stopped
+  env_file:
+    # backend/.env supplies MACEDON_OPENAI_API_KEY (and any other override); it is optional so
+    # that the stack still starts without it, but then ingestion and queries fail.
+    - path: ./backend/.env
+      required: false
+  environment:
+    # Inside the compose network the services are reached by name. These win over backend/.env.
+    MACEDON_DATABASE_URL: postgresql+asyncpg://macedon_app:macedon_app@postgres:5432/macedon
+    MACEDON_MIGRATION_DATABASE_URL: postgresql+asyncpg://macedon:macedon@postgres:5432/macedon
+    MACEDON_REDIS_URL: redis://redis:6379
+    MACEDON_S3_ENDPOINT_URL: http://s3:8333
+    # The token issuer stays http://localhost:8080 (see KC_HOSTNAME); only the key fetch goes
+    # through the network name.
+    MACEDON_OIDC_JWKS_URL: http://keycloak:8080/realms/macedon/protocol/openid-connect/certs
+
 services:
   postgres:
     image: pgvector/pgvector:pg17
@@ -43,6 +65,57 @@ services:
       - "127.0.0.1:8080:8080"
     volumes:
       - ./deploy/keycloak/macedon-realm.json:/opt/keycloak/data/import/macedon-realm.json:ro
+
+  migrate:
+    <<: *backend
+    # Applies the schema as the table owner, then exits. The API and the worker wait for it.
+    command: ["alembic", "upgrade", "head"]
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    <<: *backend
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+      s3:
+        condition: service_started
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    <<: *backend
+    # Ingestion: extraction in an isolated subprocess, embeddings, chunk writes.
+    command: ["arq", "macedon.worker.WorkerSettings"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+      s3:
+        condition: service_started
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      # Port 4200 is the origin the Keycloak client and the API's CORS setting allow.
+      - "127.0.0.1:4200:8080"
+    depends_on:
+      - api
 
 volumes:
   postgres-data:
