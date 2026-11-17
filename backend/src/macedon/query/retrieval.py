@@ -16,6 +16,9 @@ from macedon.db.identity import Identity
 CANDIDATES_PER_SEARCH = 30
 RRF_K = 60
 MAX_KEYWORDS = 12
+# Text search configuration of the `chunks.tsv` column (migration 0004): accent folding plus
+# Portuguese stemming. The query must use the same one.
+TEXT_SEARCH_CONFIG = "macedon_text"
 
 # Words that would match nearly every chunk. Keyword search is there for codes, acronyms and
 # proper names, which vector search handles poorly.
@@ -173,8 +176,11 @@ async def search(
                 _SELECT.format(
                     scope=scope,
                     filters=filters,
-                    extra="AND c.tsv @@ to_tsquery('simple', :tsquery)",
-                    order="ts_rank_cd(c.tsv, to_tsquery('simple', :tsquery)) DESC, c.id",
+                    extra=f"AND c.tsv @@ to_tsquery('{TEXT_SEARCH_CONFIG}', :tsquery)",
+                    order=(
+                        f"ts_rank_cd(c.tsv, to_tsquery('{TEXT_SEARCH_CONFIG}', :tsquery)) "
+                        "DESC, c.id"
+                    ),
                 )
             ),
             {**params, "tsquery": keywords},

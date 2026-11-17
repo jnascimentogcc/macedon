@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-03T15:15:29+00:00",
+  "date": "2026-11-16T21:35:42+00:00",
   "models": {
     "llm": "gpt-6.1-terra",
     "embedding": "text-embedding-3-large"
@@ -15,7 +15,7 @@
     "answered_with_citation": 1.0,
     "no_answer_abstained": 1.0,
     "acl_leaks": 0,
-    "latency_p50_s": 1.89
+    "latency_p50_s": 2.355
   },
   "rows": [
     {
@@ -42,12 +42,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.3,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 1.0000000000000002,
-        "answer_correct": 1.0
-      }
+      "latency_s": 3.93
     },
     {
       "question": "Who has to approve business class flights?",
@@ -55,7 +50,7 @@
       "evidence": "written approval from a director",
       "reference": "A director, in writing, and only for flights over six hours.",
       "tags": [],
-      "answer": "A director must give written approval. [1]",
+      "answer": "A director must provide written approval. [1]",
       "contexts": [
         "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
         "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
@@ -73,12 +68,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.39,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.4747973625869561,
-        "answer_correct": 0.0
-      }
+      "latency_s": 2.36
     },
     {
       "question": "How long do I have to file an expense claim after a trip?",
@@ -86,30 +76,25 @@
       "evidence": "within 30 days",
       "reference": "Within 30 days of the end of the trip, with original receipts.",
       "tags": [],
-      "answer": "You have 30 days from the end of the trip to file your expense claim, with original receipts attached. [1]",
+      "answer": "You have 30 days after the end of the trip to file an expense claim, with original receipts attached. [1]",
       "contexts": [
         "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
         "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
         "The daily meal allowance is 45 euros. Alcohol is never reimbursed.",
-        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
-        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours."
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows."
       ],
       "source_documents": [
         "Travel Policy",
         "Travel Policy",
         "Travel Policy",
-        "Procurement Guidelines",
-        "Travel Policy"
+        "Travel Policy",
+        "Procurement Guidelines"
       ],
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.18,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.8548210943134467,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.52
     },
     {
       "question": "Is alcohol reimbursed on business trips?",
@@ -135,12 +120,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.07,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.8332074393804192,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.56
     },
     {
       "question": "How early must hotels be booked?",
@@ -166,12 +146,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.67,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.6959817711039825,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.46
     },
     {
       "question": "How many vacation days do employees get per year?",
@@ -179,7 +154,7 @@
       "evidence": "25 days of paid vacation",
       "reference": "25 days of paid vacation per year.",
       "tags": [],
-      "answer": "Full-time employees accrue 25 days of paid vacation per year. [1]",
+      "answer": "Full-time employees accrue 25 paid vacation days per year. [1]",
       "contexts": [
         "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
         "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
@@ -197,12 +172,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.06,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.7896278313205748,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.25
     },
     {
       "question": "How many unused vacation days can I carry over?",
@@ -228,12 +198,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 3.37,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9534350642098225,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.05
     },
     {
       "question": "What does SEC-204 require?",
@@ -261,12 +226,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.89,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.73998738629524,
-        "answer_correct": 1.0
-      }
+      "latency_s": 1.85
     },
     {
       "question": "When does a sick employee need a medical certificate?",
@@ -292,12 +252,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.8,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.7910288715116102,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.31
     },
     {
       "question": "How long is the probation period?",
@@ -308,27 +263,22 @@
       "answer": "The probation period is six months. [1]",
       "contexts": [
         "The probation period lasts six months. Either party may end the contract with two weeks of notice during probation.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
         "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
         "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
-        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
-        "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window."
+        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows."
       ],
       "source_documents": [
         "Employee Handbook",
+        "Travel Policy",
         "Engineering Onboarding",
         "Data Retention Policy",
-        "Procurement Guidelines",
-        "Contract Review Checklist"
+        "Procurement Guidelines"
       ],
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.93,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9999995618216623,
-        "answer_correct": 1.0
-      }
+      "latency_s": 3.42
     },
     {
       "question": "How many days per week can I work remotely?",
@@ -354,12 +304,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.72,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9999999999999998,
-        "answer_correct": 1.0
-      }
+      "latency_s": 1.83
     },
     {
       "question": "What is the minimum password length?",
@@ -385,12 +330,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.97,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9999999999999999,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.37
     },
     {
       "question": "How fast must a security incident be reported?",
@@ -416,12 +356,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.65,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.8231700771762014,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.15
     },
     {
       "question": "What encryption is required for Restricted data?",
@@ -429,7 +364,7 @@
       "evidence": "AES-256",
       "reference": "AES-256 at rest, and never on personal devices.",
       "tags": [],
-      "answer": "Restricted data must be encrypted at rest with AES-256. [1]",
+      "answer": "Restricted data must be encrypted at rest using AES-256. [1]",
       "contexts": [
         "Data is classified as Public, Internal, Confidential or Restricted. Restricted data must be encrypted at rest with AES-256 and may never be stored on personal devices.",
         "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
@@ -447,12 +382,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.76,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.8354345402685054,
-        "answer_correct": 0.0
-      }
+      "latency_s": 2.02
     },
     {
       "question": "How long are production backups retained?",
@@ -466,24 +396,19 @@
         "Passwords must have at least 14 characters and are rotated only after a suspected compromise. Multi-factor authentication is mandatory for all production systems.",
         "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
         "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
-        "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days."
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours."
       ],
       "source_documents": [
         "Information Security Standard",
         "Information Security Standard",
         "Engineering Onboarding",
         "Engineering Onboarding",
-        "Data Retention Policy"
+        "Travel Policy"
       ],
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.73,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9999995922684709,
-        "answer_correct": 1.0
-      }
+      "latency_s": 1.97
     },
     {
       "question": "When must the post-mortem of a critical incident be published?",
@@ -491,7 +416,7 @@
       "evidence": "within five business days",
       "reference": "Within five business days, for S1 incidents.",
       "tags": [],
-      "answer": "The post-mortem must be published within five business days. [1]",
+      "answer": "The post-mortem for a critical (S1) incident must be published within five business days. [1]",
       "contexts": [
         "Any suspected security incident must be reported to the security team within one hour. The security team opens an incident ticket and assigns a severity from S1 (critical) to S4 (low).\n\nS1 incidents trigger a post-mortem that must be published within five business days.",
         "Expense claims must be filed within 30 days of the end of the trip, with original receipts attached.",
@@ -509,12 +434,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.83,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.8608346323044243,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.15
     },
     {
       "question": "Who approves a purchase of 5,000 euros?",
@@ -542,12 +462,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.84,
-      "ragas": {
-        "faithfulness": 0.0,
-        "answer_relevancy": 0.9999999999999998,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.05
     },
     {
       "question": "How many quotes are needed for a 15,000 euro purchase?",
@@ -557,30 +472,25 @@
       "tags": [
         "multi-hop"
       ],
-      "answer": "At least three written quotes are required for a €15,000 purchase. [2]",
+      "answer": "At least three written quotes are required. [2]",
       "contexts": [
         "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
         "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
-        "Deployments to production happen on weekdays before 15:00. Friday deployments are only allowed for hotfixes approved by the on-call engineering manager.",
+        "The nightly hotel limit is 180 euros in capital cities and 120 euros elsewhere.\n\nHotels must be booked through the corporate portal at least 14 days before departure.",
         "Support agents may grant refunds up to 200 euros without approval. Larger refunds require sign-off from the support manager. Refunds are issued to the original payment method within 7 days.",
-        "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows."
+        "The daily meal allowance is 45 euros. Alcohol is never reimbursed."
       ],
       "source_documents": [
         "Procurement Guidelines",
         "Procurement Guidelines",
-        "Engineering Onboarding",
+        "Travel Policy",
         "Customer Support Playbook",
-        "Procurement Guidelines"
+        "Travel Policy"
       ],
       "evidence_rank": 2,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.02,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9053056070468662,
-        "answer_correct": 1.0
-      }
+      "latency_s": 1.94
     },
     {
       "question": "What is the standard payment term for suppliers?",
@@ -606,12 +516,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.93,
-      "ragas": {
-        "faithfulness": 0.0,
-        "answer_relevancy": 0.7943792681479133,
-        "answer_correct": 1.0
-      }
+      "latency_s": 3.38
     },
     {
       "question": "What is the first response target for a P2 ticket?",
@@ -637,12 +542,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.78,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9999995587467945,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.35
     },
     {
       "question": "When is a P1 ticket escalated?",
@@ -668,12 +568,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.59,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.7116085052140301,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.8
     },
     {
       "question": "Up to what amount can an agent refund without approval?",
@@ -699,12 +594,7 @@
       "evidence_rank": 2,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.08,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9629274848594065,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.43
     },
     {
       "question": "How long are invoices kept?",
@@ -716,26 +606,21 @@
       "contexts": [
         "Invoices and accounting records are kept for 10 years. Employment contracts are kept for the duration of employment plus 5 years. Application logs are kept for 90 days.",
         "The standard payment term is 45 days after invoice receipt. Early payment discounts above 2 percent should be taken when cash allows.",
+        "Economy class is required for flights shorter than six hours.\n\nBusiness class needs written approval from a director and is only allowed for flights longer than six hours.",
         "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
-        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
-        "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer."
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly."
       ],
       "source_documents": [
         "Data Retention Policy",
         "Procurement Guidelines",
+        "Travel Policy",
         "Data Retention Policy",
-        "Information Security Standard",
-        "Data Retention Policy"
+        "Information Security Standard"
       ],
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.67,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9999995433345852,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.36
     },
     {
       "question": "How long do we have to complete a customer deletion request?",
@@ -743,12 +628,12 @@
       "evidence": "within 30 days",
       "reference": "Within 30 days.",
       "tags": [],
-      "answer": "Customer deletion requests must be completed within 30 days. [1]",
+      "answer": "Customer deletion requests must be completed within 30 days. [1] If the affected records are under a legal hold, deletion is suspended until the hold is lifted in writing. [2]",
       "contexts": [
         "Customer deletion requests must be completed within 30 days. The privacy officer confirms the deletion in writing to the customer.",
         "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
-        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
         "A P1 ticket that is not resolved within 4 hours is escalated to the on-call engineering manager. The customer success lead must be notified at the same time.",
+        "First response time targets: 1 hour for priority P1, 4 hours for P2, one business day for P3. Resolution targets are 8 hours, 3 days and 10 days respectively.",
         "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window."
       ],
       "source_documents": [
@@ -760,13 +645,8 @@
       ],
       "evidence_rank": 1,
       "document_hit": true,
-      "cited": 1,
-      "latency_s": 1.77,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9055881542130333,
-        "answer_correct": 1.0
-      }
+      "cited": 2,
+      "latency_s": 2.94
     },
     {
       "question": "What happens to deletions when there is a legal hold?",
@@ -774,7 +654,7 @@
       "evidence": "deletion for the affected records is suspended",
       "reference": "Deletion is suspended until the hold is lifted in writing.",
       "tags": [],
-      "answer": "All deletion of the affected records is suspended until the legal hold is lifted in writing. [1]",
+      "answer": "All deletion of affected records is suspended until the legal hold is lifted in writing. [1]",
       "contexts": [
         "When the legal team issues a legal hold, all deletion for the affected records is suspended until the hold is lifted in writing.",
         "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval.",
@@ -792,12 +672,7 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.8,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.7374061989640183,
-        "answer_correct": 1.0
-      }
+      "latency_s": 1.77
     },
     {
       "question": "How many reviewers does a database migration need?",
@@ -807,31 +682,26 @@
       "tags": [
         "acl:engineering"
       ],
-      "answer": "A database migration needs two reviewers, including one from the platform team. [1]",
+      "answer": "A database migration needs two reviewers, one from the platform team. [1]",
       "contexts": [
         "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team.",
+        "Production databases are backed up every night and backups are retained for 35 days. Restore tests run quarterly.",
         "Purchases below 1,000 euros need manager approval. Purchases between 1,000 and 25,000 euros need approval from the department head. Anything above 25,000 euros requires a committee decision.",
         "Purchases above 10,000 euros require at least three written quotes. Exceptions need a sole-source justification signed by the CFO.",
-        "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval.",
-        "Customer contracts must allow termination for convenience with 90 days of written notice. Auto-renewal clauses need a 60-day opt-out window."
+        "The preferred governing law is that of Portugal, with arbitration in Lisbon. Other jurisdictions need legal approval."
       ],
       "source_documents": [
         "Engineering Onboarding",
+        "Information Security Standard",
         "Procurement Guidelines",
         "Procurement Guidelines",
-        "Contract Review Checklist",
         "Contract Review Checklist"
       ],
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.65,
-      "acl_leak": false,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.9115467958505459,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.33,
+      "acl_leak": false
     },
     {
       "question": "Can we deploy to production on Fridays?",
@@ -859,13 +729,8 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 1.88,
-      "acl_leak": false,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.5538948745127081,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.54,
+      "acl_leak": false
     },
     {
       "question": "What is the maximum liability cap in customer contracts?",
@@ -893,13 +758,8 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.03,
-      "acl_leak": false,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.8296870808990596,
-        "answer_correct": 1.0
-      }
+      "latency_s": 1.88,
+      "acl_leak": false
     },
     {
       "question": "What notice period must customer contracts allow for termination?",
@@ -927,13 +787,8 @@
       "evidence_rank": 1,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.21,
-      "acl_leak": false,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.6876918927866652,
-        "answer_correct": 1.0
-      }
+      "latency_s": 1.91,
+      "acl_leak": false
     },
     {
       "question": "Can I take my laptop home and connect from there?",
@@ -943,7 +798,7 @@
       "tags": [
         "paraphrase"
       ],
-      "answer": "You may work remotely up to three days per week and must use the company VPN for every remote session. [2] The available documents do not specify whether you may take your laptop home.",
+      "answer": "You may work remotely up to three days per week, but you must use the company VPN for every remote session. [2]\n\nThe available documents do not explicitly say whether you can take your laptop home.",
       "contexts": [
         "New engineers receive a laptop on their first day and are paired with a mentor for the first 90 days. Access to production is granted only after completing the security training.",
         "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
@@ -961,12 +816,7 @@
       "evidence_rank": 2,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 3.8,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.0,
-        "answer_correct": 1.0
-      }
+      "latency_s": 5.19
     },
     {
       "question": "Who do I call when something suspicious happens on my account?",
@@ -994,12 +844,7 @@
       "evidence_rank": 3,
       "document_hit": true,
       "cited": 1,
-      "latency_s": 2.54,
-      "ragas": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.6380517639326754,
-        "answer_correct": 1.0
-      }
+      "latency_s": 2.86
     },
     {
       "question": "What is the parental leave policy?",
@@ -1027,7 +872,7 @@
       "evidence_rank": null,
       "document_hit": false,
       "cited": 0,
-      "latency_s": 1.68
+      "latency_s": 2.27
     },
     {
       "question": "How much is the annual training budget per engineer?",
@@ -1055,7 +900,7 @@
       "evidence_rank": null,
       "document_hit": false,
       "cited": 0,
-      "latency_s": 1.89
+      "latency_s": 2.46
     },
     {
       "question": "What is the company's dress code?",
@@ -1065,7 +910,7 @@
       "tags": [
         "no-answer"
       ],
-      "answer": "I could not find the company’s dress code in the available documents.",
+      "answer": "I could not find the company's dress code in the available documents.",
       "contexts": [
         "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
         "Every change needs one approving review before merging. Changes that touch authentication or database migrations need two reviewers, one of them from the platform team.",
@@ -1083,19 +928,11 @@
       "evidence_rank": null,
       "document_hit": false,
       "cited": 0,
-      "latency_s": 1.89
+      "latency_s": 3.07
     }
   ],
-  "ragas": {
-    "judge": "gpt-6.1-terra",
-    "scores": {
-      "faithfulness": 0.9355,
-      "answer_relevancy": 0.8158,
-      "answer_correct": 0.9355
-    }
-  },
   "scoped": {
-    "date": "2026-11-03T15:39:05+00:00",
+    "date": "2026-11-16T21:35:42+00:00",
     "metrics": {
       "questions": 16,
       "answerable": 13,
@@ -1111,7 +948,7 @@
       "unscoped_evidence_hit@5": 1.0,
       "scoped_evidence_hit@5_on_compared": 1.0,
       "acl_leaks": 0,
-      "latency_p50_s": 1.9899999999999998
+      "latency_p50_s": 2.12
     },
     "rows": [
       {
@@ -1141,7 +978,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.98,
+        "latency_s": 2.23,
         "unscoped_evidence_rank": 2,
         "unscoped_source_documents": [
           "Travel Policy",
@@ -1149,12 +986,7 @@
           "Brazil Travel Addendum",
           "Travel Policy",
           "Travel Policy"
-        ],
-        "ragas": {
-          "faithfulness": 1.0,
-          "answer_relevancy": 0.8064421765196864,
-          "answer_correct": 1.0
-        }
+        ]
       },
       {
         "question": "What is the nightly hotel limit in capital cities?",
@@ -1179,7 +1011,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 1.97,
+        "latency_s": 2.02,
         "unscoped_evidence_rank": 3,
         "unscoped_source_documents": [
           "Travel Policy",
@@ -1187,12 +1019,7 @@
           "Brazil Travel Addendum",
           "Travel Policy",
           "Travel Policy"
-        ],
-        "ragas": {
-          "faithfulness": 1.0,
-          "answer_relevancy": 1.0000000000000002,
-          "answer_correct": 1.0
-        }
+        ]
       },
       {
         "question": "What is the nightly hotel limit in capital cities?",
@@ -1221,7 +1048,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 1.67,
+        "latency_s": 2.77,
         "unscoped_evidence_rank": 1,
         "unscoped_source_documents": [
           "Travel Policy",
@@ -1229,12 +1056,7 @@
           "Brazil Travel Addendum",
           "Travel Policy",
           "Travel Policy"
-        ],
-        "ragas": {
-          "faithfulness": 1.0,
-          "answer_relevancy": 0.9999996103162432,
-          "answer_correct": 1.0
-        }
+        ]
       },
       {
         "question": "How long do I have to file an expense claim after a trip?",
@@ -1244,7 +1066,7 @@
         "document": "Brazil Travel Addendum",
         "evidence": "within 15 days",
         "reference": "Within 15 days of the end of the trip.",
-        "answer": "You have 15 days after the trip ends to file an expense claim for the Brazilian subsidiary. [1]",
+        "answer": "You have 15 days from the end of the trip to file an expense claim for the Brazilian subsidiary. [1]",
         "contexts": [
           "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
           "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours.",
@@ -1259,20 +1081,15 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 1.8,
+        "latency_s": 2.56,
         "unscoped_evidence_rank": 3,
         "unscoped_source_documents": [
           "Travel Policy",
           "Germany Travel Addendum",
           "Brazil Travel Addendum",
           "Travel Policy",
-          "Travel Policy"
-        ],
-        "ragas": {
-          "faithfulness": 1.0,
-          "answer_relevancy": 0.790198535018592,
-          "answer_correct": 1.0
-        }
+          "Germany Travel Addendum"
+        ]
       },
       {
         "question": "Who has to approve business class flights?",
@@ -1284,7 +1101,7 @@
         "document": "Germany Travel Addendum",
         "evidence": "regional director",
         "reference": "The regional director, in writing.",
-        "answer": "The regional director must provide written approval for business class flights for the German subsidiary. [1]",
+        "answer": "The regional director must provide written approval for business class flights. [1]",
         "contexts": [
           "For the German subsidiary, business class needs written approval from the regional director and is allowed for flights longer than four hours.",
           "The nightly hotel limit for the German subsidiary is 150 euros in capital cities and 100 euros elsewhere.",
@@ -1303,7 +1120,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 1.73,
+        "latency_s": 2.24,
         "unscoped_evidence_rank": 2,
         "unscoped_source_documents": [
           "Travel Policy",
@@ -1311,12 +1128,7 @@
           "Brazil Travel Addendum",
           "Information Security Standard",
           "Customer Support Playbook"
-        ],
-        "ragas": {
-          "faithfulness": 1.0,
-          "answer_relevancy": 0.7636925713299362,
-          "answer_correct": 1.0
-        }
+        ]
       },
       {
         "question": "How many vacation days do employees get per year?",
@@ -1345,7 +1157,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.08,
+        "latency_s": 3.15,
         "unscoped_evidence_rank": 2,
         "unscoped_source_documents": [
           "Employee Handbook",
@@ -1353,12 +1165,7 @@
           "Employee Handbook",
           "Employee Handbook",
           "Germany Handbook Addendum"
-        ],
-        "ragas": {
-          "faithfulness": 1.0,
-          "answer_relevancy": 0.6560226055324281,
-          "answer_correct": 1.0
-        }
+        ]
       },
       {
         "question": "Who has to approve business class flights?",
@@ -1371,7 +1178,7 @@
         "document": "Brazil Travel Addendum",
         "evidence": "country manager",
         "reference": "The country manager, in writing.",
-        "answer": "For the Brazilian subsidiary, the country manager must approve business class flights in writing. [1]",
+        "answer": "The country manager must approve business class flights in writing for the Brazilian subsidiary. [1]",
         "contexts": [
           "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours.",
           "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
@@ -1386,7 +1193,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.87,
+        "latency_s": 1.95,
         "unscoped_evidence_rank": 3,
         "unscoped_source_documents": [
           "Travel Policy",
@@ -1394,12 +1201,7 @@
           "Brazil Travel Addendum",
           "Information Security Standard",
           "Customer Support Playbook"
-        ],
-        "ragas": {
-          "faithfulness": 1.0,
-          "answer_relevancy": 0.7193957051993554,
-          "answer_correct": 1.0
-        }
+        ]
       },
       {
         "question": "How many vacation days do employees get per year?",
@@ -1409,7 +1211,7 @@
         "document": "Employee Handbook",
         "evidence": "25 days of paid vacation",
         "reference": "25 days of paid vacation per year.",
-        "answer": "Full-time employees accrue 25 days of paid vacation per year. [1]",
+        "answer": "Full-time employees accrue 25 paid vacation days per year. [1]",
         "contexts": [
           "Full-time employees accrue 25 days of paid vacation per year. Unused days up to five can be carried over to the next year.\n\nVacation requests must be submitted at least 30 days in advance through the HR portal.",
           "Employees may work remotely up to three days per week.\n\nSecurity policy SEC-204 requires a company VPN for every remote session.",
@@ -1428,7 +1230,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.19,
+        "latency_s": 1.75,
         "unscoped_evidence_rank": 1,
         "unscoped_source_documents": [
           "Employee Handbook",
@@ -1446,7 +1248,7 @@
         "document": "Germany Handbook Addendum",
         "evidence": "up to two days per week",
         "reference": "Up to two days per week.",
-        "answer": "German employees may work remotely up to two days per week. [1]",
+        "answer": "German employees can work remotely up to two days per week. [1]",
         "contexts": [
           "German employees may work remotely up to two days per week.",
           "Employees of the German subsidiary accrue 30 days of paid vacation per year.",
@@ -1465,7 +1267,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.01
+        "latency_s": 2.8
       },
       {
         "question": "How long are production database backups retained?",
@@ -1494,7 +1296,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 1.72
+        "latency_s": 2.22
       },
       {
         "question": "What is the standard payment term for invoices?",
@@ -1525,7 +1327,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.28
+        "latency_s": 2.02
       },
       {
         "question": "How long does the probation period last?",
@@ -1537,8 +1339,8 @@
         "reference": "There is no answer in the documents.",
         "answer": "I could not find the probation period in the available documents.",
         "contexts": [
-          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
           "For the Brazilian subsidiary, business class needs written approval from the country manager and is allowed for flights longer than five hours.",
+          "Brazilian subsidiary expense claims must be filed within 15 days of the end of the trip.",
           "The nightly hotel limit for the Brazilian subsidiary is 600 reais in capital cities and 400 reais elsewhere."
         ],
         "source_documents": [
@@ -1550,7 +1352,7 @@
         "document_hit": false,
         "cited": 0,
         "out_of_scope_sources": [],
-        "latency_s": 1.71
+        "latency_s": 2.28
       },
       {
         "question": "What is the daily meal allowance?",
@@ -1579,7 +1381,7 @@
         "document_hit": false,
         "cited": 0,
         "out_of_scope_sources": [],
-        "latency_s": 1.94
+        "latency_s": 1.93
       },
       {
         "question": "What is the standard payment term for invoices?",
@@ -1599,7 +1401,7 @@
         "document_hit": false,
         "cited": 0,
         "out_of_scope_sources": [],
-        "latency_s": 0.4
+        "latency_s": 0.41
       },
       {
         "question": "How many reviewers does a database migration need?",
@@ -1624,7 +1426,7 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.05,
+        "latency_s": 1.88,
         "acl_leak": false
       },
       {
@@ -1656,17 +1458,9 @@
         "document_hit": true,
         "cited": 1,
         "out_of_scope_sources": [],
-        "latency_s": 2.01,
+        "latency_s": 2.02,
         "acl_leak": false
       }
-    ],
-    "ragas": {
-      "judge": "gpt-6.1-terra",
-      "scores": {
-        "faithfulness": 1.0,
-        "answer_relevancy": 0.8194,
-        "answer_correct": 1.0
-      }
-    }
+    ]
   }
 }

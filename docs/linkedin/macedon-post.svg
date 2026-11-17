@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#14213d"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="627" fill="url(#bg)"/>
+  <rect x="60" y="60" width="64" height="6" rx="3" fill="url(#accent)"/>
+
+  <text x="60" y="130" font-size="22" fill="#94a3b8" letter-spacing="3">OPEN-SOURCE DOCUMENT RAG</text>
+  <text x="60" y="200" font-size="64" font-weight="700" fill="#f8fafc">Answers you can trust.</text>
+  <text x="60" y="270" font-size="64" font-weight="700" fill="url(#accent)">Access you can prove.</text>
+
+  <!-- pipeline -->
+  <g font-size="20" font-weight="600" fill="#e2e8f0" text-anchor="middle">
+    <rect x="60" y="330" width="230" height="96" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="175" y="372">Upload</text>
+    <text x="175" y="400" font-size="16" font-weight="400" fill="#94a3b8">PDF · DOCX · TXT</text>
+
+    <rect x="345" y="330" width="230" height="96" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="460" y="372">Ingest</text>
+    <text x="460" y="400" font-size="16" font-weight="400" fill="#94a3b8">sandboxed · versioned</text>
+
+    <rect x="630" y="330" width="230" height="96" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="745" y="372">Hybrid search</text>
+    <text x="745" y="400" font-size="16" font-weight="400" fill="#94a3b8">ACL inside the SQL</text>
+
+    <rect x="915" y="330" width="225" height="96" rx="14" fill="#0c4a6e" stroke="#38bdf8"/>
+    <text x="1027" y="372">Cited answer</text>
+    <text x="1027" y="400" font-size="16" font-weight="400" fill="#bae6fd">doc · version · page</text>
+  </g>
+  <g stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M298 378 h39 m-9 -9 l9 9 l-9 9"/>
+    <path d="M583 378 h39 m-9 -9 l9 9 l-9 9"/>
+    <path d="M868 378 h39 m-9 -9 l9 9 l-9 9"/>
+  </g>
+
+  <!-- metrics -->
+  <g text-anchor="start">
+    <text x="60" y="505" font-size="44" font-weight="700" fill="#f8fafc">100%</text>
+    <text x="60" y="534" font-size="17" fill="#94a3b8">evidence in top 5</text>
+    <text x="330" y="505" font-size="44" font-weight="700" fill="#f8fafc">0.97</text>
+    <text x="330" y="534" font-size="17" fill="#94a3b8">faithfulness (RAGAS)</text>
+    <text x="600" y="505" font-size="44" font-weight="700" fill="#f8fafc">0</text>
+    <text x="600" y="534" font-size="17" fill="#94a3b8">ACL leaks in evaluation</text>
+    <text x="870" y="505" font-size="44" font-weight="700" fill="#f8fafc">RLS</text>
+    <text x="870" y="534" font-size="17" fill="#94a3b8">second barrier in Postgres</text>
+  </g>
+  <rect x="60" y="570" width="1080" height="1" fill="#334155"/>
+  <text x="60" y="603" font-size="18" fill="#64748b">Python · FastAPI · Postgres + pgvector · Keycloak · Angular</text>
+  <text x="1140" y="603" font-size="22" font-weight="700" fill="#f8fafc" text-anchor="end">Macedon</text>
+</svg>
