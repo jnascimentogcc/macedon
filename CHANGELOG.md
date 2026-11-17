@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-17
+
+Better retrieval on Portuguese documents and on PDFs with real structure, and the whole stack runs in Docker.
+
 ### Upgrading
 
 - Run `uv run alembic upgrade head` (migration 0004) and restart the API and the worker. The
