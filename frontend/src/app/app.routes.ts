@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AskPageComponent } from './ask/ask-page.component';
 import { authGuard } from './core/auth.http';
+import { ApiKeysPageComponent } from './apikeys/api-keys-page.component';
 import { DocumentDetailComponent } from './documents/document-detail.component';
 import { DocumentsPageComponent } from './documents/documents-page.component';
 import { CallbackComponent } from './shell/callback.component';
@@ -16,6 +17,7 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'documents' },
       { path: 'documents', component: DocumentsPageComponent, title: 'Documents · Macedon' },
       { path: 'documents/:id', component: DocumentDetailComponent, title: 'Document · Macedon' },
+      { path: 'api-keys', component: ApiKeysPageComponent, title: 'API keys · Macedon' },
       { path: 'ask', component: AskPageComponent, title: 'Ask · Macedon' },
     ],
   },

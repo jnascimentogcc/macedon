@@ -218,7 +218,7 @@ The response carries the key (`mcd_...`) **once**; only a hash is stored, so a l
 - `GET /api-keys` lists keys (name, prefix, groups, scopes, expiry, last use); `DELETE /api-keys/{id}` revokes one at once. Creation and revocation are audited, and so is every action a key performs, under `key:<id>`.
 - Queries by a key count against their own rate limit, apart from any user's.
 
-There is no screen for keys in the web interface yet.
+Administrators manage keys in the web interface under **API keys** (the link appears only for them): create a key, copy it from the one-time dialog, and revoke it.
 
 ## Configuration
 

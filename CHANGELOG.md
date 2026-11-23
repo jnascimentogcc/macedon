@@ -9,6 +9,7 @@ All notable changes to this project are documented here. The format follows
 ### Added
 
 - API keys for other applications (`POST|GET /api-keys`, `DELETE /api-keys/{id}`). A key is an opaque `mcd_` token whose hash is stored; it acts as its own identity with the groups chosen at creation, never as an administrator. Only administrators create keys. Keys have `read` and `write` scopes, always expire (90 days by default, 365 at most) and can be revoked at once. Creation, revocation and use are audited. Migration 0005 adds the table (upgrade with `alembic upgrade head`).
+- An **API keys** screen in the web interface for administrators: list keys with their status, create one (name, groups, scopes, days), copy the secret from a one-time dialog, and revoke.
 
 ## [0.3.0] - 2026-11-17
 

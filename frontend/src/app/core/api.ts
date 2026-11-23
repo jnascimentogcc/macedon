@@ -39,6 +39,33 @@ export interface Collection {
   document_count: number;
 }
 
+export type ApiKeyScope = 'read' | 'write';
+
+export interface ApiKey {
+  id: string;
+  name: string;
+  prefix: string;
+  groups: string[];
+  scopes: ApiKeyScope[];
+  created_by: string;
+  created_at: string;
+  expires_at: string;
+  revoked_at: string | null;
+  last_used_at: string | null;
+}
+
+/** Returned once, when a key is created: `token` is never shown again. */
+export interface ApiKeyCreated extends ApiKey {
+  token: string;
+}
+
+export interface NewApiKey {
+  name: string;
+  groups: string[];
+  scopes: ApiKeyScope[];
+  expires_in_days: number;
+}
+
 export interface DocumentFilters {
   collectionId: string | null;
   tags: string[];
@@ -213,6 +240,24 @@ export class CollectionsApi {
   }
 
   remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${id}`);
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class ApiKeysApi {
+  private readonly http = inject(HttpClient);
+  private readonly base = `${APP_CONFIG.apiUrl}/api-keys`;
+
+  list(): Observable<ApiKey[]> {
+    return this.http.get<ApiKey[]>(this.base);
+  }
+
+  create(key: NewApiKey): Observable<ApiKeyCreated> {
+    return this.http.post<ApiKeyCreated>(this.base, key);
+  }
+
+  revoke(id: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${id}`);
   }
 }

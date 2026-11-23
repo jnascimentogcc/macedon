@@ -15,6 +15,7 @@ the API (ACL + RLS), so the UI shows what the API returns and explains its refus
 | --- | --- |
 | `/documents` | Collection tree on the left (counts include subcollections; administrators create, rename and delete), tag filter, paginated table (name and tags, collection, type, latest version status, active version, created), "show archived" filter, upload dialog. Refreshes by itself while a version is processing. |
 | `/documents/:id` | Metadata (collection, tags), edit details (name, collection, tags; owner only), version table, upload a new version, make an archived version active (rollback), archive the document (with confirmation). |
+| `/api-keys` | Administrators only (the link appears only for them; others see an explanation). Table of keys (name, visible prefix, groups, scopes, expiry, last use, status active/expired/revoked), create dialog (name, groups, read/write scopes, days from 1 to 365, default 90), a one-time dialog that shows the new key with a copy button, and revoke with confirmation. The API enforces every rule; the form only mirrors them. |
 | `/ask` | Question form, "search in" a collection (and its subcollections) or one document, optional tag filter, answer with sources (document, version, page, section, cited or not, passage on demand). |
 
 ## Organization
