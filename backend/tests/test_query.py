@@ -195,6 +195,39 @@ async def test_answers_from_the_best_chunk_and_cites_it(
     assert api.llm.calls  # the model was asked
 
 
+async def test_a_signed_in_user_keeps_the_markers_by_default(
+    api: Api, owner_engine: AsyncEngine
+) -> None:
+    await seed(owner_engine, [["Refunds are paid within five days."]])
+
+    body = (await api.ask("How long do refunds take?")).json()
+
+    assert body["answer"] == "The answer is in the first source [1]."
+
+
+async def test_an_api_key_gets_clean_text_and_structured_sources(
+    api: Api, owner_engine: AsyncEngine
+) -> None:
+    await seed(owner_engine, [["Refunds are paid within five days."]], acl_groups=("engineering",))
+    api.as_user(Identity("key:1", groups=("engineering",), scopes=("read",), key_id="1"))
+
+    body = (await api.ask("How long do refunds take?")).json()
+
+    assert body["answer"] == "The answer is in the first source."
+    assert body["sources"][0]["cited"] is True  # still known, from the markers the model wrote
+
+
+async def test_the_caller_can_override_the_default(api: Api, owner_engine: AsyncEngine) -> None:
+    await seed(owner_engine, [["Refunds are paid within five days."]], acl_groups=("engineering",))
+
+    plain = (await api.ask("refund", inline_citations=False)).json()["answer"]
+    api.as_user(Identity("key:1", groups=("engineering",), scopes=("read",), key_id="1"))
+    marked = (await api.ask("refund", inline_citations=True)).json()["answer"]
+
+    assert plain == "The answer is in the first source."
+    assert marked == "The answer is in the first source [1]."
+
+
 async def test_citations_are_flagged_per_source(api: Api, owner_engine: AsyncEngine) -> None:
     await seed(owner_engine, [["Refunds take five days."], ["Notice is thirty days."]])
     api.llm.answer = "Refunds are quick [1]. Notice is separate [2, 3]."

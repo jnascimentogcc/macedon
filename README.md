@@ -218,6 +218,8 @@ The response carries the key (`mcd_...`) **once**; only a hash is stored, so a l
 - `GET /api-keys` lists keys (name, prefix, groups, scopes, expiry, last use); `DELETE /api-keys/{id}` revokes one at once. Creation and revocation are audited, and so is every action a key performs, under `key:<id>`.
 - Queries by a key count against their own rate limit, apart from any user's.
 
+The guide for the applications that use a key (calls, errors, handling and rotation) is [docs/features/api-keys.md](docs/features/api-keys.md).
+
 Administrators manage keys in the web interface under **API keys** (the link appears only for them): create a key, copy it from the one-time dialog, and revoke it.
 
 ## Configuration
@@ -284,6 +286,7 @@ uv run python eval/run_real.py --dir <dir> # real PDFs you provide (the question
 - [docs/vision.md](docs/vision.md): design, decisions and roadmap.
 - [docs/ui-spec.md](docs/ui-spec.md): design system of the web interface.
 - [docs/features/documents-ui.md](docs/features/documents-ui.md): screens and flows.
+- [docs/features/api-keys.md](docs/features/api-keys.md): API keys, and a guide for applications that call the API with one.
 - [backend/eval/README.md](backend/eval/README.md): evaluation set and metrics.
 - [CLAUDE.md](CLAUDE.md): guidance for AI coding assistants working in this repository.
 

@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- `POST /query` answers for API keys no longer carry the `[n]` citation markers: the text is clean and `sources` (with `cited`) is the structured citation. People signed in to the web interface still get the markers. A new optional `inline_citations` field overrides the default either way.
+
 ## [0.3.1] - 2026-11-23
 
 API keys, so other applications can call the API, and the screen to manage them.

@@ -22,6 +22,7 @@ asterisks, backticks or headings.
 NO_SOURCES_ANSWER = "I could not find anything about this in the documents you have access to."
 
 _CITATION = re.compile(r"\[([\d,\s]+)\]")
+_CITATION_WITH_SPACE = re.compile(r"(\s*)\[([\d,\s]+)\]")
 
 
 def build_user_message(question: str, passages: list[Passage]) -> str:
@@ -42,6 +43,20 @@ def _source(passage: Passage) -> str:
     rendered = " ".join(f'{key}="{escape(value, quote=True)}"' for key, value in attributes.items())
     # Escaping angle brackets means a source can never close its own tag or open a new one.
     return f"<source {rendered}>\n{escape(passage.text, quote=False)}\n</source>"
+
+
+def strip_citations(answer: str, source_ids: set[int]) -> str:
+    """Remove the [n] markers that point at one of the sources, with the space before them.
+
+    Brackets that are not citations (a list index, a word in brackets) are left alone: only a
+    marker whose numbers are all real source ids is removed.
+    """
+
+    def drop(match: re.Match[str]) -> str:
+        numbers = {int(part) for part in re.findall(r"\d+", match.group(2))}
+        return "" if numbers and numbers <= source_ids else match.group(0)
+
+    return _CITATION_WITH_SPACE.sub(drop, answer).strip()
 
 
 def cited_numbers(answer: str) -> set[int]:
