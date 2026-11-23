@@ -6,10 +6,6 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-### Changed
-
-- `POST /query` answers for API keys no longer carry the `[n]` citation markers: the text is clean and `sources` (with `cited`) is the structured citation. People signed in to the web interface still get the markers. A new optional `inline_citations` field overrides the default either way.
-
 ## [0.3.1] - 2026-11-23
 
 API keys, so other applications can call the API, and the screen to manage them.
@@ -23,6 +19,10 @@ API keys, so other applications can call the API, and the screen to manage them.
 
 - API keys for other applications (`POST|GET /api-keys`, `DELETE /api-keys/{id}`). A key is an opaque `mcd_` token whose hash is stored; it acts as its own identity with the groups chosen at creation, never as an administrator. Only administrators create keys. Keys have `read` and `write` scopes, always expire (90 days by default, 365 at most) and can be revoked at once. Creation, revocation and use are audited. Migration 0005 adds the table (upgrade with `alembic upgrade head`).
 - An **API keys** screen in the web interface for administrators: list keys with their status, create one (name, groups, scopes, days), copy the secret from a one-time dialog, and revoke.
+
+### Changed
+
+- `POST /query` answers for API keys no longer carry the `[n]` citation markers: the text is clean and `sources` (with `cited`) is the structured citation. People signed in to the web interface still get the markers. A new optional `inline_citations` field overrides the default either way.
 
 ## [0.3.0] - 2026-11-17
 
