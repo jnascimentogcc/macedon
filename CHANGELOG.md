@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-23
+
+API keys, so other applications can call the API, and the screen to manage them.
+
+### Upgrading
+
+- Run `alembic upgrade head` (migration 0005 adds the `api_keys` table). Optional settings: `MACEDON_API_KEY_DEFAULT_DAYS` and `MACEDON_API_KEY_MAX_DAYS`.
+- `GET /me` now also returns `scopes` (`null` for a signed-in user).
+
 ### Added
 
 - API keys for other applications (`POST|GET /api-keys`, `DELETE /api-keys/{id}`). A key is an opaque `mcd_` token whose hash is stored; it acts as its own identity with the groups chosen at creation, never as an administrator. Only administrators create keys. Keys have `read` and `write` scopes, always expire (90 days by default, 365 at most) and can be revoked at once. Creation, revocation and use are audited. Migration 0005 adds the table (upgrade with `alembic upgrade head`).
@@ -169,7 +178,9 @@ evaluation baseline.
 - The web interface has not been reviewed visually at every breakpoint or in dark mode.
 - The dev stack is not hardened and must not be exposed.
 
-[Unreleased]: https://github.com/jnascimentogcc/macedon/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/jnascimentogcc/macedon/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/jnascimentogcc/macedon/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/jnascimentogcc/macedon/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/jnascimentogcc/macedon/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/jnascimentogcc/macedon/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jnascimentogcc/macedon/releases/tag/v0.1.0

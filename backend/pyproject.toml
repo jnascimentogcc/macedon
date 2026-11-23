@@ -1,6 +1,6 @@
 [project]
 name = "macedon"
-version = "0.3.0"
+version = "0.3.1"
 description = "Document RAG platform: versioned documents, secure retrieval and answers with sources."
 license = "MIT"
 authors = [
