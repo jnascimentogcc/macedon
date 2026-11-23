@@ -23,7 +23,7 @@ async def owner_engine() -> AsyncIterator[AsyncEngine]:
     async with engine.begin() as conn:
         await conn.execute(
             text(
-                "TRUNCATE chunks, document_versions, documents, collections, audit_log "
+                "TRUNCATE chunks, document_versions, documents, collections, audit_log, api_keys "
                 "RESTART IDENTITY CASCADE"
             )
         )

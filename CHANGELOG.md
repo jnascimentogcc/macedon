@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- API keys for other applications (`POST|GET /api-keys`, `DELETE /api-keys/{id}`). A key is an opaque `mcd_` token whose hash is stored; it acts as its own identity with the groups chosen at creation, never as an administrator. Only administrators create keys. Keys have `read` and `write` scopes, always expire (90 days by default, 365 at most) and can be revoked at once. Creation, revocation and use are audited. Migration 0005 adds the table (upgrade with `alembic upgrade head`).
+
 ## [0.3.0] - 2026-11-17
 
 Better retrieval on Portuguese documents and on PDFs with real structure, and the whole stack runs in Docker.

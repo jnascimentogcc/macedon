@@ -32,6 +32,10 @@ class Settings(BaseSettings):
 
     query_rate_limit_per_minute: int = 30
 
+    # API keys for other applications (see macedon.apikeys). A key always expires.
+    api_key_default_days: int = 90
+    api_key_max_days: int = 365
+
     openai_api_key: SecretStr | None = None
     openai_base_url: str = "https://api.openai.com/v1"
     llm_model: str = "gpt-6.1-terra"  # mid tier; see the OpenAI models page

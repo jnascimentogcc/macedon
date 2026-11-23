@@ -11,6 +11,10 @@ class Identity:
     user_id: str
     groups: tuple[str, ...] = ()
     is_admin: bool = False
+    # Set only for an API key: what it may do ("read", "write"). None means no limit, as for a
+    # user who signed in. Keys are never administrators.
+    scopes: tuple[str, ...] | None = None
+    key_id: str | None = None
 
 
 async def apply_identity(target: AsyncConnection | AsyncSession, identity: Identity) -> None:
