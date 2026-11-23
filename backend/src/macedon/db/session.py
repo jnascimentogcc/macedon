@@ -1,23 +1,14 @@
 from collections.abc import AsyncIterator
-from functools import lru_cache
 from typing import Annotated
 
 from fastapi import Depends
-from sqlalchemy.ext.asyncio import (
-    AsyncEngine,
-    AsyncSession,
-    async_sessionmaker,
-    create_async_engine,
-)
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from macedon.auth import get_identity
-from macedon.config import get_settings
+from macedon.db.engine import get_engine
 from macedon.db.identity import Identity, apply_identity
 
-
-@lru_cache
-def get_engine() -> AsyncEngine:
-    return create_async_engine(get_settings().database_url, pool_pre_ping=True)
+__all__ = ["get_engine", "get_session"]
 
 
 async def get_session(

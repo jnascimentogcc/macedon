@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from macedon.apikeys.router import router as api_keys_router
 from macedon.auth import get_identity
 from macedon.collections.router import router as collections_router
 from macedon.config import get_settings
@@ -13,7 +14,7 @@ from macedon.query.router import router as query_router
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="Macedon", version="0.3.0")
+    app = FastAPI(title="Macedon", version="0.3.1")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=get_settings().cors_origins,
@@ -31,9 +32,11 @@ def create_app() -> FastAPI:
             "user_id": identity.user_id,
             "groups": list(identity.groups),
             "is_admin": identity.is_admin,
+            "scopes": list(identity.scopes) if identity.scopes is not None else None,
         }
 
     app.include_router(groups_router)
+    app.include_router(api_keys_router)
     app.include_router(collections_router)
     app.include_router(documents_router)
     app.include_router(query_router)

@@ -7,8 +7,12 @@ import httpx
 import jwt
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncEngine
 
+from macedon.apikeys.tokens import hash_token, is_api_key, required_scope
 from macedon.config import Settings, get_settings
+from macedon.db.engine import get_engine
 from macedon.db.identity import Identity
 
 JWKS_TTL_SECONDS = 600
@@ -99,17 +103,50 @@ def get_key_provider(request: Request) -> KeyProvider:
     return provider
 
 
+async def verify_api_key(token: str, engine: AsyncEngine) -> Identity:
+    """Look the key up by hash. Never an administrator; its groups were fixed at creation."""
+    async with engine.begin() as conn:
+        row = (
+            await conn.execute(
+                text("SELECT key_id, key_groups, key_scopes FROM api_key_authenticate(:h)"),
+                {"h": hash_token(token)},
+            )
+        ).first()
+    if row is None:
+        raise AuthError("unknown, revoked or expired key")
+    return Identity(
+        user_id=f"key:{row.key_id}",
+        groups=tuple(row.key_groups),
+        is_admin=False,
+        scopes=tuple(row.key_scopes),
+        key_id=str(row.key_id),
+    )
+
+
 async def get_identity(
+    request: Request,
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(_bearer)],
     keys: Annotated[KeyProvider, Depends(get_key_provider)],
     settings: Annotated[Settings, Depends(get_settings)],
+    engine: Annotated[AsyncEngine, Depends(get_engine)],
 ) -> Identity:
     if credentials is None:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "missing bearer token")
+    token = credentials.credentials
     try:
-        return await verify_token(credentials.credentials, settings, keys)
+        if is_api_key(token):
+            identity = await verify_api_key(token, engine)
+        else:
+            identity = await verify_token(token, settings, keys)
     except AuthError:
         # Never echo why the token failed back to the caller.
         raise HTTPException(
             status.HTTP_401_UNAUTHORIZED, "invalid token", headers={"WWW-Authenticate": "Bearer"}
         ) from None
+    # Scopes are checked here, once, so no route can forget to.
+    if (
+        identity.scopes is not None
+        and required_scope(request.method, request.url.path) not in identity.scopes
+    ):
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "the API key lacks the required scope")
+    return identity

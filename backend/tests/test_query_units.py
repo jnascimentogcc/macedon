@@ -2,7 +2,7 @@ import httpx
 import pytest
 
 from macedon.llm import LLMError, LLMUnavailableError, OpenAILLMProvider
-from macedon.query.prompt import cited_numbers
+from macedon.query.prompt import cited_numbers, strip_citations
 from macedon.query.ratelimit import SlidingWindowLimiter
 from macedon.query.retrieval import MAX_KEYWORDS, keyword_query
 
@@ -132,3 +132,21 @@ async def test_llm_unusable_responses_are_permanent_errors(response: httpx.Respo
 
     assert not isinstance(error.value, LLMUnavailableError)
     assert "sk-test" not in str(error.value)
+
+
+@pytest.mark.parametrize(
+    ("answer", "expected"),
+    [
+        ("Refunds take five days [1].", "Refunds take five days."),
+        ("Both apply [1][2] and more [3].", "Both apply and more."),
+        ("Both apply [1, 2]. Next sentence [3].", "Both apply. Next sentence."),
+        ("[1] Starts with a marker.", "Starts with a marker."),
+        ("No markers here.", "No markers here."),
+        ("Index arr[0] and [brackets] stay.", "Index arr[0] and [brackets] stay."),
+        ("Unknown source [9] stays.", "Unknown source [9] stays."),
+    ],
+)
+def test_citation_markers_are_removed_only_when_they_point_at_a_source(
+    answer: str, expected: str
+) -> None:
+    assert strip_citations(answer, {1, 2, 3}) == expected

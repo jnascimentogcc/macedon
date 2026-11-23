@@ -1,5 +1,5 @@
 import { Component, computed, input, model } from '@angular/core';
-import { TranslatePipe } from '../core/i18n';
+import { MessageKey, TranslatePipe } from '../core/i18n';
 
 /** Multiselect of the groups a document is shared with, as a group of checkboxes. */
 @Component({
@@ -8,7 +8,7 @@ import { TranslatePipe } from '../core/i18n';
   template: `
     <fieldset class="flex flex-col gap-1.5" [attr.aria-describedby]="idPrefix() + '-help'">
       <legend class="text-sm leading-none font-medium">
-        {{ 'upload.groups' | t }}
+        {{ legend() | t }}
         @if (optional()) {
           <span class="text-muted-foreground">{{ 'common.optional' | t }}</span>
         }
@@ -31,7 +31,7 @@ import { TranslatePipe } from '../core/i18n';
         <p class="text-muted-foreground pt-1.5 text-sm">{{ 'upload.groupsNone' | t }}</p>
       }
       <p [id]="idPrefix() + '-help'" class="text-muted-foreground text-xs">
-        {{ 'upload.groupsHelp' | t }}
+        {{ help() | t }}
       </p>
     </fieldset>
   `,
@@ -43,6 +43,9 @@ export class GroupPickerComponent {
   readonly value = model<string[]>([]);
   readonly optional = input(true);
   readonly idPrefix = input('groups');
+  /** Texts, so another screen can describe what the groups grant. */
+  readonly legend = input<MessageKey>('upload.groups');
+  readonly help = input<MessageKey>('upload.groupsHelp');
 
   /** The options, plus any selected group that is no longer offered, so it can be unchecked. */
   protected readonly choices = computed(() =>

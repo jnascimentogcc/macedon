@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { AuthService } from '../core/auth.service';
+import { CollectionsStore } from '../core/collections.store';
 import { TranslatePipe } from '../core/i18n';
 import { ThemeService } from '../core/theme.service';
 
@@ -37,6 +38,16 @@ import { ThemeService } from '../core/theme.service';
               ariaCurrentWhenActive="page"
               >{{ 'nav.ask' | t }}</a
             >
+            @if (store.isAdmin()) {
+              <a
+                hlmBtn
+                variant="ghost"
+                routerLink="/api-keys"
+                routerLinkActive="bg-accent"
+                ariaCurrentWhenActive="page"
+                >{{ 'nav.apiKeys' | t }}</a
+              >
+            }
           </nav>
         </div>
         <div class="flex items-center gap-2">
@@ -55,7 +66,15 @@ import { ThemeService } from '../core/theme.service';
     </main>
   `,
 })
-export class ShellComponent {
+export class ShellComponent implements OnInit {
   protected readonly auth = inject(AuthService);
   protected readonly theme = inject(ThemeService);
+  protected readonly store = inject(CollectionsStore);
+
+  ngOnInit(): void {
+    // Learns whether the caller is an administrator, for the API keys link.
+    if (!this.store.loaded()) {
+      this.store.load();
+    }
+  }
 }

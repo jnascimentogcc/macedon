@@ -67,6 +67,15 @@ async def answer_question(
         prompt.SYSTEM_PROMPT, prompt.build_user_message(request.question, passages)
     )
     cited = prompt.cited_numbers(answer)
+    # The markers help a person reading next to the source list. A program calling with an API key
+    # gets clean text by default and reads `sources` instead.
+    keep_markers = (
+        request.inline_citations
+        if request.inline_citations is not None
+        else identity.key_id is None
+    )
+    if not keep_markers:
+        answer = prompt.strip_citations(answer, {p.number for p in passages})
     return QueryResponse(
         answer=answer,
         model=deps.llm.model,

@@ -201,6 +201,27 @@ A user can read a document when at least one of these is true:
 
 Groups and roles come from the `groups` claim and the roles of the JWT; the API never calls the identity provider, so it can be swapped for any OIDC provider that issues them. Users and groups are managed in Keycloak (Admin Console at <http://localhost:8080>, user `admin`, password `admin` in the dev stack); a user must sign in again for changes to reach the token. Collections only organize documents: they never grant access.
 
+## API keys for other applications
+
+Another application can call the API with an API key instead of a signed-in user. Only administrators create keys, with `POST /api-keys` (an administrator's bearer token):
+
+```json
+{ "name": "reporting", "groups": ["engineering"], "scopes": ["read"], "expires_in_days": 90 }
+```
+
+The response carries the key (`mcd_...`) **once**; only a hash is stored, so a lost key is revoked and replaced, never recovered. The application sends it like a token: `Authorization: Bearer mcd_...`.
+
+- A key is its own identity (`key:<id>`) with the groups chosen at creation, so the access rules above apply to it unchanged. It is never an administrator and cannot manage keys.
+- Groups can only be ones in `MACEDON_KNOWN_GROUPS` or the creator's own.
+- Scopes: `read` (list and read documents, `POST /query`) and `write` (upload, new versions, edits, archive, rollback). Default: `read`.
+- A key always expires: 90 days by default (`MACEDON_API_KEY_DEFAULT_DAYS`), 365 at most (`MACEDON_API_KEY_MAX_DAYS`).
+- `GET /api-keys` lists keys (name, prefix, groups, scopes, expiry, last use); `DELETE /api-keys/{id}` revokes one at once. Creation and revocation are audited, and so is every action a key performs, under `key:<id>`.
+- Queries by a key count against their own rate limit, apart from any user's.
+
+The guide for the applications that use a key (calls, errors, handling and rotation) is [docs/features/api-keys.md](docs/features/api-keys.md).
+
+Administrators manage keys in the web interface under **API keys** (the link appears only for them): create a key, copy it from the one-time dialog, and revoke it.
+
 ## Configuration
 
 All settings are environment variables with the `MACEDON_` prefix, read from `backend/.env` (see [backend/src/macedon/config.py](backend/src/macedon/config.py) for the full list). The main ones:
@@ -209,6 +230,7 @@ All settings are environment variables with the `MACEDON_` prefix, read from `ba
 | --- | --- | --- |
 | `MACEDON_OPENAI_API_KEY` | OpenAI key (required) | none |
 | `MACEDON_KNOWN_GROUPS` | JSON list of shareable groups | `[]` |
+| `MACEDON_API_KEY_DEFAULT_DAYS`, `MACEDON_API_KEY_MAX_DAYS` | default and maximum lifetime of an API key | `90`, `365` |
 | `MACEDON_DATABASE_URL` | database URL used by the API (`macedon_app` role) | dev stack |
 | `MACEDON_MIGRATION_DATABASE_URL` | database URL used by migrations (schema owner) | dev stack |
 | `MACEDON_REDIS_URL` | queue | `redis://127.0.0.1:6379` |
@@ -264,6 +286,7 @@ uv run python eval/run_real.py --dir <dir> # real PDFs you provide (the question
 - [docs/vision.md](docs/vision.md): design, decisions and roadmap.
 - [docs/ui-spec.md](docs/ui-spec.md): design system of the web interface.
 - [docs/features/documents-ui.md](docs/features/documents-ui.md): screens and flows.
+- [docs/features/api-keys.md](docs/features/api-keys.md): API keys, and a guide for applications that call the API with one.
 - [backend/eval/README.md](backend/eval/README.md): evaluation set and metrics.
 - [CLAUDE.md](CLAUDE.md): guidance for AI coding assistants working in this repository.
 

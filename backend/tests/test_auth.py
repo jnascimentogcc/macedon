@@ -63,7 +63,12 @@ async def test_valid_token_maps_claims_to_identity(client: AsyncClient) -> None:
     response = await client.get("/me", headers=bearer(make_token()))
 
     assert response.status_code == 200
-    assert response.json() == {"user_id": "alice", "groups": ["engineering"], "is_admin": False}
+    assert response.json() == {
+        "user_id": "alice",
+        "groups": ["engineering"],
+        "is_admin": False,
+        "scopes": None,  # a signed-in user is not limited by scopes
+    }
 
 
 async def test_admin_role_makes_an_admin(client: AsyncClient) -> None:

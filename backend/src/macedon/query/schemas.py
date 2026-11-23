@@ -24,6 +24,12 @@ class QueryRequest(BaseModel):
         "Requires document_id.",
     )
     top_k: int = Field(default=5, ge=1, le=10, description="How many chunks to retrieve.")
+    inline_citations: bool | None = Field(
+        default=None,
+        description="Keep the [n] markers in the answer text. Left out, people signed in to the "
+        "web interface get them and API keys do not. `sources` always lists what was used, "
+        "with `cited` telling which ones the answer relies on.",
+    )
 
     @model_validator(mode="after")
     def _version_needs_a_document(self) -> Self:
